@@ -1,0 +1,16 @@
+﻿Sprint Backlog
+backend implementation of login/register function
+draft UI design of the website
+finding an API to build the project on
+
+
+Reasons
+We decided to tackle the project with 3 parallel workflows for the first sprint, backend implementation of login/register function (#7 in features list), draft sketch design of the website (#8), and finding a good API for stock data. We chose these 3 aspects because it is the starting points for all other tasks. All stock related functions (#1, #2, #3, #4) need to be built on an API. The login/register feature does not require an API so can be done independently. So as the UI design. All other features (#5, #6) are also a step up from the basic functionalities being implemented. We consider a client-server structure (#9) overall guidance and doesn’t need an actual task for feature #9. 
+
+
+Participants
+Yingqin Wang
+Han Gu
+Tongyu Zhu
+Hyunjea Cho
+Zongye Cen

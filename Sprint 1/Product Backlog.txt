@@ -1,0 +1,9 @@
+﻿1. Prediction of future values of the portfolio 
+2. Ability to add or remove stocks from the portfolio 
+3. Track and visualize changes in value over time of user’s portfolio 
+4. View and compare the historical performance of a stock 
+5. Works on the Chrome web browser and mobile devices 
+6. The application must be secure and protect confidentiality of users’ data. 
+7. Users must be able to create an account in the system 
+8. User interfaces must look modern and be attractive. 
+9. Must be implemented as a client-server based web application
