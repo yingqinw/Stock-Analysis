@@ -64,7 +64,7 @@ function App() {
           <Row>Retype Password</Row>
           <Row>Email</Row>
           <Button>
-            login
+            Sign up
             <Arrow></Arrow>
           </Button></>
         }
