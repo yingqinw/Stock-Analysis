@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import './App.css';
 import styled from 'styled-components';
 
@@ -90,10 +90,18 @@ const SelectedTitle = styled(Title)`
   color: #3e3e3e;
   border-bottom: 5px solid #3e3e3e;
 `;
-
 function App() {
   const [selectLogin, setSelectLogin] = useState(true);
-  console.log(selectLogin);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [validPass, setValidPass] = useState(false);
+  const [validUserName, setValidUserName] = useState(false);
+  
+  useEffect(() => {
+  
+  }, [password]);
+
   return (
     <div className="App">
       <div className="App-header">
@@ -107,8 +115,14 @@ function App() {
               </div>
               <FormWrapper>
                 <div className="fields">
-                  <input type="text" placeholder="Username"/>
-                  <input type="password" placeholder="Password"/>
+                  <input type="text" placeholder="Username" onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                    style={{borderColor: validUserName ? 'green':'red'}}  
+                  />
+                  <input type="password" placeholder="Password" onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}/>
                 </div>
                 <Button>
                   login
@@ -123,10 +137,22 @@ function App() {
               </div>
               <FormWrapper>
                 <div className="fields">
-                  <input type="text" placeholder="Username"/>
-                  <input type="password" placeholder="Password"/>
-                  <input type="password" placeholder="Retype Password"/>
-                  <input type="email" placeholder="Email"/>
+                  <input type="text" placeholder="Username" onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                    style={{borderColor: validUserName ? 'green':'red'}}  
+                  />
+                  <input type="password" placeholder="Password" onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                    style={{borderColor: validPass ? 'green':'red'}} 
+                  />
+                  <input type="password" placeholder="Retype Password"
+                    style={{borderColor: validPass ? 'green':'red'}} 
+                  />
+                  <input type="email" placeholder="Email" onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}/>
                 </div>
                 <Button>
                   signup
