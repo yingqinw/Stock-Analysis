@@ -29,7 +29,7 @@ public class SQLTest {
 	public void testRegister() {
 		SQL.register("yingqinw","123");
 		boolean user = SQL.userExist("yingqinw");
-		assertTrue(!user);
+		assertTrue(user);
 	}
 
 }

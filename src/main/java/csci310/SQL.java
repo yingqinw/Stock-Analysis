@@ -90,8 +90,33 @@ public class SQL {
 	
 	public static void register(String username, String password) { //registers the user to the database
 		//ideally we will have used userExists to check before this whether a user of that username exists.
-		
-		return;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/project?user=root&password=" + SQLpassword);
+			String sql = "INSERT INTO users (username,password) VALUES ('" + username + "','" + password + "')";
+			ps = conn.prepareStatement(sql); //prepare statement is for user input, use statement if not
+			ps.execute(); 
+
+		}
+		catch (SQLException sqle) {
+			System.out.println("sqle1: " + sqle.getMessage());
+		}
+		catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if (rs != null) { rs.close(); }
+				if (ps != null) { ps.close(); }
+				if (conn != null) { conn.close(); }
+			} catch (SQLException sqle) {
+				System.out.println("sqle2: " + sqle.getMessage());
+			}
+		}
 	}
 
 }
