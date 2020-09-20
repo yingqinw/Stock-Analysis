@@ -35,8 +35,25 @@ export default function() {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
   }, [username]);
   useEffect(() => {
-    setValidEmail(/\S+@\S+\.\S+/.test(email));
+    setValidEmail(/\S+@\S+\.\S+/.test(email) && email.length !== 0);
   }, [email]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const alertMessage = [];
+    if(!validUserName) {
+      alertMessage.push("Username can only contain alphanumeric characters and should be longer than 5 characters.");
+    }
+    if(!validPass) {
+      alertMessage.push("Password should contain 1 uppercase, 1 lowercase and 1 numeric character and should be between 6-20 characters.");
+    }
+    if(!validEmail) {
+      alertMessage.push("Email should have '@' and '.' characters.");
+    }
+    if(!alertMessage.empty) {
+      alert(alertMessage.join('\n'));
+    }
+  }
 
   return (
     <div className="App">
@@ -51,6 +68,7 @@ export default function() {
               username={username}
               validUserName={validUserName}
               validPass={validPass}
+              handleSubmit={handleSubmit}
             /> : 
             <SignupForm
               setSelectLogin={setSelectLogin}
@@ -61,6 +79,7 @@ export default function() {
               validPass={validPass}
               validEmail={validEmail}
               password={password}
+              handleSubmit={handleSubmit}
             />
           }
         </Wrapper>

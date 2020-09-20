@@ -4,7 +4,7 @@ import {Title, SelectedTitle, FormWrapper, Button, Arrow} from './Modals';
 
 export default function(props) {
   return (
-    <form id="login-form">
+    <form id="login-form" onSubmit={props.handleSubmit}>
       <div className="selectWrapper">
         <SelectedTitle onClick={()=>{props.setSelectLogin(true)}}>Login</SelectedTitle>
         <Title onClick={()=>{props.setSelectLogin(false)}}>Signup</Title>

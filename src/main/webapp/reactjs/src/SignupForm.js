@@ -6,7 +6,7 @@ import {Title, SelectedTitle, FormWrapper, Button, Arrow} from './Modals';
 export default function(props) {
   const [pass, setPass] = useState("");
   return (
-    <form id="signup-form">
+    <form id="signup-form" onSubmit={props.handleSubmit}>
       <div className="selectWrapper">
         <Title onClick={()=>{props.setSelectLogin(true)}}>Login</Title>
         <SelectedTitle onClick={()=>{props.setSelectLogin(false)}}>Signup</SelectedTitle>
@@ -27,7 +27,7 @@ export default function(props) {
             onChange={(e) => {
               setPass(e.target.value);
             }}
-            style={{borderColor: pass === props.password ? 'green':'red'}} 
+            style={{borderColor: pass === props.password && pass.length !== 0? 'green':'red'}} 
           />
           <input type="email" placeholder="Email" onChange={(e) => {
             props.setEmail(e.target.value);
