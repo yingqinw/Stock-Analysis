@@ -9,13 +9,20 @@ public class SQLTest {
 	@Test
 	public void testUserExist() {
 		boolean user = SQL.userExist("");
-		assertTrue(user);
+		assertTrue(!user);
+		boolean user1 = SQL.userExist("emusk27");
+		assertTrue(user1);
+		
 	}
 	
 	@Test
 	public void testLogin() {
 		boolean user = SQL.login("","");
 		assertTrue(!user);
+		boolean user1 = SQL.login("narmstrong11","firstman");
+		assertTrue(user1);
+		boolean user2 = SQL.login("narmstrong11","firstma");
+		assertTrue(!user2);
 	}
 
 }
