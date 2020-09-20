@@ -24,5 +24,12 @@ public class SQLTest {
 		boolean user2 = SQL.login("narmstrong11","firstma");
 		assertTrue(!user2);
 	}
+	
+	@Test
+	public void testRegister() {
+		SQL.register("yingqinw","123");
+		boolean user = SQL.userExist("yingqinw");
+		assertTrue(!user);
+	}
 
 }

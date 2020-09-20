@@ -85,5 +85,13 @@ public class SQL {
 
 		return foundUser;
 	}
+	
+	//----------------------------------------------------------------------------------------
+	
+	public static void register(String username, String password) { //registers the user to the database
+		//ideally we will have used userExists to check before this whether a user of that username exists.
+		
+		return;
+	}
 
 }
