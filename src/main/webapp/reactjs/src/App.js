@@ -26,10 +26,17 @@ export default function() {
   const [email, setEmail] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
   
   useEffect(() => {
-  
+    setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(password));
   }, [password]);
+  useEffect(() => {
+    setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
+  }, [username]);
+  useEffect(() => {
+    setValidEmail(/\S+@\S+\.\S+/.test(email));
+  }, [email]);
 
   return (
     <div className="App">
@@ -41,7 +48,9 @@ export default function() {
               setSelectLogin={setSelectLogin}
               setUsername={setUsername}
               setPassword={setPassword}
+              username={username}
               validUserName={validUserName}
+              validPass={validPass}
             /> : 
             <SignupForm
               setSelectLogin={setSelectLogin}
@@ -50,6 +59,8 @@ export default function() {
               setEmail={setEmail}
               validUserName={validUserName}
               validPass={validPass}
+              validEmail={validEmail}
+              password={password}
             />
           }
         </Wrapper>

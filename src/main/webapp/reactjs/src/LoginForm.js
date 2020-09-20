@@ -1,5 +1,4 @@
 import React from 'react';
-import {useEffect, useState} from 'react';
 import './App.css';
 import {Title, SelectedTitle, FormWrapper, Button, Arrow} from './Modals';
 
@@ -19,7 +18,9 @@ export default function(props) {
           />
           <input type="password" placeholder="Password" onChange={(e) => {
             props.setPassword(e.target.value);
-          }}/>
+          }}
+            style={{borderColor: props.validPass ? 'green':'red'}}
+          />
         </div>
         <Button>
           login
