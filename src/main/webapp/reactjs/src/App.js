@@ -47,7 +47,7 @@ export default function() {
     if(!validPass) {
       alertMessage.push("Password should contain 1 uppercase, 1 lowercase and 1 numeric character and should be between 6-20 characters.");
     }
-    if(!validEmail) {
+    if(!validEmail && !selectLogin) {
       alertMessage.push("Email should have '@' and '.' characters.");
     }
     if(!alertMessage.empty) {
