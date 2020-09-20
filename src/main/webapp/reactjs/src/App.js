@@ -50,7 +50,7 @@ export default function() {
     if(!validEmail && !selectLogin) {
       alertMessage.push("Email should have '@' and '.' characters.");
     }
-    if(!alertMessage.empty) {
+    if(alertMessage.length !== 0) {
       alert(alertMessage.join('\n'));
     }
   }
