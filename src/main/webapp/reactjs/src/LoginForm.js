@@ -2,12 +2,13 @@ import React from 'react';
 import './App.css';
 import {Title, SelectedTitle, FormWrapper, Button, Arrow} from './Modals';
 
+
 export default function(props) {
   return (
     <form id="login-form" onSubmit={props.handleSubmit}>
       <div className="selectWrapper">
         <SelectedTitle onClick={()=>{props.setSelectLogin(true)}}>Login</SelectedTitle>
-        <Title onClick={()=>{props.setSelectLogin(false)}}>Signup</Title>
+        <Title onClick={()=>{props.setSelectLogin(false); props.setAlertText("")}}>Signup</Title>
       </div>
       <FormWrapper>
         <div className="fields">
@@ -27,6 +28,11 @@ export default function(props) {
           <Arrow className="arrow"></Arrow>
         </Button>
       </FormWrapper>
+      
+      <div className="alertWrapper">
+      	<p>{props.alertText}</p>
+      </div>
+      
     </form> 
   );
 }
