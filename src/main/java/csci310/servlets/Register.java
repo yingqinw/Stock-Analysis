@@ -33,7 +33,9 @@ public class Register extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("confirmPassword");
-		
+		response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+        response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 		if(!password.equals(password2)) {
 			
 			RegisterError re = new RegisterError("Passwords did not match.");
@@ -41,7 +43,6 @@ public class Register extends HttpServlet {
 	        response.setContentType("application/json");
 	        response.setCharacterEncoding("UTF-8");
 	        out.print(this.gson.toJson(re));
-	        System.out.print(this.gson.toJson(re));
 	        out.flush();   
 		}
 		else if(password.trim().equals("") || password2.trim().equals("") || username.trim().equals("")) {
@@ -49,7 +50,6 @@ public class Register extends HttpServlet {
 			PrintWriter out = response.getWriter();
 	        response.setContentType("application/json");
 	        response.setCharacterEncoding("UTF-8");
-	        System.out.print(this.gson.toJson(re));
 	        out.print(this.gson.toJson(re));
 	        out.flush();
 		}
@@ -58,7 +58,6 @@ public class Register extends HttpServlet {
 			PrintWriter out = response.getWriter();
 	        response.setContentType("application/json");
 	        response.setCharacterEncoding("UTF-8");
-	        System.out.print(this.gson.toJson(re));
 	        out.print(this.gson.toJson(re));
 	        out.flush();
 		}

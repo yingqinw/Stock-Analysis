@@ -42,18 +42,18 @@ public class Login extends HttpServlet {
 			session.setAttribute("username", username);
 			
 			String hello = (String)session.getAttribute("username");
-			System.out.println(hello);     
 			
 		}
 		
 		else {
 			LoginError le = new LoginError("Incorrect username or password. Please try again! :)");
-			
+			response.addHeader("Access-Control-Allow-Origin", "*");
+	        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+	        response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 			PrintWriter out = response.getWriter();
 	        response.setContentType("application/json");
 	        response.setCharacterEncoding("UTF-8");
 	        out.print(this.gson.toJson(le));
-	        System.out.print(this.gson.toJson(le));
 	        out.flush();   
 		}
 		
