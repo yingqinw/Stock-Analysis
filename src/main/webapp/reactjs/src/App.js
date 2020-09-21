@@ -25,6 +25,7 @@ export default function() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
@@ -55,6 +56,13 @@ export default function() {
       alertMessage.join('\n');
     }
     setAlertText(alertMessage);
+    const route = selectLogin ? 'Login' : 'Register';
+    fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
+      method: 'POST'
+    })
+    .then(response =>  response.json().then(data => {
+      console.log(data)
+    }))
   }
 
   return (
@@ -79,6 +87,7 @@ export default function() {
               setUsername={setUsername}
               setPassword={setPassword}
               setEmail={setEmail}
+              setConfirmPassword={setConfirmPassword}
               validUserName={validUserName}
               validPass={validPass}
               validEmail={validEmail}

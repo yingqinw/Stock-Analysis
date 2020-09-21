@@ -27,6 +27,7 @@ export default function(props) {
           <input type="password" placeholder="Retype Password"
             onChange={(e) => {
               setPass(e.target.value);
+              props.setConfirmPassword(e.target.value);
             }}
             style={{borderColor: pass === props.password && pass.length !== 0? 'green':'red'}} 
           />
