@@ -9,6 +9,9 @@ export default function(props) {
         <SelectedTitle onClick={()=>{props.setSelectLogin(true)}}>Login</SelectedTitle>
         <Title onClick={()=>{props.setSelectLogin(false)}}>Signup</Title>
       </div>
+      <div className="alertWrapper">
+      	<p>{props.alertText}</p>
+      </div>
       <FormWrapper>
         <div className="fields">
           <input type="text" placeholder="Username" onChange={(e) => {

@@ -17,6 +17,12 @@
 .selectWrapper {
   margin-bottom: 15%;
 }
+
+.alertWrapper {
+  margin-top: -10%;
+  margin-bottom: -10%;
+}
+
 form {
   box-sizing: border-box;
 }
@@ -48,4 +54,9 @@ form input::placeholder {
 }
 form input:focus::placeholder {
   color: #b1b1b1;
+}
+
+
+.alertWrapper p {
+  font-size: 12px;
 }

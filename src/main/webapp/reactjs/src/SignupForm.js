@@ -11,6 +11,9 @@ export default function(props) {
         <Title onClick={()=>{props.setSelectLogin(true)}}>Login</Title>
         <SelectedTitle onClick={()=>{props.setSelectLogin(false)}}>Signup</SelectedTitle>
       </div>
+      <div className="alertWrapper">
+      	<p>{props.alertText}</p>
+      </div>
       <FormWrapper>
         <div className="fields">
           <input type="text" placeholder="Username" onChange={(e) => {
@@ -29,7 +32,7 @@ export default function(props) {
             }}
             style={{borderColor: pass === props.password && pass.length !== 0? 'green':'red'}} 
           />
-          <input type="email" placeholder="Email" onChange={(e) => {
+          <input type="text" placeholder="Email" onChange={(e) => {
             props.setEmail(e.target.value);
           }}
             style={{borderColor: props.validEmail ? 'green':'red'}} 
