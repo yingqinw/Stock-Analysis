@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Login / Signup</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<div class="wrapper">
+	<div class="container">		
+    <input type="radio" id="login" class="form-select login" name="form" checked>
+    <label for="login">Login</label>
+    <input type="radio" id="signup" class="form-select signup" name="form">
+    <label for="signup">Signup</label>
+		<form class="login-form">
+      <div class="fields">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <input type="password" disabled placeholder="Retype Password">
+        <input type="email" disabled placeholder="Email">
+       </div>
+      <div class="buttons">
+        <button type="submit" class="btn">
+          <span>Login</span>
+          <i class="arrow"></i>
+        </button>
+      </div>
+		</form>
+    <form class="signup-form">
+      <div class="fields">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <input type="password" placeholder="Retype Password">
+        <input type="email" placeholder="Email">
+       </div>
+      <div class="buttons">
+        <button type="submit" class="btn">
+          <span>Signup</span>
+          <i class="arrow"></i>
+        </button>
+      </div>
+		</form>
+	</div>
+</div>
+  
+</body>
+</html>
