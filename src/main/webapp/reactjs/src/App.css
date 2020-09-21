@@ -18,20 +18,15 @@
   margin-top: -20%;
 }
 
-.alertWrapper {
-}
-
 form {
   box-sizing: border-box;
 }
-form input{
+form input {
   display: block;
   height: 25px;
   margin: 0 0 15px;
   outline: none;
   border: 0;
-}
-form input {
   width: 100%;
   padding: 0 0 4px;
   background: none;
