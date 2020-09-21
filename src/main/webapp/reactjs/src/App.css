@@ -15,12 +15,10 @@
   width: 100%;
 }
 .selectWrapper {
-  margin-bottom: 15%;
+  margin-top: -20%;
 }
 
 .alertWrapper {
-  margin-top: -10%;
-  margin-bottom: -10%;
 }
 
 form {
@@ -28,7 +26,7 @@ form {
 }
 form input{
   display: block;
-  height: 38px;
+  height: 25px;
   margin: 0 0 15px;
   outline: none;
   border: 0;
@@ -59,4 +57,7 @@ form input:focus::placeholder {
 
 .alertWrapper p {
   font-size: 12px;
+  color: red;
+  white-space: pre-line;
 }
+

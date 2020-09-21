@@ -8,12 +8,10 @@ export default function(props) {
   return (
     <form id="signup-form" onSubmit={props.handleSubmit}>
       <div className="selectWrapper">
-        <Title onClick={()=>{props.setSelectLogin(true)}}>Login</Title>
+        <Title onClick={()=>{props.setSelectLogin(true); props.setAlertText("")}}>Login</Title>
         <SelectedTitle onClick={()=>{props.setSelectLogin(false)}}>Signup</SelectedTitle>
       </div>
-      <div className="alertWrapper">
-      	<p>{props.alertText}</p>
-      </div>
+      
       <FormWrapper>
         <div className="fields">
           <input type="text" placeholder="Username" onChange={(e) => {
@@ -43,6 +41,11 @@ export default function(props) {
           <Arrow className="arrow"></Arrow>
         </Button>
       </FormWrapper>
+      
+      <div className="alertWrapper">
+      	<p>{props.alertText}</p>
+      </div>
+      
     </form>
   );
 }

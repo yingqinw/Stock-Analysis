@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 `;
 
 export default function() {
-  //var alertText;
   const [alertText, setAlertText] = useState("");
   const [selectLogin, setSelectLogin] = useState(true);
   const [username, setUsername] = useState("");
@@ -44,20 +43,19 @@ export default function() {
     e.preventDefault();
     const alertMessage = [];
     if(!validUserName) {
-      //alertMessage.push("Username can only contain alphanumeric characters and should be longer than 5 characters.");
-      setAlertText("Username can only contain alphanumeric characters and should be longer than 5 characters.");
+      alertMessage.push("Username can only contain alphanumeric characters and should be longer than 5 characters. ");
     }
-    else if(!validPass) {
-      //alertMessage.push("Password should contain 1 uppercase, 1 lowercase and 1 numeric character and should be between 6-20 characters.");
-      setAlertText("Password should contain 1 uppercase, 1 lowercase and 1 numeric character and should be between 6-20 characters.");
+    if(!validPass) {
+      alertMessage.push("Password should contain 1 uppercase, 1 lowercase and 1 numeric character and should be between 6-20 characters. ");
+      
     }
-    else if(!validEmail && !selectLogin) {
-      //alertMessage.push("Email should have '@' and '.' characters.");
-      setAlertText("Email should have '@' and '.' characters.")
+    if(!validEmail && !selectLogin) {
+      alertMessage.push("Email should have '@' and '.' characters.");
     }
     if(alertMessage.length !== 0) {
-      //alert(alertMessage.join('\n'));
+      alertMessage.join('\n');
     }
+    setAlertText(alertMessage);
   }
 
   return (
@@ -74,7 +72,8 @@ export default function() {
               validUserName={validUserName}
               validPass={validPass}
               handleSubmit={handleSubmit}
-              alertText = {alertText} 
+              alertText = {alertText}
+              setAlertText = {setAlertText} 
             /> : 
             <SignupForm
               setSelectLogin={setSelectLogin}
@@ -86,7 +85,8 @@ export default function() {
               validEmail={validEmail}
               password={password}
               handleSubmit={handleSubmit}
-              alertText = {alertText} 
+              alertText = {alertText}
+              setAlertText = {setAlertText} 
             />
           }
         </Wrapper>
