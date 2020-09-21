@@ -39,6 +39,7 @@ export default function() {
   }, [email]);
 
   const handleSubmit = (e) => {
+<<<<<<< HEAD
     // e.preventDefault();
     // const alertMessage = [];
     // if(!validUserName) {
@@ -54,6 +55,10 @@ export default function() {
     //   alert(alertMessage.join('\n'));
     // }
     fetch(`http://192.168.1.100:8080/Login?username=${username}&password=${password}&email=${email}`, {
+=======
+    const route = setSelectLogin ? 'Login' : 'Signup';
+    fetch(`http://192.168.0.107:8080/${route}?username=${username}&password=${password}&email=${email}`, {
+>>>>>>> branch 'feature-login' of https://github.com/CSCI310/project-20203-group33-20203.git
       method: 'POST'
     });
   }
