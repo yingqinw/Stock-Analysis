@@ -24,6 +24,7 @@ export default function() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
@@ -39,28 +40,15 @@ export default function() {
   }, [email]);
 
   const handleSubmit = (e) => {
-<<<<<<< HEAD
-    // e.preventDefault();
-    // const alertMessage = [];
-    // if(!validUserName) {
-    //   alertMessage.push("Username can only contain alphanumeric characters and should be longer than 5 characters.");
-    // }
-    // if(!validPass) {
-    //   alertMessage.push("Password should contain 1 uppercase, 1 lowercase and 1 numeric character and should be between 6-20 characters.");
-    // }
-    // if(!validEmail && !selectLogin) {
-    //   alertMessage.push("Email should have '@' and '.' characters.");
-    // }
-    // if(alertMessage.length !== 0) {
-    //   alert(alertMessage.join('\n'));
-    // }
-    fetch(`http://192.168.1.100:8080/Login?username=${username}&password=${password}&email=${email}`, {
-=======
-    const route = setSelectLogin ? 'Login' : 'Signup';
-    fetch(`http://192.168.0.107:8080/${route}?username=${username}&password=${password}&email=${email}`, {
->>>>>>> branch 'feature-login' of https://github.com/CSCI310/project-20203-group33-20203.git
+    e.preventDefault();
+    const route = selectLogin ? 'Login' : 'Register';
+    console.log(selectLogin)
+    fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
       method: 'POST'
-    });
+    })
+    .then(response =>  response.json().then(data => {
+      console.log(data)
+    }))
   }
 
   return (
@@ -83,6 +71,7 @@ export default function() {
               setUsername={setUsername}
               setPassword={setPassword}
               setEmail={setEmail}
+              setConfirmPassword={setConfirmPassword}
               validUserName={validUserName}
               validPass={validPass}
               validEmail={validEmail}
