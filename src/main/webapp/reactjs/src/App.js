@@ -53,7 +53,7 @@ export default function() {
     // if(alertMessage.length !== 0) {
     //   alert(alertMessage.join('\n'));
     // }
-    fetch(`http://localhost:8080/Login?username=${username}&password=${password}&email=${email}`, {
+    fetch(`http://192.168.1.100:8080/Login?username=${username}&password=${password}&email=${email}`, {
       method: 'POST'
     });
   }

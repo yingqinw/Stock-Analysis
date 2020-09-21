@@ -7,7 +7,7 @@ import org.junit.Test;
 public class LoginTest {
 
 	@Test
-	public void testDoGet() {
+	public void testDoPost() {
 		assertTrue(true);
 	}
 
