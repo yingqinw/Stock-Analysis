@@ -24,6 +24,7 @@ export default function() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
@@ -42,7 +43,7 @@ export default function() {
     e.preventDefault();
     const route = selectLogin ? 'Login' : 'Register';
     console.log(selectLogin)
-    fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}`, {
+    fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
       method: 'POST'
     })
     .then(response =>  response.json().then(data => {
@@ -70,6 +71,7 @@ export default function() {
               setUsername={setUsername}
               setPassword={setPassword}
               setEmail={setEmail}
+              setConfirmPassword={setConfirmPassword}
               validUserName={validUserName}
               validPass={validPass}
               validEmail={validEmail}
