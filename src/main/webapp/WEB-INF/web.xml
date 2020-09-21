@@ -8,8 +8,16 @@
   	<servlet-name>GreetingServlet</servlet-name>
   	<servlet-class>csci310.servlets.GreetingServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>DataServlet</servlet-name>
+  	<servlet-class>csci310.servlets.DataServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>GreetingServlet</servlet-name>
   	<url-pattern>/greeting</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DataServlet</servlet-name>
+  	<url-pattern>/data</url-pattern>
   </servlet-mapping>
 </web-app>
