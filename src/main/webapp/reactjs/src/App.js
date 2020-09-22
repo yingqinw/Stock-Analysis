@@ -4,6 +4,7 @@ import './App.css';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import HomePage from './HomePage';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -22,6 +23,7 @@ const Wrapper = styled.div`
 export default function() {
   const [alertText, setAlertText] = useState("");
   const [selectLogin, setSelectLogin] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -56,13 +58,23 @@ export default function() {
       alertMessage.join('\n');
     }
     setAlertText(alertMessage);
-    const route = selectLogin ? 'Login' : 'Register';
-    fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
-      method: 'POST'
-    })
-    .then(response =>  response.json().then(data => {
-      console.log(data)
-    }))
+    if(alertMessage.length === 0) {
+      const route = selectLogin ? 'Login' : 'Register';
+      fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
+        method: 'POST'
+      })
+      .then(response =>  response.json().then(data => {
+        const error = selectLogin ? data.loginerr: data.registererr;
+        if(error) {
+          setAlertText("");
+          setAlertText(error);
+          setLoggedIn(false);
+        }
+        else {
+          setLoggedIn(true);
+        }
+      }))
+    }
   }
 
   return (
@@ -70,32 +82,34 @@ export default function() {
       <div className="App-header">
         <Wrapper>
           {
-            selectLogin ? 
-            <LoginForm 
-              setSelectLogin={setSelectLogin}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              username={username}
-              validUserName={validUserName}
-              validPass={validPass}
-              handleSubmit={handleSubmit}
-              alertText = {alertText}
-              setAlertText = {setAlertText} 
-            /> : 
-            <SignupForm
-              setSelectLogin={setSelectLogin}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setEmail={setEmail}
-              setConfirmPassword={setConfirmPassword}
-              validUserName={validUserName}
-              validPass={validPass}
-              validEmail={validEmail}
-              password={password}
-              handleSubmit={handleSubmit}
-              alertText = {alertText}
-              setAlertText = {setAlertText} 
-            />
+            loggedIn ? 
+              <HomePage /> :
+              selectLogin ? 
+              <LoginForm 
+                setSelectLogin={setSelectLogin}
+                setUsername={setUsername}
+                setPassword={setPassword}
+                username={username}
+                validUserName={validUserName}
+                validPass={validPass}
+                handleSubmit={handleSubmit}
+                alertText = {alertText}
+                setAlertText = {setAlertText} 
+              /> : 
+              <SignupForm
+                setSelectLogin={setSelectLogin}
+                setUsername={setUsername}
+                setPassword={setPassword}
+                setEmail={setEmail}
+                setConfirmPassword={setConfirmPassword}
+                validUserName={validUserName}
+                validPass={validPass}
+                validEmail={validEmail}
+                password={password}
+                handleSubmit={handleSubmit}
+                alertText = {alertText}
+                setAlertText = {setAlertText} 
+              />
           }
         </Wrapper>
       </div>
