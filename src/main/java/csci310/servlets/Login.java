@@ -1,12 +1,14 @@
 package csci310.servlets;
 
 import csci310.SQL;
+import csci310.PasswordHash;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 import com.google.gson.Gson;
 
@@ -38,6 +40,7 @@ public class Login extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		System.out.println(username + " hello there.");
+		
 		
 		
 		boolean user = SQL.login(username, password);

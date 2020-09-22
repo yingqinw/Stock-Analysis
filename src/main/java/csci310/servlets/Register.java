@@ -1,6 +1,7 @@
 package csci310.servlets;
 
 import csci310.SQL;
+import csci310.PasswordHash;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
