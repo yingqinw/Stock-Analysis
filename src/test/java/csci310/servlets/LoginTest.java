@@ -2,13 +2,55 @@ package csci310.servlets;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
-public class LoginTest {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import csci310.SQL;
+
+
+public class LoginTest extends Mockito {
 
 	@Test
-	public void testDoPost() {
-		assertTrue(true);
+	public void testDoPost() throws Exception {
+		
+		SQL.register("hyunjae","Hj1234");
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        
+        when(request.getParameter("username")).thenReturn("hyunjae");
+        when(request.getParameter("password")).thenReturn("Hj1234");
+        
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new Login().doPost(request, response);
+        
+        writer.flush();
+        
+        assertTrue(stringWriter.toString().contains("Wecolme, hyunjae"));
+        
+        HttpServletRequest request2 = mock(HttpServletRequest.class);       
+        HttpServletResponse response2 = mock(HttpServletResponse.class);
+        
+        when(request.getParameter("username")).thenReturn("hyunjae");
+        when(request.getParameter("password")).thenReturn("Hj1");
+        
+        StringWriter stringWriter2 = new StringWriter();
+        PrintWriter writer2 = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new Login().doPost(request, response);
+        
+        assertTrue(stringWriter.toString().contains("Incorrect username or password. Please try again! :)"));
+		
 	}
 
 }
