@@ -11,10 +11,10 @@ import java.sql.Statement;
  */
 
 public class CreateUserTable {
-	public static void CreateUserTable() {
+	public CreateUserTable() {
         // SQLite connection string
         String url = "jdbc:sqlite:project.db";
-        
+        System.out.println("Table created");
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS users (\n"
                 + "	id integer PRIMARY KEY,\n"
@@ -34,8 +34,6 @@ public class CreateUserTable {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        CreateUserTable();
-    }
+    
 
 }
