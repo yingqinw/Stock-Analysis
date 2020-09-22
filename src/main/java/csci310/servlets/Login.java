@@ -23,6 +23,12 @@ public class Login extends HttpServlet {
 			loginerr = errmesg;
 		}
 	}
+	public class LoginSuccess{
+		private String successMsg = "";
+		public LoginSuccess(String successMsg) {
+			this.successMsg = successMsg;
+		}
+	}
 	
 	private Gson gson = new Gson();
 	
@@ -36,20 +42,23 @@ public class Login extends HttpServlet {
 		
 		boolean user = SQL.login(username, password);
 		System.out.println(user);
+		response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+        response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 		
 		if(user) {
-			HttpSession session = request.getSession(false);
-			session.setAttribute("username", username);
-			
-			String hello = (String)session.getAttribute("username");
-			
+//			HttpSession session = request.getSession(false);
+//			session.setAttribute("username", username);
+			LoginSuccess success = new LoginSuccess("Welcome, " + username);
+			PrintWriter out = response.getWriter();
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        out.print(this.gson.toJson(success));
+	        out.flush();   
 		}
 		
 		else {
 			LoginError le = new LoginError("Incorrect username or password. Please try again! :)");
-			response.addHeader("Access-Control-Allow-Origin", "*");
-	        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
-	        response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 			PrintWriter out = response.getWriter();
 	        response.setContentType("application/json");
 	        response.setCharacterEncoding("UTF-8");
