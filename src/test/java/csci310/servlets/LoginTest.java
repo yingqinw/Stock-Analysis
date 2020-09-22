@@ -25,7 +25,7 @@ public class LoginTest extends Mockito {
         HttpServletResponse response = mock(HttpServletResponse.class);
         
         when(request.getParameter("username")).thenReturn("hyunjae");
-        when(request.getParameter("password")).thenReturn("Hj1");
+        when(request.getParameter("password")).thenReturn("Hj1234");
         
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
@@ -35,7 +35,22 @@ public class LoginTest extends Mockito {
         
         writer.flush();
         
-        assertTrue(stringWriter.toString().contains("Incorrect username or password. Please try again! :)"));	
+        assertTrue(stringWriter.toString().contains("Welcome, " + "hyunjae"));
+        
+        HttpServletRequest request2 = mock(HttpServletRequest.class);       
+        HttpServletResponse response2 = mock(HttpServletResponse.class);
+        
+        when(request2.getParameter("username")).thenReturn("hyunjae");
+        when(request2.getParameter("password")).thenReturn("Hj1");
+        
+        StringWriter stringWriter2 = new StringWriter();
+        PrintWriter writer2 = new PrintWriter(stringWriter2);
+        when(response2.getWriter()).thenReturn(writer2);
+        
+        new Login().doPost(request2, response2);
+        
+        assertTrue(stringWriter2.toString().contains("Incorrect username or password. Please try again! :)"));
+		
 	}
 
 }
