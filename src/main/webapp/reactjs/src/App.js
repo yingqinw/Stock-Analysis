@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 `;
 
 export default function() {
+  const [alertText, setAlertText] = useState("");
   const [selectLogin, setSelectLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +31,7 @@ export default function() {
   const [validEmail, setValidEmail] = useState(false);
   
   useEffect(() => {
-    setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(password));
+    setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
   }, [password]);
   useEffect(() => {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
@@ -41,8 +42,21 @@ export default function() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const alertMessage = [];
+    if(!validUserName) {
+      alertMessage.push("Username can only contain alphanumeric characters and longer than 5 characters. ");
+    }
+    if(!validPass) {
+      alertMessage.push("Password should contain uppercase, lowercase and numeric character.\n");
+    }
+    if(!validEmail && !selectLogin) {
+      alertMessage.push("Email address is not valid. ");
+    }
+    if(alertMessage.length !== 0) {
+      alertMessage.join('\n');
+    }
+    setAlertText(alertMessage);
     const route = selectLogin ? 'Login' : 'Register';
-    console.log(selectLogin)
     fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
       method: 'POST'
     })
@@ -65,6 +79,8 @@ export default function() {
               validUserName={validUserName}
               validPass={validPass}
               handleSubmit={handleSubmit}
+              alertText = {alertText}
+              setAlertText = {setAlertText} 
             /> : 
             <SignupForm
               setSelectLogin={setSelectLogin}
@@ -77,6 +93,8 @@ export default function() {
               validEmail={validEmail}
               password={password}
               handleSubmit={handleSubmit}
+              alertText = {alertText}
+              setAlertText = {setAlertText} 
             />
           }
         </Wrapper>

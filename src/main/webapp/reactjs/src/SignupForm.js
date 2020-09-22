@@ -8,9 +8,10 @@ export default function(props) {
   return (
     <form id="signup-form" onSubmit={props.handleSubmit}>
       <div className="selectWrapper">
-        <Title onClick={()=>{props.setSelectLogin(true)}}>Login</Title>
+        <Title onClick={()=>{props.setSelectLogin(true); props.setAlertText("")}}>Login</Title>
         <SelectedTitle onClick={()=>{props.setSelectLogin(false)}}>Signup</SelectedTitle>
       </div>
+      
       <FormWrapper>
         <div className="fields">
           <input type="text" placeholder="Username" onChange={(e) => {
@@ -30,7 +31,7 @@ export default function(props) {
             }}
             style={{borderColor: pass === props.password && pass.length !== 0? 'green':'red'}} 
           />
-          <input type="email" placeholder="Email" onChange={(e) => {
+          <input type="text" placeholder="Email" onChange={(e) => {
             props.setEmail(e.target.value);
           }}
             style={{borderColor: props.validEmail ? 'green':'red'}} 
@@ -41,6 +42,11 @@ export default function(props) {
           <Arrow className="arrow"></Arrow>
         </Button>
       </FormWrapper>
+      
+      <div className="alertWrapper">
+      	<p>{props.alertText}</p>
+      </div>
+      
     </form>
   );
 }
