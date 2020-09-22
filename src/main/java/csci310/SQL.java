@@ -18,11 +18,9 @@ public class SQL {
 			ps.setString(1, username); 
 			rs = ps.executeQuery(); 
 
-
 			if (!rs.next()) {
 				return false;
 			}
-
 
 		} catch (SQLException sqle) {
 			System.out.println("sqle1: " + sqle.getMessage());
