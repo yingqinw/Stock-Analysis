@@ -24,6 +24,12 @@ public class Register extends HttpServlet {
 			registererr = errmesg;
 		}
 	}
+	public class RegisterSuccess{
+		private String successMsg = "";
+		public RegisterSuccess(String successMsg) {
+			this.successMsg = successMsg;
+		}
+	}
 	
 	private Gson gson = new Gson();
 	
@@ -63,9 +69,14 @@ public class Register extends HttpServlet {
 		}
 		else {
 			SQL.register(username, password);
-			HttpSession session = request.getSession(false);
-			session.setAttribute("username", username);
-			
+			RegisterSuccess rs = new RegisterSuccess("Welcome, " + username);
+			PrintWriter out = response.getWriter();
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        out.print(this.gson.toJson(rs));
+	        out.flush();
+//			HttpSession session = request.getSession(false);
+//			session.setAttribute("username", username);
 			
 		}
 		
