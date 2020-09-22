@@ -56,14 +56,16 @@ export default function() {
       alertMessage.join('\n');
     }
     setAlertText(alertMessage);
-    const route = selectLogin ? 'Login' : 'Register';
-    fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
-      method: 'POST'
-    })
-    .then(response =>  response.json().then(data => {
-      setAlertText("");
-      setAlertText(selectLogin ? data.loginerr: data.registererr);
-    }))
+    if(alertMessage.length === 0) {
+      const route = selectLogin ? 'Login' : 'Register';
+      fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
+        method: 'POST'
+      })
+      .then(response =>  response.json().then(data => {
+        setAlertText("");
+        setAlertText(selectLogin ? data.loginerr: data.registererr);
+      }))
+    }
   }
 
   return (
