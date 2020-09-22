@@ -80,11 +80,11 @@ export default function() {
   return (
     <div className="App">
       <div className="App-header">
-        <Wrapper>
-          {
-            loggedIn ? 
-              <HomePage /> :
-              selectLogin ? 
+        {
+          loggedIn ? 
+            <HomePage /> :
+            <Wrapper>
+              {selectLogin ? 
               <LoginForm 
                 setSelectLogin={setSelectLogin}
                 setUsername={setUsername}
@@ -109,9 +109,9 @@ export default function() {
                 handleSubmit={handleSubmit}
                 alertText = {alertText}
                 setAlertText = {setAlertText} 
-              />
+              />}
+            </Wrapper>
           }
-        </Wrapper>
       </div>
     </div>
   );
