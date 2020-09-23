@@ -12,8 +12,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
+import csci310.CreateUserTable;
 import csci310.DropUserTable;
+import csci310.InitializeUserTable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -33,6 +34,16 @@ public class RegisterStepDefinitions {
 	}
 	@Given("I am on the index page of signup")
 	public void i_am_on_the_index_page_of_signup() {
+		driver.get(ROOT_URL);
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[2]")).click();
+		By form = By.xpath("//*[@id=\"signup-form\"]/div[2]/div");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(form));
+	}
+	
+	@Given("I am on the index page of signup with existing user account")
+	public void i_am_on_the_index_page_of_signup_with_existing_user_account() {
+		new CreateUserTable();
+		new InitializeUserTable();
 		driver.get(ROOT_URL);
 		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[2]")).click();
 		By form = By.xpath("//*[@id=\"signup-form\"]/div[2]/div");
