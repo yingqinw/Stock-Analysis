@@ -10,7 +10,7 @@ public class DropUserTable {
 		String url = "jdbc:sqlite:project.db";
         System.out.println("Table droped");
         // SQL statement for creating a new table
-        String sql = "DROP TABLE users;";
+        String sql = "DROP TABLE IF EXISTS users;";
         
         try (Connection conn = DriverManager.getConnection(url);
                 Statement stmt = conn.createStatement()) {

@@ -8,6 +8,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import csci310.CreateUserTable;
+import csci310.DropUserTable;
+import csci310.InitializeUserTable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,6 +28,14 @@ public class LoginStepDefinitions {
 
 	@Given("I am on the index page")
 	public void i_am_on_the_index_page() {
+	    driver.get(ROOT_URL);
+	}
+	
+	@Given("I am on the index page with existing account")
+	public void i_am_on_the_index_page_with_existing_account() {
+		new DropUserTable();
+		new CreateUserTable();
+		new InitializeUserTable();
 	    driver.get(ROOT_URL);
 	}
 
@@ -57,7 +71,16 @@ public class LoginStepDefinitions {
 	public void i_typed_in_in_the_Password_field(String string) {
 		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys(string);
 	}
-
+	
+	@Then("I should see the homepage")
+	public void i_should_see_the_homepage() {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.cssSelector("#root > div > div > div > button");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		System.out.println("here");
+		System.out.println(driver.findElement(title).getText());
+		assertTrue(driver.findElement(title).getText().contains("Sign out"));
+	}
 	@After()
 	public void after() {
 		try {
