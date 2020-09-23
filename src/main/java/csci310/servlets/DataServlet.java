@@ -45,10 +45,7 @@ public class DataServlet extends HttpServlet {
   		HttpURLConnection con = (HttpURLConnection) url.openConnection();
   		con.setRequestMethod("GET");
   		con.connect();
-  		int respondCode = con.getResponseCode(); //need to check the code via api docs
-  		if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
-  		System.out.println("resond code: " + respondCode);
-  		
+
   		//read json
   		Scanner sc = new Scanner(url.openStream());
   		String result = "";
