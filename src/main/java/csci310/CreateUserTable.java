@@ -14,7 +14,7 @@ public class CreateUserTable {
 	public CreateUserTable() {
         // SQLite connection string
         String url = "jdbc:sqlite:project.db";
-        System.out.println("Table created");
+        //System.out.println("Table created");
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS users (\n"
                 + "	id integer PRIMARY KEY,\n"
