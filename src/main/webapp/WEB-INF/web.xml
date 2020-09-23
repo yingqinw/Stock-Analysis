@@ -1,27 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
-<web-app>
-  <display-name>Project2</display-name>
-  <servlet>
-  	<servlet-name>GreetingServlet</servlet-name>
-  	<servlet-class>csci310.servlets.GreetingServlet</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>DataServlet</servlet-name>
-  	<servlet-class>csci310.servlets.DataServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>GreetingServlet</servlet-name>
-  	<url-pattern>/greeting</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>DataServlet</servlet-name>
-  	<url-pattern>/data</url-pattern>
-  </servlet-mapping>
-=======
 <!DOCTYPE web-app PUBLIC
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
@@ -52,5 +28,4 @@
   	<servlet-name>Register</servlet-name>
   	<url-pattern>/Register</url-pattern>
   	</servlet-mapping>
->>>>>>> origin/develop
 </web-app>
