@@ -5,6 +5,7 @@ export default function() {
   return (
     <div>
       Homepage
+      <button>Sign out</button>
     </div>
   );
 }
