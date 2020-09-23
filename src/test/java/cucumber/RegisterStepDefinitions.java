@@ -1,6 +1,7 @@
 package cucumber;
 
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,6 +11,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import csci310.CreateUserTable;
+import csci310.DropUserTable;
+import csci310.InitializeUserTable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,8 +28,22 @@ public class RegisterStepDefinitions {
 	private final WebDriver driver = new ChromeDriver();
 	private final WebDriverWait wait = new WebDriverWait(driver, 10);
 	
+	@Before()
+	public void before() {
+		new DropUserTable();
+	}
 	@Given("I am on the index page of signup")
 	public void i_am_on_the_index_page_of_signup() {
+		driver.get(ROOT_URL);
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[2]")).click();
+		By form = By.xpath("//*[@id=\"signup-form\"]/div[2]/div");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(form));
+	}
+	
+	@Given("I am on the index page of signup with existing user account")
+	public void i_am_on_the_index_page_of_signup_with_existing_user_account() {
+		new CreateUserTable();
+		new InitializeUserTable();
 		driver.get(ROOT_URL);
 		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[2]")).click();
 		By form = By.xpath("//*[@id=\"signup-form\"]/div[2]/div");
@@ -74,13 +93,13 @@ public class RegisterStepDefinitions {
 		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[4]")).sendKeys(string);
 	}
 	
-	@Then("I should see the homepage")
-	public void i_should_see_the_homepage() {
-		By title = By.cssSelector("#root > div > div > div");
+	@Then("I should see the homepage differnt from signup page")
+	public void i_should_see_the_homepage_differnt_from_signup_page() {
+		By title = By.cssSelector("#root > div > div > div > button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		System.out.println("here");
 		System.out.println(driver.findElement(title).getText());
-		assertTrue(driver.findElement(title).getText().contains("Homepage"));
+		assertTrue(driver.findElement(title).getText().contains("Sign out"));
 	}
 
 	@After()

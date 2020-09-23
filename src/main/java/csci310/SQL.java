@@ -54,14 +54,13 @@ public class SQL {
 			ps.setString(1, username); 
 			rs = ps.executeQuery(); //gets the user
 
-
 			if (!rs.next()) {
 				return foundUser;
 			}
 			String pswd = rs.getString("password"); //checks the password
-			
 			password = PasswordHash.getHash(password);//hashing
-			
+			System.out.println(password);
+			System.out.println(pswd);
 			if (pswd.equals(password)) {
 				foundUser = true;
 			}
