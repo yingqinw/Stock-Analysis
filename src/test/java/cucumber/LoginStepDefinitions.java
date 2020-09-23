@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Step definitions for Cucumber tests.
- */
+*/
 public class LoginStepDefinitions {
 	private static final String ROOT_URL = "http://localhost:3000/";
 
@@ -56,12 +56,6 @@ public class LoginStepDefinitions {
 	@When("I typed in {string} in the Password field")
 	public void i_typed_in_in_the_Password_field(String string) {
 		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys(string);
-	}
-	
-	@Then("I should see the border color of Password is not red")
-	public void i_should_see_the_border_color_of_Password_is_not_red() {
-		WebElement password = driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]"));
-	    assertTrue(password.getCssValue("border-color").toString() != "rgb(255, 0, 0)");
 	}
 
 	@After()
