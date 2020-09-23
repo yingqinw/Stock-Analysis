@@ -20,4 +20,10 @@ Right-click "run.launch" -> Run As -> "run". It will be hosted on https://localh
 
 **To run Cucumber tests:**
 
+<<<<<<< HEAD
 Make sure the web server is running when you run the Cucumber tests. Right-click "cucumber.launch" -> Run As -> "cucumber".
+=======
+1. Make sure the web server is running when you run the Cucumber tests. 
+2. Make sure the React Web App is running when you run the Cucumber tests. Go to "/src/main/webapp/reactjs" and follow the README.md inside that repository. Ideally run `yarn install` and `yarn start` will start the website.
+3. Right-click "cucumber.launch" -> Run As -> "cucumber".
+>>>>>>> origin/develop

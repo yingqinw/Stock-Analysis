@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+.DS_Store
+>>>>>>> origin/develop
 target/
 pom.xml.tag
 pom.xml.releaseBackup
