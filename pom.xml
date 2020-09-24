@@ -16,8 +16,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-    	<powermock.version>2.0.2</powermock.version>
-
 	</properties>
 
 	<profiles>
@@ -128,8 +126,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>2.10.0</version>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -137,21 +135,21 @@
 	    	<artifactId>json</artifactId>
 	    	<version>20200518</version>
 		</dependency>
+
 		<dependency>
       		<groupId>org.powermock</groupId>
       		<artifactId>powermock-module-junit4</artifactId>
       		<version>${powermock.version}</version>
       		<scope>test</scope>
-   		</dependency>
-   		<dependency>
-   			<groupId>org.powermock</groupId>
-      		<artifactId>powermock-api-mockito2</artifactId>
-      		<version>${powermock.version}</version>
-      		<scope>test</scope>
-   		</dependency>
+   	</dependency>
+   	<dependency>
+   		  <groupId>org.powermock</groupId>
+      	<artifactId>powermock-api-mockito2</artifactId>
+      	<version>${powermock.version}</version>
+      	<scope>test</scope>
+   	</dependency>
 		
 	</dependencies>
-	
 
 	<build>
 		<finalName>project2</finalName>
