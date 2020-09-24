@@ -7,9 +7,11 @@ import org.junit.Test;
 public class InitializeUserTableTest {
 
 	@Test
-	public void test() {
+	public void testInitializeUserTable() {
 		
 		InitializeUserTable i = new InitializeUserTable();
+		SQL s = new SQL();
+		assertTrue(SQL.userExist("trojan"));
 	}
 
 }
