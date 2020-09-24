@@ -54,7 +54,6 @@ public class SQL {
 			ps.setString(1, username); 
 			rs = ps.executeQuery(); //gets the user
 
-
 			if (!rs.next()) {
 				return foundUser;
 			}
