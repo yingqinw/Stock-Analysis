@@ -14,7 +14,7 @@ public class InitializeUserTable {
         try (Connection conn = DriverManager.getConnection(url);
         		PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "trojan");
-            pstmt.setString(2, PasswordHash.getHash("12345Qa","SHA-512"));
+            pstmt.setString(2, PasswordHash.getHash("12345Qa"));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
