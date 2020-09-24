@@ -3,6 +3,7 @@ package csci310.servlets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
@@ -25,6 +26,12 @@ public class DataServlet extends HttpServlet {
 		String APIKey = "btjeu1f48v6tfmo5erv0";
         String startDate = "09/11/2020";
         String endDate = "09/21/2020";
+        
+        PrintWriter out = response.getWriter();
+        //response.setContentType("application/json");
+        //response.setCharacterEncoding("UTF-8");
+        //out.print(this.gson.toJson(success));
+        //out.flush();  
         
 		//time ASSUMING THE TIME IN A DAY IS 5
         long startDateEpoch = 0;
@@ -69,6 +76,7 @@ public class DataServlet extends HttpServlet {
 			long timeEpoch = t.getLong(i);
 			time[i] = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (timeEpoch*1000));
 			System.out.println("Closing Price: " + closingPrice[i] + " time: " + time[i]);
+			out.print("Closing Price: " + closingPrice[i] + " time: " + time[i]);
 		}
 	}
 }
