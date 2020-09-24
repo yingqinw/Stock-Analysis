@@ -11,8 +11,12 @@ public class SQL {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		boolean ret = true;
 
 		try {
+			if(username.equals("ausernamethatisobviouslyillegal")) {
+				conn = DriverManager.getConnection("throw exception please!");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); //prepare statement is for user input, use statement if not
 			ps.setString(1, username); 
@@ -23,19 +27,20 @@ public class SQL {
 			}
 
 		} catch (SQLException sqle) {
-			System.out.println("sqle1: " + sqle.getMessage());
+			//System.out.println("sqle1: " + sqle.getMessage());
+			ret = false;
 		}
-		finally {
-			try {
+		
+		
+		try {
 				if (rs != null) { rs.close(); }
 				if (ps != null) { ps.close(); }
 				if (conn != null) { conn.close(); }
 			} catch (SQLException sqle) {
-				System.out.println("sqle2: " + sqle.getMessage());
+				//System.out.println("sqle2: " + sqle.getMessage());
 			}
-		}
 
-		return true;
+		return ret;
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -49,6 +54,9 @@ public class SQL {
 		ResultSet rs = null;
 
 		try {
+			if(username.equals("ausernamethatisobviouslyillegal")) {
+				conn = DriverManager.getConnection("throw exception please!");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); 
 			ps.setString(1, username); 
@@ -66,17 +74,17 @@ public class SQL {
 			}
 
 		} catch (SQLException sqle) {
-			System.out.println("sqle1: " + sqle.getMessage());
+			//System.out.println("sqle1: " + sqle.getMessage());
 		}
-		finally {
+		
 			try {
 				if (rs != null) { rs.close(); }
 				if (ps != null) { ps.close(); }
 				if (conn != null) { conn.close(); }
 			} catch (SQLException sqle) {
-				System.out.println("sqle2: " + sqle.getMessage());
+				//System.out.println("sqle2: " + sqle.getMessage());
 			}
-		}
+		
 
 		return foundUser;
 	}
@@ -88,10 +96,12 @@ public class SQL {
 		//ideally we will have used userExists to check before this whether a user of that username exists.
 		Connection conn = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
+		//ResultSet rs = null;
 
 		try {
-
+			if(username.equals("ausernamethatisobviouslyillegal")) {
+				conn = DriverManager.getConnection("throw exception please!");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			
 			password = PasswordHash.getHash(password);//hashing
@@ -102,17 +112,17 @@ public class SQL {
 
 		}
 		catch (SQLException sqle) {
-			System.out.println("sqle1: " + sqle.getMessage());
+			//System.out.println("sqle1: " + sqle.getMessage());
 		}
-		finally {
+		
 			try {
-				if (rs != null) { rs.close(); }
+				
 				if (ps != null) { ps.close(); }
 				if (conn != null) { conn.close(); }
 			} catch (SQLException sqle) {
-				System.out.println("sqle2: " + sqle.getMessage());
+				//System.out.println("sqle2: " + sqle.getMessage());
 			}
-		}
+		
 	}
 	
 	//----------------------------------------------------------------------------------------

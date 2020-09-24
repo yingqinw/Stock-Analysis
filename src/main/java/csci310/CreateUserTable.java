@@ -14,7 +14,7 @@ public class CreateUserTable {
 	public CreateUserTable() {
         // SQLite connection string
         String url = "jdbc:sqlite:project.db";
-        System.out.println("Table created");
+        //System.out.println("Table created");
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS users (\n"
                 + "	id integer PRIMARY KEY,\n"
@@ -22,12 +22,13 @@ public class CreateUserTable {
                 + "	password text NOT NULL\n"
                 + ");";
         
-        try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
+        try{
             // create a new table
+        	Connection conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
