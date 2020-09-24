@@ -12,12 +12,13 @@ public class DropUserTable {
         // SQL statement for creating a new table
         String sql = "DROP TABLE IF EXISTS users;";
         
-        try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
+        try{
             // create a new table
+        	Connection conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
 		
 	}

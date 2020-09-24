@@ -97,8 +97,6 @@ public class RegisterStepDefinitions {
 	public void i_should_see_the_homepage_differnt_from_signup_page() {
 		By title = By.cssSelector("#root > div > div > div > button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		System.out.println("here");
-		System.out.println(driver.findElement(title).getText());
 		assertTrue(driver.findElement(title).getText().contains("Sign out"));
 	}
 

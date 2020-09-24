@@ -101,5 +101,25 @@ public class RegisterTest extends Mockito {
         assertTrue(stringWriter.toString().contains("Welcome, " + "dummies"));
 	}
 	
+	@Test
+	public void testDoPost5() throws Exception {
+	HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        
+        when(request.getParameter("username")).thenReturn("dummies");
+        when(request.getParameter("password")).thenReturn("");
+        when(request.getParameter("confirmPassword")).thenReturn("");
+        
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        
+        new Register().doPost(request, response);
+               
+        writer.flush();
+        
+        assertTrue(stringWriter.toString().contains("use mass blankspace."));
+	}
+	
 
 }

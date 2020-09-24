@@ -52,7 +52,7 @@ public class Register extends HttpServlet {
 	        out.print(this.gson.toJson(re));
 	        out.flush();   
 		}
-		else if(password.trim().equals("") || password2.trim().equals("") || username.trim().equals("")) {
+		else if(password.trim().equals("") || username.trim().equals("")) {
 			RegisterError re = new RegisterError("Please don't use mass blankspace.");
 			PrintWriter out = response.getWriter();
 	        response.setContentType("application/json");

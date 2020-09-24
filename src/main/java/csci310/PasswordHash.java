@@ -16,7 +16,7 @@ public class PasswordHash {
 	        }
 	        generatedPassword = sb.toString();
 	    } catch (NoSuchAlgorithmException e) {
-	        e.printStackTrace();
+	        //e.printStackTrace();
 	    }
 	    return generatedPassword;
 	}

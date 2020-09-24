@@ -1,6 +1,7 @@
 package cucumber;
 
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -25,7 +26,12 @@ public class LoginStepDefinitions {
 	private static final String ROOT_URL = "http://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
-
+	
+	@Before()
+	public void before() {
+		new DropUserTable();
+	}
+	
 	@Given("I am on the index page")
 	public void i_am_on_the_index_page() {
 	    driver.get(ROOT_URL);
@@ -77,8 +83,6 @@ public class LoginStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.cssSelector("#root > div > div > div > button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		System.out.println("here");
-		System.out.println(driver.findElement(title).getText());
 		assertTrue(driver.findElement(title).getText().contains("Sign out"));
 	}
 	@After()
