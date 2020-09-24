@@ -77,8 +77,6 @@ public class LoginStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.cssSelector("#root > div > div > div > button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		System.out.println("here");
-		System.out.println(driver.findElement(title).getText());
 		assertTrue(driver.findElement(title).getText().contains("Sign out"));
 	}
 	@After()
