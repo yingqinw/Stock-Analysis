@@ -58,9 +58,9 @@ public class SQL {
 				return foundUser;
 			}
 			String pswd = rs.getString("password"); //checks the password
-			password = PasswordHash.getHash(password);//hashing
-			System.out.println(password);
-			System.out.println(pswd);
+			
+			password = PasswordHash.getHash(password,"SHA-512");//hashing
+			
 			if (pswd.equals(password)) {
 				foundUser = true;
 			}
@@ -94,7 +94,7 @@ public class SQL {
 
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			
-			password = PasswordHash.getHash(password);//hashing
+			password = PasswordHash.getHash(password,"SHA-512");//hashing
 			
 			String sql = "INSERT INTO users (username,password) VALUES ('" + username + "','" + password + "')";
 			ps = conn.prepareStatement(sql); //prepare statement is for user input, use statement if not

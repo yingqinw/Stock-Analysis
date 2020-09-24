@@ -17,7 +17,7 @@ public class RegisterTest extends Mockito {
 
 	@Test
 	public void testDoPost() throws Exception {
-	HttpServletRequest request = mock(HttpServletRequest.class);       
+		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
         when(request.getParameter("username")).thenReturn("hyunjae");
@@ -39,7 +39,7 @@ public class RegisterTest extends Mockito {
 	
 	@Test
 	public void testDoPost2() throws Exception {
-	HttpServletRequest request = mock(HttpServletRequest.class);       
+		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
         when(request.getParameter("username")).thenReturn("");
@@ -62,7 +62,7 @@ public class RegisterTest extends Mockito {
 		
 	SQL.register("hyunjae","Hj1234");
 		
-	HttpServletRequest request = mock(HttpServletRequest.class);       
+		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
         when(request.getParameter("username")).thenReturn("hyunjae");
@@ -83,7 +83,7 @@ public class RegisterTest extends Mockito {
 	@Test
 	public void testDoPost4() throws Exception {
 	
-	HttpServletRequest request = mock(HttpServletRequest.class);       
+		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
         when(request.getParameter("username")).thenReturn("dummies");
