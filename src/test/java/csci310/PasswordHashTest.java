@@ -7,7 +7,7 @@ import org.junit.Test;
 public class PasswordHashTest {
 
 	@Test
-	public void test() {
+	public void testGetHash() {
 		PasswordHash ph = new PasswordHash();
 		String pass = "Password123";
 		String hashed = PasswordHash.getHash(pass);

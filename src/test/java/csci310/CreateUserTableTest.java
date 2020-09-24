@@ -9,7 +9,8 @@ public class CreateUserTableTest {
 	@Test
 	public void testCreateUserTable() {
 		CreateUserTable c = new CreateUserTable();
-		
+		SQL s = new SQL();
+		assertTrue(true);
 	}
 
 }

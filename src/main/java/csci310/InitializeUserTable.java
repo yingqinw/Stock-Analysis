@@ -17,7 +17,7 @@ public class InitializeUserTable {
         	PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "trojan");
             pstmt.setString(2, PasswordHash.getHash("12345Qa"));
-            System.out.println("Reached without sqle");
+            //System.out.println("Reached without sqle");
             pstmt.executeUpdate();
         } catch (SQLException e) {
             //System.out.println(e.getMessage());
