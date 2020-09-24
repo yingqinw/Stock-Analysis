@@ -21,7 +21,7 @@ public class LoginTest extends Mockito {
 		
 	SQL.register("hyunjae","Hj1234");
 		
-		HttpServletRequest request = mock(HttpServletRequest.class);       
+	HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
         when(request.getParameter("username")).thenReturn("hyunjae");

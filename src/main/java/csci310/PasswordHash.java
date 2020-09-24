@@ -5,12 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordHash {
-	
-	public PasswordHash() {
-		
-	}
-	
-	public static String getHash(String password,String instance){
+	public static String getHash(String password){
 	    String generatedPassword = null;
 	    try {
 	        MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -21,7 +16,7 @@ public class PasswordHash {
 	        }
 	        generatedPassword = sb.toString();
 	    } catch (NoSuchAlgorithmException e) {
-	        //e.printStackTrace();
+	        e.printStackTrace();
 	    }
 	    return generatedPassword;
 	}
