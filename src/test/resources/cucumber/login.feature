@@ -12,14 +12,7 @@ Feature: User login
     And I click the login button
     Then I should see error message 'Password should contain uppercase, lowercase and numeric character.'
     
-   Scenario: User types in valid username and password without register
-    Given I am on the index page
-    When I typed in 'hellothere2' in the Username field
-    And I typed in '12345Qa' in the Password field
-    And I click the login button
-    Then I should see error message 'Incorrect username or password. Please try again! :)'
-    
-   Scenario: Existing user logs in and redirect to homepage
+  Scenario: Existing user logs in and redirect to homepage
     Given I am on the index page with existing account
     When I typed in 'trojan' in the Username field
     And I typed in '12345Qa' in the Password field
