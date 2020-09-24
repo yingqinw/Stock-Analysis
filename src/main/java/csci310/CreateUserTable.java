@@ -22,12 +22,13 @@ public class CreateUserTable {
                 + "	password text NOT NULL\n"
                 + ");";
         
-        try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
+        try{
             // create a new table
+        	Connection conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 

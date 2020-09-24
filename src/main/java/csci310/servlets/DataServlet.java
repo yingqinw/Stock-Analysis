@@ -41,7 +41,7 @@ public class DataServlet extends HttpServlet {
         	startDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(startDate+" 22:00:00").getTime() / 1000;
         	endDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(endDate+" 22:00:00").getTime() / 1000;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
        
         //connect to API
@@ -54,8 +54,8 @@ public class DataServlet extends HttpServlet {
   		con.connect();
 		
 		int respondCode = con.getResponseCode(); 
-		if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
-		System.out.println("resond code: " + respondCode);
+		//if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
+		System.out.println("respond code: " + respondCode);
 
   		//read json
   		Scanner sc = new Scanner(url.openStream());

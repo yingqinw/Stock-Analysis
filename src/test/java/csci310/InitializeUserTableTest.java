@@ -8,6 +8,7 @@ public class InitializeUserTableTest {
 
 	@Test
 	public void test() {
+		
 		InitializeUserTable i = new InitializeUserTable();
 	}
 
