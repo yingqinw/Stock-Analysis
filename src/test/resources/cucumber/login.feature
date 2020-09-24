@@ -14,7 +14,7 @@ Feature: User login
     
    Scenario: User types in valid username and password without register
     Given I am on the index page
-    When I typed in 'hellothere1' in the Username field
+    When I typed in 'hellothere2' in the Username field
     And I typed in '12345Qa' in the Password field
     And I click the login button
     Then I should see error message 'Incorrect username or password. Please try again! :)'
