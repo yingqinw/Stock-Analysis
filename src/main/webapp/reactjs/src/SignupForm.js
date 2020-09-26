@@ -31,11 +31,6 @@ export default function(props) {
             }}
             style={{borderColor: pass === props.password && pass.length !== 0? 'green':'red'}} 
           />
-          <input type="text" placeholder="Email" onChange={(e) => {
-            props.setEmail(e.target.value);
-          }}
-            style={{borderColor: props.validEmail ? 'green':'red'}} 
-          />
         </div>
         <Button>
           create user
