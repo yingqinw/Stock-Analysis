@@ -30,7 +30,6 @@ export default function() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
-  const [validEmail, setValidEmail] = useState(false);
   
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
@@ -38,9 +37,6 @@ export default function() {
   useEffect(() => {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
   }, [username]);
-  useEffect(() => {
-    setValidEmail(/\S+@\S+\.\S+/.test(email) && email.length !== 0);
-  }, [email]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,9 +46,6 @@ export default function() {
     }
     if(!validPass) {
       alertMessage.push("Password should contain uppercase, lowercase and numeric character.\n");
-    }
-    if(!validEmail && !selectLogin) {
-      alertMessage.push("Email address is not valid. ");
     }
     if(alertMessage.length !== 0) {
       alertMessage.join('\n');
@@ -104,7 +97,6 @@ export default function() {
                 setConfirmPassword={setConfirmPassword}
                 validUserName={validUserName}
                 validPass={validPass}
-                validEmail={validEmail}
                 password={password}
                 handleSubmit={handleSubmit}
                 alertText = {alertText}
