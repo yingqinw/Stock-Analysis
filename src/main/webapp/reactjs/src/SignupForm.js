@@ -38,7 +38,7 @@ export default function(props) {
           />
         </div>
         <Button>
-          signup
+          create user
           <Arrow className="arrow"></Arrow>
         </Button>
       </FormWrapper>
