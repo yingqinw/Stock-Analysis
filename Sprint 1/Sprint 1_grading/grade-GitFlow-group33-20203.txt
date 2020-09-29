@@ -1,0 +1,37 @@
+Best Practice GitFlow Report
+Owner: group33-20203
+Grade: 0/10
+Comments: 
+	Bad pull (-1) [develop<-revert-36-feature-backendtestcoverage]: https://github.com/CSCI310/project-20203-group33-20203/pull/37
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/9e57c05b7069cc336688ddf1cec83382388bdc3a
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/23aad9d27fc1774b6b847e91c884d960d07907ce
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/c9c594ca2ba736df32d31f9a218bbd75ed080341
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/3529761ccc2aea58afcb00c9af55a37ea1759ed9
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/5d4031510906b725bc2d84409e347a331461e686
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/170a8ecc326536c82521955f9f9b690fb4df27fd
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/bd90c6e25323b0acb2ab57182c873cdc24f88231
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/b34aca34ad2abd9c34b3792724f0e9cebad7ec50
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/2a45c84a9b0c93e233ec7dbebddb641058d3c616
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/6cd7efe96a0964132a65aa019bb4e2e3b373cb43
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/19a0854d15e6f65021becc69636a6a0929214413
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/411973088a2cf140aece0c86ee49a33bc0da2eed
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/d0610fad7802d386b94abd1787d16163efd90a48
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/2a3ef2c85a43a5b76012e3e643840d8cc29010ff
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/00a493b505eea9cd44bac657eb91c86051c9a921
+	Direct commit to develop (-1): https://github.com/CSCI310/project-20203-group33-20203/commit/90934dc8fca5c73514e90e80aefa57c386dbf5ab
+
+	Bad pull (-1) [master<-feature-data]: https://github.com/CSCI310/project-20203-group33-20203/pull/28
+
+
+
+
+
+	Bad pull (-1) [feature-alertField<-refactor-alert-fields]: https://github.com/CSCI310/project-20203-group33-20203/pull/7
+
+
+
+	Bad pull (-1) [feature-login<-refactor-createanddropusertabletest]: https://github.com/CSCI310/project-20203-group33-20203/pull/23
+
+
+
+
