@@ -1,0 +1,11 @@
+Best Practice TDD Report
+Owner: group33-20203
+Grade: 6.0/10
+Comments: 
+	Test method was not created before method : passwordhash.gethash
+	Test method was not created before method : register.dopost
+	Test method was not created before method : login.dopost
+	Test method was not created before method : createusertable.createusertable
+Correct TDD methods: 6
+Incorrect TDD methods: 4
+Total methods created: 10
