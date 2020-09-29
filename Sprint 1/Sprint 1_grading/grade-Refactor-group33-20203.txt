@@ -1,0 +1,14 @@
+Best Practice Refactor Report
+Owner: group33-20203
+Grade: 10.0/10
+Comments: 
+Issue 34
+KenZCen satisfied 7 of 7 requirements for this issue.
+Issue 32
+yingqinw satisfied 7 of 7 requirements for this issue.
+Issue 26
+HanGuMichael satisfied 7 of 7 requirements for this issue.
+Issue 24
+hyunjaec satisfied 7 of 7 requirements for this issue.
+Issue 8
+vivianzzhu91 satisfied 7 of 7 requirements for this issue.
