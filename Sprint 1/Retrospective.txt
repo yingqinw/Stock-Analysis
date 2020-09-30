@@ -3,9 +3,9 @@ Participants: Hyunjae Cho, Han Gu, Yingqin Wang, Zongye Cen, Tongyu Zhu
 Questions
 1. What process aspects will be changed? Why? 
 	a. Next time, we should create a test method before method.
-	b. For the gitflow process, instead of merging a feature branch into itself, we 	notice that the feature branch can only be merged from develop branch.
-	c. For the refractor process, we notice that the refractor branch has to be 		created from the develop branch and merge to the develop branch, rather than a 		feature branch.
-	d. Commit the files close to meeting time, so that everyone knows what to do right 	away.
+	b. For the gitflow process, instead of merging a feature branch into itself, we notice that the feature branch can only be merged from develop branch.
+	c. For the refractor process, we notice that the refractor branch has to be created from the develop branch and merge to the develop branch, rather than a feature branch.
+	d. Commit the files close to meeting time, so that everyone knows what to do right away.
 	e. (Pending on asking CP) changing the way we commit. 
 	f. Run a JUnit prior to making a pull request.
 2. What tasks will be added to the product backlog as a result of review feedback? 
