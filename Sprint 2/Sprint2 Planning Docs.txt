@@ -1,0 +1,12 @@
+Sprint Backlog
+For the backend part, Sprint 2 we will aim to implement feature #2 (ability to add or remove stocks from the portfolio) and #4 (View and compare the historical performance of a stock)
+
+Reason:
+We decided to add forms to add and remove stocks from the user portfolio. When the user clicks a button in the dashboard, they could open a calendar and choose any past days to query any past price. After adding the stock, the homepage will show the searched stock with its price. Features #2 and #4 are the basic functionalities required for feature #1 and #3. The adding and removing stock functionality is necessary for this sprint since it is required for users to have stocks in their portfolio before we display any value comparison of the stock or user portfolio value.
+
+Participants
+Yingqin Wang
+Han Gu
+Tongyu Zhu
+Hyunjea Cho
+Zongye Cen
