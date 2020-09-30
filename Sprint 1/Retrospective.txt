@@ -1,0 +1,27 @@
+Participants: Hyunjae Cho, Han Gu, Yingqin Wang, Zongye Cen, Tongyu Zhu
+
+Questions
+1. What process aspects will be changed? Why? 
+	a. Next time, we should create a test method before method.
+	b. For the gitflow process, instead of merging a feature branch into itself, we 	notice that the feature branch can only be merged from develop branch.
+	c. For the refractor process, we notice that the refractor branch has to be 		created from the develop branch and merge to the develop branch, rather than a 		feature branch.
+	d. Commit the files close to meeting time, so that everyone knows what to do right 	away.
+	e. (Pending on asking CP) changing the way we commit. 
+	f. Run a JUnit prior to making a pull request.
+2. What tasks will be added to the product backlog as a result of review feedback? 
+	a. Remove elements regarding email on signup
+	b. Change the name of “Signup” button to “Create User”
+	c. Create more scenarios for acceptance tests covering every feature.
+
+Sprint #1 Feedback
+1. Things to change
+	a. Change the name of the "SIGNUP" button to "CREATE USER"
+	b. No need to have users email on login or signup
+	c. more acceptance test for every specific feature
+
+Things no need to change
+2. They are very impressed with the UI
+	a. No need to separate Login and Sign Up pages
+	b. The page URL can stay the same
+	c. Once we change the name to "CREATE USER" we will get full points for feature #7
+
