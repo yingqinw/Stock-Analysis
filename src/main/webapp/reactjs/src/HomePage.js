@@ -30,6 +30,11 @@ export default function(props) {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
 
+  const dateConverter = (date) => {
+    const dateArr = date.split('-');
+    return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const alertMessage = [];
@@ -51,7 +56,7 @@ export default function(props) {
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
       const route = 'AddStock';
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${startDate}&enddate=${endDate}`, {
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
