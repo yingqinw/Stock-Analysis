@@ -37,6 +37,7 @@ export default function() {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
   }, [username]);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const alertMessage = [];
@@ -64,6 +65,8 @@ export default function() {
         }
         else {
           setLoggedIn(true);
+		  setTimeout(setLoggedIn, 600000, false);
+		  //log out after 10 mins
         }
       }))
     }
@@ -74,7 +77,9 @@ export default function() {
       <div className="App-header">
         {
           loggedIn ? 
-            <HomePage /> :
+            <HomePage 
+			  setLoggedIn={setLoggedIn}
+			/> :
             <Wrapper>
               {selectLogin ? 
               <LoginForm 

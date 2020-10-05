@@ -3,7 +3,7 @@ import './App.css';
 import AddStockForm from './AddStockForm';
 import {useEffect, useState} from 'react';
 
-export default function() {
+export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
   const [validQuantity, setValidQuantity] = useState(false);
@@ -21,15 +21,17 @@ export default function() {
     setValidQuantity(/^[0-9]{1,}$/.test(quantity) && quantity !== "0");
   }, [quantity]);
   useEffect(() => {
-    setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9][2]$/.test(startDate));
+    setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(startDate));
   }, [startDate]);
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
-  }, [endDate]);
+  }, [endDate,startDate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const alertMessage = [];
+	//alertMessage.push(startDate);
+	//alertMessage.push(endDate);
     if(!validTicker) {
       alertMessage.push("Ticker should have 1 to 5 uppercase letters.");
     }
@@ -55,7 +57,7 @@ export default function() {
   return (
     <div>
       Homepage
-      <button>Sign out</button>
+      <button onClick={()=>{props.setLoggedIn(false)}}>Sign out</button>
 	  <div classname = "addform-wrapper">
 	  	{<AddStockForm
 		  handleSubmit={handleSubmit}
