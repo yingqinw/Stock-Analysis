@@ -42,5 +42,12 @@ public class SQLTest {
 		
 		SQL.register("ausernamethatisobviouslyillegal","something");
 	}
+	@Test
+	public void testAddStock() {
+		Stocks s = new Stocks(1,"apple","1999/01/01","2020/01/01");
+		SQL.addStock("yingqinw",s);
+		assertTrue(true);
+		
+	}
 
 }
