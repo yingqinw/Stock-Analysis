@@ -63,7 +63,7 @@ export default function(props) {
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
               <Button className="my-auto" onClick={()=>{props.setLoggedIn(false)}}>
-                sign out
+                log out
               <Arrow className="arrow"></Arrow>
             </Button>
           </Navbar.Text>
