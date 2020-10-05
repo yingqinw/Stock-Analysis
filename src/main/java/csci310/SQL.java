@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class SQL {
 	public static boolean userExist (String username) { //returns a boolean for if a user with the username exists or not
 		CreateUserTable c = new CreateUserTable();
+		CreateStockTable c1 = new CreateStockTable();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -47,6 +48,7 @@ public class SQL {
 	
 	public static boolean login(String username, String password) { //queries the database to authenticate a user login
 		CreateUserTable c = new CreateUserTable();
+		CreateStockTable c1 = new CreateStockTable();
 		boolean foundUser = false;
 
 		Connection conn = null;
@@ -93,6 +95,7 @@ public class SQL {
 	
 	public static void register(String username, String password) { //registers the user to the database
 		CreateUserTable c = new CreateUserTable();
+		CreateStockTable c1 = new CreateStockTable();
 		//ideally we will have used userExists to check before this whether a user of that username exists.
 		Connection conn = null;
 		PreparedStatement ps = null;
