@@ -13,14 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import csci310.SQL;
+
 public class AddStockTest extends Mockito{
 
 	@Test
 	public void testDoGet() throws IOException {
+		SQL.register("hyunjae","Hj1234");
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
-        when(request.getParameter("ticker")).thenReturn("hyunjae");
+        when(request.getParameter("ticker")).thenReturn("AAPL");
+        when(request.getParameter("quantity")).thenReturn("1");
+        when(request.getParameter("startdate")).thenReturn("09/11/2020");
+        when(request.getParameter("enddate")).thenReturn("09/21/2020");
+        when(request.getParameter("username")).thenReturn("hyunjae");
         
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
