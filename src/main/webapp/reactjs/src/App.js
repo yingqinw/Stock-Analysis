@@ -1,5 +1,5 @@
 import React from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import './App.css';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
@@ -30,6 +30,9 @@ export default function() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
+  const [timer, setTimer] = useState(0);
+  //var logoutTimer;
+  //var timer = 5;
   
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
@@ -37,6 +40,31 @@ export default function() {
   useEffect(() => {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
   }, [username]);
+
+  useEffect(() => {
+	console.log(timer);
+  }, [timer]);
+
+  const timerProgress = () => {
+	setTimer(timer - 1);
+	
+	console.log(timer);
+  }
+  
+  const resetLogoutTimer = () =>{
+	//clearTimeout(logoutTimer);
+	//logoutTimer = setTimeout(setLoggedIn,5000,false);
+	//setTimer(5);
+	console.log("reset called");
+  }
+	
+  //const timerProgress = () =>{
+	
+	
+  //}
+  
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,6 +93,11 @@ export default function() {
         }
         else {
           setLoggedIn(true);
+          //logoutTimer = setTimeout(setLoggedIn,5000,false);
+          //setTimeout(resetLogoutTimer,4000);
+		  setTimer(5);
+		  //console.log(timer);
+		  setInterval(timerProgress,1000);
         }
       }))
     }
@@ -74,8 +107,11 @@ export default function() {
     <div className="App">
       <div className="App-header">
         {
-          !loggedIn ? 
-            <HomePage /> :
+          loggedIn ? 
+            <HomePage 
+			  setLoggedIn={setLoggedIn}
+			  resetLogoutTimer={resetLogoutTimer}
+			/> :
             <Wrapper>
               {selectLogin ? 
               <LoginForm 
