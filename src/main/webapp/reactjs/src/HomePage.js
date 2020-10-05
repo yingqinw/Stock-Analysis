@@ -56,7 +56,7 @@ export default function() {
 	
   return (
     <div className="homepageWrapper">
-      <Navbar bg="light" expand="lg" className="text-uppercase">
+      <Navbar bg="light" expand="lg" className="text-uppercase mb-3">
         <Navbar.Brand className="nav_brand" href="/">Stockanalysis</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
@@ -68,6 +68,48 @@ export default function() {
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
+      <div class="container-fluid no-fluid">
+        <div class="row sm-gutters pt-3 px-2">
+          <div class="col-md-3">
+            <div class="market-pairs">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="icon ion-md-search"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search"/>
+              </div>
+              <div class="tab-content"> 
+                <div class="tab-pane fade show active" id="BTC" role="tabpanel">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Pairs</th>
+                        <th>Last Price</th>
+                        <th>Change</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><i class="icon ion-md-star"></i> AAPL</td>
+                        <td>116.98</td>
+                        <td class="red">-2.58%</td>
+                      </tr>
+                      <tr>
+                        <td><i class="icon ion-md-star"></i> AMZN</td>
+                        <td>3,195.55</td>
+                        <td class="green">+5.6%</td>
+                      </tr> 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            Insert Graph Here
+          </div>
+        </div>
+      </div>
 	  <div classname = "addform-wrapper">
 	  	{<AddStockForm
 		  handleSubmit={handleSubmit}
