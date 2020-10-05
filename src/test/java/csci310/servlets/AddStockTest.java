@@ -20,6 +20,8 @@ public class AddStockTest extends Mockito{
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
+        when(request.getParameter("ticker")).thenReturn("hyunjae");
+        
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(writer);
