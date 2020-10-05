@@ -70,7 +70,7 @@ public class UpdatePrices extends HttpServlet{
 		while (i.hasNext()) {
 			String ticker = i.next();
 			//connect to API
-	        String website = "https://finnhub.io/api/v1/stock/quote?symbol="+ ticker 
+	        String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker 
 	        		+"&token=" + APIKey;
 	        URL url = new URL(website);
 	  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
