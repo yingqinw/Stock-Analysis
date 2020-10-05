@@ -69,7 +69,7 @@ export default function() {
         </Navbar.Collapse>
       </Navbar>
       <div class="container-fluid no-fluid">
-        <div class="row sm-gutters pt-3 px-2">
+        <div class="row sm-gutters px-2">
           <div class="col-md-3">
             <div class="market-pairs">
               <div class="input-group">
@@ -90,12 +90,12 @@ export default function() {
                     </thead>
                     <tbody>
                       <tr>
-                        <td><i class="icon ion-md-star"></i> AAPL</td>
+                        <td> AAPL</td>
                         <td>116.98</td>
                         <td class="red">-2.58%</td>
                       </tr>
                       <tr>
-                        <td><i class="icon ion-md-star"></i> AMZN</td>
+                        <td> AMZN</td>
                         <td>3,195.55</td>
                         <td class="green">+5.6%</td>
                       </tr> 

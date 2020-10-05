@@ -60,9 +60,7 @@ form input:focus::placeholder {
 .homepageWrapper {
   width: 100%;
   height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+  overflow: 'auto'
 }
 
 .nav_brand {
@@ -114,11 +112,8 @@ form input:focus::placeholder {
 }
 
 .market-pairs tbody {
-  
-  height: 800px;
   overflow-y: auto;
   display: block;
-  
 }
 
 .market-pairs table,
