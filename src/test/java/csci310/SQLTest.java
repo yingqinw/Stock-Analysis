@@ -2,13 +2,22 @@ package csci310;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
 
+import org.json.JSONObject;
 import org.junit.Test;
+
+import csci310.servlets.AddStock.AddStockError;
 
 public class SQLTest {
 
@@ -85,6 +94,74 @@ public class SQLTest {
 			System.out.println("sqle closing stuff: "+sqle.getMessage());
 		}
 		
+	}
+	@Test
+	public void testAdd()throws IOException {
+		Stocks s = new Stocks(1,"AAPL","1999/01/01","2020/01/01");
+		Stocks s1 = new Stocks(1,"MSFT","1999/01/01","2020/01/01");
+		Stocks s2 = new Stocks(1,"AAPL","1999/01/01","2020/01/01");
+		Stocks s3 = new Stocks(1,"IBM","1999/01/01","2020/01/01");
+		SQL.register("Bigmonste","Abc123");
+		SQL.addStock("Bigmonste",s);
+		SQL.addStock("Bigmonste",s1);
+		SQL.addStock("Bigmonste",s2);
+		SQL.addStock("Bigmonste",s3);
+		String APIKey = "btjeu1f48v6tfmo5erv0";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs=null;
+		ResultSet rs2=null;
+		HashSet<String> tickers =new HashSet<String>();
+		try {
+			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
+			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
+			ps.setString(1,"Bigmonste");
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				int userID = rs.getInt("userID");
+				ps2=conn.prepareStatement("SELECT * FROM stocks WHERE userID=?");
+				ps2.setInt(1, userID);
+				rs2=ps2.executeQuery();
+				while(rs2.next()) {
+					String ticker =rs2.getString("ticker");
+					tickers.add(ticker);
+				}
+			}
+			
+		}catch(SQLException sqle) {
+			System.out.println("sqle: "+sqle.getMessage());
+		}
+		try {
+			if(rs!=null) {rs.close();}
+			if(rs2!=null) {rs2.close();}
+			if(ps!=null) {ps.close();}
+			if(ps2!=null) {ps2.close();}
+			if(conn!=null) {conn.close(); }
+		}catch(SQLException sqle) {
+			System.out.println("sqle closing stuff: "+sqle.getMessage());
+		}
+		Iterator<String> i = tickers.iterator();
+		while (i.hasNext()) {
+			String ticker = i.next();
+			//connect to API
+	        String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker 
+	        		+"&token=" + APIKey;
+	        URL url = new URL(website);
+	  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	  		con.setRequestMethod("GET");
+	  		con.connect(); 
+			
+			//read json
+	  		Scanner sc = new Scanner(url.openStream());
+	  		String result = "";
+	  		while(sc.hasNext()) result += sc.nextLine();
+	  		sc.close();
+	  		//System.out.println(result);
+	  		JSONObject obj = new JSONObject(result);
+  			double currentPrice = obj.getDouble("c");
+  			System.out.println(ticker +" "+ currentPrice);
+		}
 	}
 
 }
