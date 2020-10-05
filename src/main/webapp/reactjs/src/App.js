@@ -31,8 +31,6 @@ export default function() {
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
   const [timer, setTimer] = useState(0);
-  //var logoutTimer;
-  //var timer = 5;
   
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
@@ -49,12 +47,12 @@ export default function() {
   }, [timer]);
 
   const timerProgress = () => {
-	setTimer(prevTimer => prevTimer - 1);
+	  setTimer(prevTimer => prevTimer - 1);
   }
   
   const resetLogoutTimer = () =>{
-	setTimer(300);
-	console.log("reset called");
+    setTimer(300);
+    console.log("reset called");
   }
 
 
@@ -85,8 +83,8 @@ export default function() {
         }
         else {
           setLoggedIn(true);
-		  setTimer(300);
-		  setInterval(timerProgress,1000);
+          setTimer(300);
+          setInterval(timerProgress,1000);
         }
       }))
     }
@@ -98,9 +96,9 @@ export default function() {
         {
           loggedIn ? 
             <HomePage 
-			  setLoggedIn={setLoggedIn}
-			  resetLogoutTimer={resetLogoutTimer}
-			/> :
+              setLoggedIn={setLoggedIn}
+              resetLogoutTimer={resetLogoutTimer}
+            /> :
             <Wrapper>
               {selectLogin ? 
               <LoginForm 

@@ -15,6 +15,7 @@ export default function(props) {
   const [quantity, setQuantity] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [showAddStockForm, setShowAddStockForm] = useState(false);
   
   useEffect(() => {
     setValidTicker(/^[A-Z]{1,5}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
@@ -68,19 +69,18 @@ export default function(props) {
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
-      <div class="container-fluid no-fluid">
-        <div class="row sm-gutters px-2">
-          <div class="col-md-3">
-            <div class="market-pairs">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon ion-md-search"></i></span>
-                </div>
-                <input type="text" class="form-control" placeholder="Search"/>
+      <div className="container-fluid no-fluid">
+        <div className="row sm-gutters px-2">
+          <div className="col-md-3">
+            <div className="market-pairs">
+              <div className="header-wrap">
+                <Button className="my-auto" onClick={()=>{
+                  setShowAddStockForm(true)
+                }}>Add stock</Button>
               </div>
-              <div class="tab-content"> 
-                <div class="tab-pane fade show active" id="BTC" role="tabpanel">
-                  <table class="table">
+              <div className="tab-content"> 
+                <div className="tab-pane fade show active" id="BTC" role="tabpanel">
+                  <table className="table">
                     <thead>
                       <tr>
                         <th>Pairs</th>
@@ -92,12 +92,12 @@ export default function(props) {
                       <tr>
                         <td> AAPL</td>
                         <td>116.98</td>
-                        <td class="red">-2.58%</td>
+                        <td className="red">-2.58%</td>
                       </tr>
                       <tr>
                         <td> AMZN</td>
                         <td>3,195.55</td>
-                        <td class="green">+5.6%</td>
+                        <td className="green">+5.6%</td>
                       </tr> 
                     </tbody>
                   </table>
@@ -105,27 +105,31 @@ export default function(props) {
               </div>
             </div>
           </div>
-          <div class="col-md-9">
+          <div className="col-md-9">
             Insert Graph Here
           </div>
         </div>
       </div>
-	  <div classname = "addform-wrapper">
-	  	{<AddStockForm
-		  resetLogoutTimer={props.resetLogoutTimer}
-		  handleSubmit={handleSubmit}
-		  setTicker={setTicker}
-		  setQuantity={setQuantity}
-		  setStartDate={setStartDate}
-		  setEndDate={setEndDate}
+	  {showAddStockForm ? 
+    <div className="addFormBackground">
+      <div className = "addFormWrapper px-3">
+        <AddStockForm
+          resetLogoutTimer={props.resetLogoutTimer}
+          handleSubmit={handleSubmit}
+          setTicker={setTicker}
+          setQuantity={setQuantity}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
           alertText = {alertText}
           setAlertText={setAlertText}
-		  validTicker={validTicker}
-		  validStart={validStart}
-		  validQuantity={validQuantity}
-		  validEnd={validEnd}
-		/>}
-	  </div>
+          validTicker={validTicker}
+          validStart={validStart}
+          validQuantity={validQuantity}
+          validEnd={validEnd}
+          setShowAddStockForm={setShowAddStockForm}
+        />
+    </div>
+      </div> : <></>}
     </div>
 	
   );

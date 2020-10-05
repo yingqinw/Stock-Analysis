@@ -17,6 +17,7 @@
 .selectWrapper {
   font-size: 20px;
   margin-top: -18%;
+  position: relative;
 }
 
 form {
@@ -76,8 +77,12 @@ form input:focus::placeholder {
   border-radius: 2px;
 }
 
-.market-pairs .input-group {
-  padding: 0 14px;
+.market-pairs .header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 5%;
 }
 
 .market-pairs span {
@@ -131,4 +136,31 @@ form input:focus::placeholder {
 .market-pairs thead th,
 .market-pairs tbody td {
     width: 65%;
+}
+.addFormWrapper{
+  background: white;
+  display: flex;
+  align-items: center;
+  height: 50vh;
+  width: 400px;
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 200px);
+  border: 1px solid #e0e3eb;
+  border-radius: 2px;
+  box-shadow: -12px 12px 0;
+  padding: 80px 0 10px 0;
+}
+.addFormBackground {
+  background-color: rgba(224, 227, 235, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.closeIcon {
+  cursor: pointer;
+  float: right;
+  font-size: 25px;
 }
