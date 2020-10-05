@@ -1,5 +1,5 @@
 import React from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import './App.css';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
@@ -30,6 +30,7 @@ export default function() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
+  const [timer, setTimer] = useState(0);
   
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
@@ -37,6 +38,23 @@ export default function() {
   useEffect(() => {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
   }, [username]);
+
+  useEffect(() => {
+	if(timer<0){
+	  setLoggedIn(false);
+	}
+	
+  }, [timer]);
+
+  const timerProgress = () => {
+	  setTimer(prevTimer => prevTimer - 1);
+  }
+  
+  const resetLogoutTimer = () =>{
+    setTimer(300);
+    console.log("reset called");
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,6 +83,8 @@ export default function() {
         }
         else {
           setLoggedIn(true);
+          setTimer(300);
+          setInterval(timerProgress,1000);
         }
       }))
     }
@@ -74,8 +94,12 @@ export default function() {
     <div className="App">
       <div className="App-header">
         {
-          !loggedIn ? 
-            <HomePage /> :
+          loggedIn ? 
+            <HomePage 
+              username={username}
+              setLoggedIn={setLoggedIn}
+              resetLogoutTimer={resetLogoutTimer}
+            /> :
             <Wrapper>
               {selectLogin ? 
               <LoginForm 
