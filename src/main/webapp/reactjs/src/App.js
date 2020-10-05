@@ -96,6 +96,7 @@ export default function() {
         {
           loggedIn ? 
             <HomePage 
+              username={username}
               setLoggedIn={setLoggedIn}
               resetLogoutTimer={resetLogoutTimer}
             /> :
