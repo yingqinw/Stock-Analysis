@@ -42,29 +42,21 @@ export default function() {
   }, [username]);
 
   useEffect(() => {
-	console.log(timer);
+	if(timer<0){
+	  setLoggedIn(false);
+	}
+	
   }, [timer]);
 
   const timerProgress = () => {
-	setTimer(timer - 1);
-	
-	console.log(timer);
+	setTimer(prevTimer => prevTimer - 1);
   }
   
   const resetLogoutTimer = () =>{
-	//clearTimeout(logoutTimer);
-	//logoutTimer = setTimeout(setLoggedIn,5000,false);
-	//setTimer(5);
+	setTimer(300);
 	console.log("reset called");
   }
-	
-  //const timerProgress = () =>{
-	
-	
-  //}
-  
 
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -93,10 +85,7 @@ export default function() {
         }
         else {
           setLoggedIn(true);
-          //logoutTimer = setTimeout(setLoggedIn,5000,false);
-          //setTimeout(resetLogoutTimer,4000);
-		  setTimer(5);
-		  //console.log(timer);
+		  setTimer(300);
 		  setInterval(timerProgress,1000);
         }
       }))
