@@ -33,7 +33,7 @@ export default function(props) {
             style={{borderColor: props.validEnd? 'green':'red'}} 
           />
         </div>
-        <Button>
+        <Button onClick={()=>{props.resetLogoutTimer()}}>
           add stock
           <Arrow className="arrow"></Arrow>
         </Button>

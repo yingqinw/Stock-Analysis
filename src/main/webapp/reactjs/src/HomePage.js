@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 
-export default function() {
+export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
   const [validQuantity, setValidQuantity] = useState(false);
@@ -23,11 +23,11 @@ export default function() {
     setValidQuantity(/^[0-9]{1,}$/.test(quantity) && quantity !== "0");
   }, [quantity]);
   useEffect(() => {
-    setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9][2]$/.test(startDate));
+    setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(startDate));
   }, [startDate]);
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
-  }, [endDate]);
+  }, [endDate,startDate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +61,7 @@ export default function() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
-              <Button className="my-auto">
+              <Button className="my-auto" onClick={()=>{props.setLoggedIn(false)}}>
                 sign out
               <Arrow className="arrow"></Arrow>
             </Button>
@@ -112,6 +112,7 @@ export default function() {
       </div>
 	  <div classname = "addform-wrapper">
 	  	{<AddStockForm
+		  resetLogoutTimer={props.resetLogoutTimer}
 		  handleSubmit={handleSubmit}
 		  setTicker={setTicker}
 		  setQuantity={setQuantity}
