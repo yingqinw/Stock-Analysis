@@ -57,9 +57,17 @@ form input:focus::placeholder {
   white-space: pre-line;
 }
 
+.justify-content-end{
+  margin-top: 55px;
+  margin-bottom: -10px;
+  margin-right: -10px;
+}
+
 .homepageWrapper {
   width: 100%;
   height: 100%;
+  margin-bottom: -10px;
+  margin-top: -140px;
   overflow: 'auto'
 }
 
@@ -67,6 +75,7 @@ form input:focus::placeholder {
   letter-spacing: 0.1em;
   font-weight: 600;
   padding: 0;
+  margin-top: 60px;
 }
 
 .market-pairs {
