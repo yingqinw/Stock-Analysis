@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
 import {useEffect, useState} from 'react';
+import { Navbar } from 'react-bootstrap';
+import {Button, Arrow} from './Modals';
 
 export default function() {
   const [alertText, setAlertText] = useState("");	
@@ -53,9 +55,19 @@ export default function() {
 
 	
   return (
-    <div>
-      Homepage
-      <button>Sign out</button>
+    <div className="homepageWrapper">
+      <Navbar bg="light" expand="lg" className="text-uppercase">
+        <Navbar.Brand className="nav_brand" href="/">Stockanalysis</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
+          <Navbar.Text>
+              <Button className="my-auto">
+                sign out
+              <Arrow className="arrow"></Arrow>
+            </Button>
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Navbar>
 	  <div classname = "addform-wrapper">
 	  	{<AddStockForm
 		  handleSubmit={handleSubmit}

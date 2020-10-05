@@ -57,3 +57,16 @@ form input:focus::placeholder {
   white-space: pre-line;
 }
 
+.homepageWrapper {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.nav_brand {
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  padding: 0;
+}
