@@ -27,7 +27,7 @@ export default function() {
   }, [startDate]);
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
-  }, [endDate]);
+  }, [startDate, endDate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -110,7 +110,7 @@ export default function() {
           </div>
         </div>
       </div>
-	  <div classname = "addform-wrapper">
+	  <div className = "addform-wrapper">
 	  	{<AddStockForm
 		  handleSubmit={handleSubmit}
 		  setTicker={setTicker}
