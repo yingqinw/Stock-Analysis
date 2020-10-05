@@ -69,8 +69,6 @@ public class SQL {
 			}
 			String pswd = rs.getString("password"); //checks the password
 			password = PasswordHash.getHash(password);//hashing
-			System.out.println(password);
-			System.out.println(pswd);
 			if (pswd.equals(password)) {
 				foundUser = true;
 			}
