@@ -39,18 +39,31 @@ export default function(props) {
     if(!validQuantity) {
       alertMessage.push("Quantity should be a number greater than 0.");
     }
-	if(!validStart) {
-	  alertMessage.push("Please enter a start date.")	
-	}
-	if(!validEnd){
-	  alertMessage.push("Please choose an end date that is after start date.")	
-	}
+    if(!validStart) {
+      alertMessage.push("Please enter a start date.")	
+    }
+    if(!validEnd){
+      alertMessage.push("Please choose an end date that is after start date.")	
+    }
     if(alertMessage.length !== 0) {
       alertMessage.join('\n');
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      //success
+      const route = 'AddStock';
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${startDate}&enddate=${endDate}`, {
+        method: 'POST'
+      })
+      .then(response =>  response.json().then(data => {
+        const error = data.addstockerr;
+        if(error) {
+          setAlertText("");
+          setAlertText(error);
+        }
+        else {
+          
+        }
+      }))
     }
   }
 
