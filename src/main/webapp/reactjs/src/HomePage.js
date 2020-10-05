@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
 import {useEffect, useState} from 'react';
+import { Navbar } from 'react-bootstrap';
+import {Button, Arrow} from './Modals';
 
 export default function() {
   const [alertText, setAlertText] = useState("");	
@@ -53,9 +55,61 @@ export default function() {
 
 	
   return (
-    <div>
-      Homepage
-      <button>Sign out</button>
+    <div className="homepageWrapper">
+      <Navbar bg="light" expand="lg" className="text-uppercase mb-3">
+        <Navbar.Brand className="nav_brand" href="/">Stockanalysis</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
+          <Navbar.Text>
+              <Button className="my-auto">
+                sign out
+              <Arrow className="arrow"></Arrow>
+            </Button>
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Navbar>
+      <div class="container-fluid no-fluid">
+        <div class="row sm-gutters px-2">
+          <div class="col-md-3">
+            <div class="market-pairs">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="icon ion-md-search"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search"/>
+              </div>
+              <div class="tab-content"> 
+                <div class="tab-pane fade show active" id="BTC" role="tabpanel">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Pairs</th>
+                        <th>Last Price</th>
+                        <th>Change</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td> AAPL</td>
+                        <td>116.98</td>
+                        <td class="red">-2.58%</td>
+                      </tr>
+                      <tr>
+                        <td> AMZN</td>
+                        <td>3,195.55</td>
+                        <td class="green">+5.6%</td>
+                      </tr> 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            Insert Graph Here
+          </div>
+        </div>
+      </div>
 	  <div classname = "addform-wrapper">
 	  	{<AddStockForm
 		  handleSubmit={handleSubmit}

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import HomePage from './HomePage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -73,7 +74,7 @@ export default function() {
     <div className="App">
       <div className="App-header">
         {
-          loggedIn ? 
+          !loggedIn ? 
             <HomePage /> :
             <Wrapper>
               {selectLogin ? 
