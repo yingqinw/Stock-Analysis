@@ -17,7 +17,7 @@ public class CreateUserTable {
         //System.out.println("Table created");
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS users (\n"
-                + "	id integer PRIMARY KEY,\n"
+                + "	userID integer PRIMARY KEY,\n"
                 + "	username text NOT NULL,\n"
                 + "	password text NOT NULL\n"
                 + ");";
