@@ -77,9 +77,6 @@ public class AddStock extends HttpServlet {
   			
   		}
 		
-		Stocks s = new Stocks(quantity, ticker, dayPurchase, daySold);
-		SQL.addStock(username, s);
-		
 
 	}
 
