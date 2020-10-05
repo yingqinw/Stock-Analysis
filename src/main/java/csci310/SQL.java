@@ -131,47 +131,47 @@ public class SQL {
 	//----------------------------------------------------------------------------------------
 	
 	public static void addStock(String username, Stocks stock) {
-//		CreateUserTable c = new CreateUserTable();
-//		CreateStockTable c1 = new CreateStockTable();
-//		String ticker = stock.getTicker();
-//		String dayPurchase = stock.getDayPurchase();
-//		String daySold = stock.getDaySold();
-//		int quantity = stock.getQuantity();
-//		
-//		Connection conn = null;
-//		PreparedStatement ps = null;
-//		PreparedStatement ps2 = null;
-//		ResultSet rs = null;
-//		
-//		try {
-//			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
-//			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); 
-//			ps.setString(1, username); 
-//			rs = ps.executeQuery(); //gets the user
-//
-//			rs.next();
-//
-//			int userID = rs.getInt("userID");
-//
-//			String insertStatement = "INSERT INTO stocks (ticker, dayPurchase, daySold, userID, quantity) VALUES "
-//					+ "('" + ticker + "', '" + dayPurchase + "', '" + daySold + "', '" + userID + "', '" + quantity + "' )";
-//
-//			ps2 = conn.prepareStatement(insertStatement);
-//			//rs2 = ps2.executeQuery();
-//			ps2.execute();
-//
-//		} catch (SQLException sqle) {
-//			System.out.println("sqle1: " + sqle.getMessage());
-//		}
-//		
-//			try {
-//				if (rs != null) { rs.close(); }
-//				if (ps != null) { ps.close(); }
-//				if (ps2 != null) {ps2.close(); }
-//				if (conn != null) { conn.close(); }
-//			} catch (SQLException sqle) {
-//				System.out.println("sqle2: " + sqle.getMessage());
-//			}
+		CreateUserTable c = new CreateUserTable();
+		CreateStockTable c1 = new CreateStockTable();
+		String ticker = stock.getTicker();
+		String dayPurchase = stock.getDayPurchase();
+		String daySold = stock.getDaySold();
+		int quantity = stock.getQuantity();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
+			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); 
+			ps.setString(1, username); 
+			rs = ps.executeQuery(); //gets the user
+
+			rs.next();
+
+			int userID = rs.getInt("userID");
+
+			String insertStatement = "INSERT INTO stocks (ticker, dayPurchase, daySold, userID, quantity) VALUES "
+					+ "('" + ticker + "', '" + dayPurchase + "', '" + daySold + "', '" + userID + "', '" + quantity + "' )";
+
+			ps2 = conn.prepareStatement(insertStatement);
+			//rs2 = ps2.executeQuery();
+			ps2.execute();
+
+		} catch (SQLException sqle) {
+			System.out.println("sqle1: " + sqle.getMessage());
+		}
+		
+			try {
+				if (rs != null) { rs.close(); }
+				if (ps != null) { ps.close(); }
+				if (ps2 != null) {ps2.close(); }
+				if (conn != null) { conn.close(); }
+			} catch (SQLException sqle) {
+				System.out.println("sqle2: " + sqle.getMessage());
+			}
 		
 		
 	}
