@@ -62,7 +62,7 @@ export default function() {
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
               <Button className="my-auto">
-                sign out
+                log out
               <Arrow className="arrow"></Arrow>
             </Button>
           </Navbar.Text>
