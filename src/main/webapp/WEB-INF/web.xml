@@ -20,11 +20,27 @@
   	<servlet-name>AddStock</servlet-name>
   	<servlet-class>csci310.servlets.AddStock</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UpdatePrices</servlet-name>
+  	<servlet-class>csci310.servlets.UpdatePrices</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RemoveStock</servlet-name>
+  	<servlet-class>csci310.servlets.RemoveStock</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RemoveStock</servlet-name>
+  	<url-pattern>/RemoveStock</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>GreetingServlet</servlet-name>
   	<url-pattern>/greeting</url-pattern>
   	</servlet-mapping>
-  	<servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UpdatePrices</servlet-name>
+  	<url-pattern>/UpdatePrices</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/Login</url-pattern>
   	</servlet-mapping>
