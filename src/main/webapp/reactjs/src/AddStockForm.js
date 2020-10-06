@@ -6,7 +6,7 @@ import {FormTitle, FormWrapper, Button, Arrow} from './Modals';
 export default function(props) {
   return (
     <form id="addStock-form" onSubmit={props.handleSubmit}>
-      <div className="selectWrapper">
+      <div className="selectWrapper2">
         <FormTitle>Add stock</FormTitle>
         <i className="fa fa-times closeIcon" onClick={()=>{
           props.setShowAddStockForm(false)
