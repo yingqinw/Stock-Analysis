@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 
@@ -18,19 +18,6 @@ export default function(props) {
   const [showAddStockForm, setShowAddStockForm] = useState(false);
   const [stocks, setStocks] = useState([]);
   
-  useEffect(() => {
-    setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
-  }, [ticker]);
-  useEffect(() => {
-    setValidQuantity(/^[0-9]{1,}$/.test(quantity) && quantity !== "0");
-  }, [quantity]);
-  useEffect(() => {
-    setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(startDate));
-  }, [startDate]);
-  useEffect(() => {
-    setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
-  }, [endDate,startDate]);
-
   const dateConverter = (date) => {
     const dateArr = date.split('-');
     return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
@@ -44,6 +31,45 @@ export default function(props) {
     let day = date.getDate().toString();
     day = day.length > 1 ? day : '0' + day;
     return month + '/' + day + '/' + year;
+  }
+
+  const fetchStockData = (route) => {
+    console.log('fetched')
+    if(props.loggedIn) {
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
+        method: route === 'UpdatePrices'? 'POST': 'GET'
+      })
+      .then(response =>  response.json().then(data => {
+        const error = data.AddStockerr;
+        if(error) {
+          setAlertText("");
+          setAlertText(error);
+        }
+        else {
+          setStocks(jsonToArray(data));
+        }
+      }))
+    }
+  }
+
+  const useInterval = (callback, delay) => {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
   }
 
   const jsonToArray = (data) => {
@@ -60,6 +86,20 @@ export default function(props) {
     }
     return result;
   }
+
+  useEffect(() => {
+    setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
+  }, [ticker]);
+  useEffect(() => {
+    setValidQuantity(/^[0-9]{1,}$/.test(quantity) && quantity !== "0");
+  }, [quantity]);
+  useEffect(() => {
+    setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(startDate));
+  }, [startDate]);
+  useEffect(() => {
+    setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
+  }, [endDate,startDate]);
+  useInterval(function(){fetchStockData('UpdatePrices')}, 5 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,20 +124,7 @@ export default function(props) {
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      const route = 'AddStock';
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
-        method: 'GET'
-      })
-      .then(response =>  response.json().then(data => {
-        const error = data.AddStockerr;
-        if(error) {
-          setAlertText("");
-          setAlertText(error);
-        }
-        else {
-          setStocks(jsonToArray(data));
-        }
-      }))
+      fetchStockData('AddStock');
     }
   }
 	
