@@ -167,8 +167,10 @@ public class SQLTest {
 	@Test
 	public void testRemoveStock() {
 		Stocks s = new Stocks(1,"AAPL","1999/01/01","2020/01/01");
+		Stocks s1 = new Stocks(1,"MSFT","1999/01/01","2020/01/01");
 		SQL.register("steven","Abc123");
 		SQL.addStock("steven",s);
+		SQL.addStock("steven",s1);
 		SQL.removeStock("steven","AAPL");
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -178,15 +180,15 @@ public class SQLTest {
 		try {
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
-			ps.setString(1, "Bigmonster");
+			ps.setString(1, "steven");
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				int userID = rs.getInt("userID");
-				ps2=conn.prepareStatement("SELECT * FROM stocks WHERE userID=?");
+				ps2=conn.prepareStatement("SELECT * FROM stocks WHERE userID=? AND ticker=?");
 				ps2.setInt(1, userID);
+				ps2.setString(2, "AAPL");
 				rs2=ps2.executeQuery();
-				String ticker =rs2.getString("ticker");
-				assertEquals(ticker,"apple");
+				assertTrue(!rs2.next());
 			}
 			
 		}catch(SQLException sqle) {
