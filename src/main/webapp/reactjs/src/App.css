@@ -108,9 +108,22 @@ form input:focus::placeholder {
   margin-bottom: 0;
 }
 
+tbody tr {
+  color: #4a4a4a;
+}
+
+tbody tr:hover {
+  background: #f6f8f9;
+}
+
+.table td,
+.table th {
+    border-top: 1px solid #f0f3fa;
+}
+
 .table td {
   font-size: 13px;
-  padding: 10px 18px;
+  padding: 10px 18px !important;
 }
 .market-pairs{
   box-shadow: -12px 12px 0;
@@ -140,6 +153,21 @@ form input:focus::placeholder {
     float: left;
     clear: both;
     overflow: hidden;
+}
+
+thead tr th {
+  padding: 8px 15px !important;
+}
+
+thead th {
+  color: #758696;
+  font-size: 13px;
+  font-weight: 600;
+  border: 0 !important;
+}
+
+.table tbody + tbody {
+  border: none;
 }
 
 .market-pairs thead th,
