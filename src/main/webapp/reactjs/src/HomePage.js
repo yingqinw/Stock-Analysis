@@ -127,7 +127,12 @@ export default function(props) {
       fetchStockData('AddStock');
     }
   }
-	
+  
+  const removeStocks = (removed) => {
+    const newStocks = stocks.filter(stock => stock.ticker !== removed);
+    setStocks(newStocks)
+  }
+  
   return (
     <div className="homepageWrapper">
       <Navbar bg="light" expand="lg" className="text-uppercase mb-3">
@@ -169,6 +174,7 @@ export default function(props) {
                             <td>{stock.price}</td>
                             <td><i className="fa fa-times closeIcon" onClick={()=>{
                               setTicker(stock.ticker);
+                              removeStocks(stock.ticker);
                               fetchStockData('RemoveStock');
                             }}></i></td>
                           </tr>
