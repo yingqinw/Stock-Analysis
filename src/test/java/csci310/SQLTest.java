@@ -51,12 +51,12 @@ public class SQLTest {
 	
 	@Test
 	public void testRegister() {
-		SQL.register("yingqinw","Abc123");
-		boolean user = SQL.userExist("yingqinw");
+		SQL.register("yingqinw1","Abc123");
+		boolean user = SQL.userExist("yingqinw1");
+		boolean user1 = true;
 		assertTrue(user);
 		
 		SQL.register("ausernamethatisobviouslyillegal","something");
-		assertTrue(user);
 	}
 	@Test
 	public void testAddStock() {
