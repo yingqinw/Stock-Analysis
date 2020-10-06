@@ -84,6 +84,7 @@ form input:focus::placeholder {
   border: 1px solid #e0e3eb;
   padding-top: 14px;
   border-radius: 2px;
+  height: 300%
 }
 
 .market-pairs .header-wrap {
@@ -172,13 +173,15 @@ form input:focus::placeholder {
   cursor: pointer;
   float: right;
   font-size: 25px;
+  margin-top: -36px;
+  margin-right: -36px;
 }
-
 .selectWrapper2{
   font-size: 21px;
   margin-top: -165px;
   margin-bottom: 70px;
   position: relative;
+  margin-left: 20px;
 }
 .fields{
   margin-bottom: 15px;
