@@ -162,15 +162,19 @@ public class SQL {
 			System.out.println("sqle1: " + sqle.getMessage());
 		}
 		
-			try {
-				if (rs != null) { rs.close(); }
-				if (ps != null) { ps.close(); }
-				if (ps2 != null) {ps2.close(); }
-				if (conn != null) { conn.close(); }
-			} catch (SQLException sqle) {
-				System.out.println("sqle2: " + sqle.getMessage());
-			}
-		
+		try {
+			if (rs != null) { rs.close(); }
+			if (ps != null) { ps.close(); }
+			if (ps2 != null) {ps2.close(); }
+			if (conn != null) { conn.close(); }
+		} catch (SQLException sqle) {
+			System.out.println("sqle2: " + sqle.getMessage());
+		}	
+	}
+	
+	//----------------------------------------------------------------------------------------
+	
+	public static void removeStock(String username, String ticker) {
 		
 	}
 	
