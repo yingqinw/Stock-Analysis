@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 
@@ -16,9 +16,79 @@ export default function(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAddStockForm, setShowAddStockForm] = useState(false);
+  const [stocks, setStocks] = useState([]);
   
+  const dateConverter = (date) => {
+    const dateArr = date.split('-');
+    return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
+  }
+
+  const jsDateConverter = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+    let day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    return month + '/' + day + '/' + year;
+  }
+
+  const fetchStockData = (route) => {
+    console.log('fetched')
+    if(props.loggedIn) {
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
+        method: route === 'UpdatePrices'? 'POST': 'GET'
+      })
+      .then(response =>  response.json().then(data => {
+        const error = data.AddStockerr;
+        if(error) {
+          setAlertText("");
+          setAlertText(error);
+        }
+        else {
+          setStocks(jsonToArray(data));
+        }
+      }))
+    }
+  }
+
+  const useInterval = (callback, delay) => {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
+
+  const jsonToArray = (data) => {
+    let result = []
+    for (let key in data)
+    {
+      if (data.hasOwnProperty(key))
+      {
+        result.push({
+          ticker: key,
+          price: data[key]
+        })
+      }
+    }
+    return result;
+  }
+
   useEffect(() => {
-    setValidTicker(/^[A-Z]{1,5}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
+    setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
   }, [ticker]);
   useEffect(() => {
     setValidQuantity(/^[0-9]{1,}$/.test(quantity) && quantity !== "0");
@@ -29,17 +99,13 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-
-  const dateConverter = (date) => {
-    const dateArr = date.split('-');
-    return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
-  }
+  useInterval(function(){fetchStockData('UpdatePrices')}, 8 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const alertMessage = [];
     if(!validTicker) {
-      alertMessage.push("Ticker should have 1 to 5 uppercase letters.");
+      alertMessage.push("Ticker should have at least 1 uppercase letters.");
     }
     if(!validQuantity) {
       alertMessage.push("Quantity should be a number greater than 0.");
@@ -53,31 +119,25 @@ export default function(props) {
     if(alertMessage.length !== 0) {
       alertMessage.join('\n');
     }
+    if(endDate.length === 0) {
+      setEndDate(jsDateConverter());
+    }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      const route = 'AddStock';
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
-        method: 'POST'
-      })
-      .then(response =>  response.json().then(data => {
-        const error = data.addstockerr;
-        if(error) {
-          setAlertText("");
-          setAlertText(error);
-        }
-        else {
-          
-        }
-      }))
+      fetchStockData('AddStock');
     }
   }
-
-	
+  
+  const removeStocks = (removed) => {
+    const newStocks = stocks.filter(stock => stock.ticker !== removed);
+    setStocks(newStocks)
+  }
+  
   return (
     <div className="homepageWrapper">
       <Navbar bg="light" expand="lg" className="text-uppercase mb-3">
         <Navbar.Brand className="nav_brand" href="/">Stockanalysis</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Toggle className="justify-content-end" aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
               <Button className="my-auto" onClick={()=>{props.setLoggedIn(false)}}>
@@ -103,20 +163,23 @@ export default function(props) {
                       <tr>
                         <th>Pairs</th>
                         <th>Last Price</th>
-                        <th>Change</th>
+                        <th>Remove</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td> AAPL</td>
-                        <td>116.98</td>
-                        <td className="red">-2.58%</td>
-                      </tr>
-                      <tr>
-                        <td> AMZN</td>
-                        <td>3,195.55</td>
-                        <td className="green">+5.6%</td>
-                      </tr> 
+                      {
+                        stocks.map((stock, i) => {
+                          return <tr key={i}>
+                            <td>{stock.ticker}</td>
+                            <td>{stock.price}</td>
+                            <td><i className="fa fa-times closeIcon" onClick={()=>{
+                              setTicker(stock.ticker);
+                              removeStocks(stock.ticker);
+                              fetchStockData('RemoveStock');
+                            }}></i></td>
+                          </tr>
+                        })
+                      }
                     </tbody>
                   </table>
                 </div>
