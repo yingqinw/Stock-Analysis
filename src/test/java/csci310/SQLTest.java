@@ -51,8 +51,9 @@ public class SQLTest {
 	
 	@Test
 	public void testRegister() {
-		SQL.register("yingqinw","Abc123");
-		boolean user = SQL.userExist("yingqinw");
+		SQL.register("yingqinw1","Abc123");
+		boolean user = SQL.userExist("yingqinw1");
+		boolean user1 = true;
 		assertTrue(user);
 		
 		SQL.register("ausernamethatisobviouslyillegal","something");
@@ -62,6 +63,8 @@ public class SQLTest {
 		Stocks s = new Stocks(1,"apple","1999/01/01","2020/01/01");
 		SQL.register("Bigmonster","Abc123");
 		SQL.addStock("Bigmonster",s);
+		SQL.addStock("ausernamethatisobviouslyillegal",s);
+		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -72,14 +75,16 @@ public class SQLTest {
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
 			ps.setString(1, "Bigmonster");
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			boolean found = false;
+			while(rs.next()) {
 				int userID = rs.getInt("userID");
 				ps2=conn.prepareStatement("SELECT * FROM stocks WHERE userID=?");
 				ps2.setInt(1, userID);
 				rs2=ps2.executeQuery();
 				String ticker =rs2.getString("ticker");
-				assertEquals(ticker,"apple");
+				if(ticker.equals("apple")) {found = true;};
 			}
+			assertTrue(found);
 			
 		}catch(SQLException sqle) {
 			System.out.println("sqle: "+sqle.getMessage());
@@ -95,6 +100,7 @@ public class SQLTest {
 		}
 		
 	}
+	/*
 	@Test
 	public void testAdd()throws IOException {
 		Stocks s = new Stocks(1,"AAPL","1999/01/01","2020/01/01");
@@ -163,7 +169,7 @@ public class SQLTest {
   			System.out.println(ticker +" "+ currentPrice);
 		}
 	}
-	
+	*/
 	@Test
 	public void testRemoveStock() {
 		Stocks s = new Stocks(1,"AAPL","1999/01/01","2020/01/01");
@@ -172,6 +178,9 @@ public class SQLTest {
 		SQL.addStock("steven",s);
 		SQL.addStock("steven",s1);
 		SQL.removeStock("steven","AAPL");
+		SQL.removeStock("ausernamethatisobviouslyillegal","AAPL");
+		//assertTrue(true);
+		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
@@ -203,6 +212,7 @@ public class SQLTest {
 		}catch(SQLException sqle) {
 			System.out.println("sqle closing stuff: "+sqle.getMessage());
 		}
+		
 		
 	}
 

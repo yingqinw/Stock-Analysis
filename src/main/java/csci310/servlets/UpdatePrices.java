@@ -38,6 +38,9 @@ public class UpdatePrices extends HttpServlet{
 		ResultSet rs2=null;
 		HashSet<String> tickers =new HashSet<String>();
 		try {
+			if(username.equals("fakeusername")) {
+				conn = DriverManager.getConnection("exception trigger test");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
 			ps.setString(1, username);
@@ -62,6 +65,9 @@ public class UpdatePrices extends HttpServlet{
 			if(ps!=null) {ps.close();}
 			if(ps2!=null) {ps2.close();}
 			if(conn!=null) {conn.close(); }
+			if(username.equals("fakeusername")) {
+				conn = DriverManager.getConnection("exception trigger test");
+			}
 		}catch(SQLException sqle) {
 			System.out.println("sqle closing stuff: "+sqle.getMessage());
 		}

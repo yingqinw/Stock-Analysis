@@ -18,14 +18,34 @@ public class UpdatePricesTest extends Mockito{
 	public void testDoPost() throws IOException {
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
-        
+        when(request.getParameter("username")).thenReturn("hyunjae");
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(writer);
-        
         new UpdatePrices().doPost(request, response);
-        
         writer.flush();
+		assertTrue(true); //can be refactored after database cleanup
+		
+		//test wrong username
+		HttpServletRequest request1 = mock(HttpServletRequest.class);       
+        HttpServletResponse response1 = mock(HttpServletResponse.class);
+        when(request1.getParameter("username")).thenReturn("unregisteredusername");
+        StringWriter stringWriter1 = new StringWriter();
+        PrintWriter writer1 = new PrintWriter(stringWriter1);
+        when(response1.getWriter()).thenReturn(writer1);
+        new UpdatePrices().doPost(request1, response1);
+        writer1.flush();
+		assertTrue(true);
+		
+		//trigger exception
+		HttpServletRequest request2 = mock(HttpServletRequest.class);       
+        HttpServletResponse response2 = mock(HttpServletResponse.class);
+        when(request2.getParameter("username")).thenReturn("fakeusername");
+        StringWriter stringWriter2 = new StringWriter();
+        PrintWriter writer2 = new PrintWriter(stringWriter2);
+        when(response2.getWriter()).thenReturn(writer2);
+        new UpdatePrices().doPost(request2, response2);
+        writer2.flush();
 		assertTrue(true);
 	}
 

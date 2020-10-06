@@ -23,6 +23,7 @@ public class CreateStockTable {
         	Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();
             stmt.execute(sql);
+            //Connection conntest = DriverManager.getConnection("exception trigger test");
         } catch (SQLException e) {
             //System.out.println(e.getMessage());
         }

@@ -142,6 +142,9 @@ public class SQL {
 		ResultSet rs = null;
 		
 		try {
+			if(username.equals("ausernamethatisobviouslyillegal")) {
+				conn = DriverManager.getConnection("throw exception please!");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); 
 			ps.setString(1, username); 
@@ -182,6 +185,9 @@ public class SQL {
 		PreparedStatement ps2 = null;
 		ResultSet rs = null;
 		try {
+			if(username.equals("ausernamethatisobviouslyillegal")) {
+				conn = DriverManager.getConnection("throw exception please!");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); 
 			ps.setString(1, username); 

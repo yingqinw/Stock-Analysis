@@ -60,6 +60,7 @@ public class AddStock extends HttpServlet {
   		con.setRequestMethod("GET");
   		con.connect(); 
 		
+  		PrintWriter out = response.getWriter();
 		//read json
   		Scanner sc = new Scanner(url.openStream());
   		String result = "";
@@ -68,15 +69,19 @@ public class AddStock extends HttpServlet {
   		System.out.println(result);
   		if(result.contains(":0}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
-  			PrintWriter out = response.getWriter();
   	        response.setContentType("application/json");
   	        response.setCharacterEncoding("UTF-8");
   	        out.print(this.gson.toJson(ase));
   	        out.flush(); 
   		}
   		else {
-  			Stocks s = new Stocks(quantity, ticker, dayPurchase, daySold);
-  			SQL.addStock(username, s);
+  			if(username.equals("fakeusername")) {
+  				
+  			}else {
+  				Stocks s = new Stocks(quantity, ticker, dayPurchase, daySold);
+  				SQL.addStock(username, s);
+  			}
+  			
   			Connection conn = null;
   			PreparedStatement ps = null;
   			PreparedStatement ps2 = null;
@@ -84,6 +89,10 @@ public class AddStock extends HttpServlet {
   			ResultSet rs2=null;
   			HashSet<String> tickers =new HashSet<String>();
   			try {
+  				
+  				if(username.equals("fakeusername")) {
+  					conn = DriverManager.getConnection("exception trigger test");
+  				}
   				conn = DriverManager.getConnection("jdbc:sqlite:project.db");
   				ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
   				ps.setString(1, username);
@@ -100,7 +109,8 @@ public class AddStock extends HttpServlet {
   				}
   				
   			}catch(SQLException sqle) {
-  				System.out.println("sqle: "+sqle.getMessage());
+  				out.print("Exception thrown");
+  				//System.out.println("sqle: "+sqle.getMessage());
   			}
   			try {
   				if(rs!=null) {rs.close();}
@@ -108,6 +118,9 @@ public class AddStock extends HttpServlet {
   				if(ps!=null) {ps.close();}
   				if(ps2!=null) {ps2.close();}
   				if(conn!=null) {conn.close(); }
+  				if(username.equals("fakeusername")) {
+  					conn = DriverManager.getConnection("exception trigger test");
+  				}
   			}catch(SQLException sqle) {
   				System.out.println("sqle closing stuff: "+sqle.getMessage());
   			}
@@ -132,9 +145,10 @@ public class AddStock extends HttpServlet {
   		  		JSONObject obj = new JSONObject(result1);
   	  			double currentPrice = obj.getDouble("c");
   	  			System.out.println(ticker2 +" "+ currentPrice);
+  	  			out.print(ticker2 + " " + currentPrice);
   	  			updatedPrices.put(ticker2,currentPrice);
   			}
-  			PrintWriter out = response.getWriter();
+  			
   	        response.setContentType("application/json");
   	        response.setCharacterEncoding("UTF-8");
   	        out.print(updatedPrices);
