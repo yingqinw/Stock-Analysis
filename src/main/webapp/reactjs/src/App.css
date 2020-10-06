@@ -150,7 +150,7 @@ form input:focus::placeholder {
   background: white;
   display: flex;
   align-items: center;
-  height: 65vh;
+  height: 60vh;
   width: 400px;
   position: absolute;
   top: 20%;
@@ -172,4 +172,7 @@ form input:focus::placeholder {
   cursor: pointer;
   float: right;
   font-size: 25px;
+}
+.closeIcon:hover {
+  color: black;
 }
