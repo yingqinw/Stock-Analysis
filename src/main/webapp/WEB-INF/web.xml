@@ -16,6 +16,10 @@
   	<servlet-name>Register</servlet-name>
   	<servlet-class>csci310.servlets.Register</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AddStock</servlet-name>
+  	<servlet-class>csci310.servlets.AddStock</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>GreetingServlet</servlet-name>
   	<url-pattern>/greeting</url-pattern>
@@ -23,6 +27,10 @@
   	<servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/Login</url-pattern>
+  	</servlet-mapping>
+  	<servlet-mapping>
+  		<servlet-name>AddStock</servlet-name>
+  		<url-pattern>/AddStock</url-pattern>
   	</servlet-mapping>
   	<servlet-mapping>
   	<servlet-name>Register</servlet-name>
