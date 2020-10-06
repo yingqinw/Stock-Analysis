@@ -162,15 +162,53 @@ public class SQL {
 			System.out.println("sqle1: " + sqle.getMessage());
 		}
 		
-			try {
-				if (rs != null) { rs.close(); }
-				if (ps != null) { ps.close(); }
-				if (ps2 != null) {ps2.close(); }
-				if (conn != null) { conn.close(); }
-			} catch (SQLException sqle) {
-				System.out.println("sqle2: " + sqle.getMessage());
-			}
+		try {
+			if (rs != null) { rs.close(); }
+			if (ps != null) { ps.close(); }
+			if (ps2 != null) {ps2.close(); }
+			if (conn != null) { conn.close(); }
+		} catch (SQLException sqle) {
+			System.out.println("sqle2: " + sqle.getMessage());
+		}	
+	}
+	
+	//----------------------------------------------------------------------------------------
+	
+	public static void removeStock(String username, String ticker) {
+		CreateUserTable c = new CreateUserTable();
+		CreateStockTable c1 = new CreateStockTable();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs = null;
+		try {
+			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
+			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?"); 
+			ps.setString(1, username); 
+			rs = ps.executeQuery(); //gets the user
+
+			rs.next();
+
+			int userID = rs.getInt("userID");
+			ps2 = conn.prepareStatement("DELETE FROM stocks WHERE userID=? AND ticker=?");
+			ps2.setInt(1, userID);
+			ps2.setString(2, ticker);
+
+			//rs2 = ps2.executeQuery();
+			ps2.execute();
+
+		} catch (SQLException sqle) {
+			System.out.println("sqle1: " + sqle.getMessage());
+		}
 		
+		try {
+			if (rs != null) { rs.close(); }
+			if (ps != null) { ps.close(); }
+			if (ps2 != null) {ps2.close(); }
+			if (conn != null) { conn.close(); }
+		} catch (SQLException sqle) {
+			System.out.println("sqle2: " + sqle.getMessage());
+		}	
 		
 	}
 	
