@@ -118,7 +118,7 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-  useInterval(function(){fetchStockData('UpdatePrices')}, 8 * 1000);
+  useInterval(function(){fetchStockData('UpdatePrices')}, 30 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -191,11 +191,11 @@ export default function(props) {
                           return <tr key={i}>
                             <td>{stock.ticker}</td>
                             <td>{stock.price}</td>
-                            <td><i className="fa fa-times closeIcon" onClick={()=>{
+                            <td><div onClick={()=>{
                               setTicker(stock.ticker);
                               removeStocks(stock.ticker);
                               fetchStockData('RemoveStock');
-                            }}></i></td>
+                            }}>text</div></td>
                           </tr>
                         })
                       }
