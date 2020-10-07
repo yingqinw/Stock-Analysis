@@ -13,10 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import csci310.CreateStockTable;
+import csci310.CreateUserTable;
+import csci310.DropStockTable;
+import csci310.DropUserTable;
 import csci310.SQL;
+import io.cucumber.java.Before;
 
 public class AddStockTest extends Mockito{
-
+	@Before
+	public void dropBothTables() {
+		DropUserTable du = new DropUserTable();
+		DropStockTable ds = new DropStockTable();
+	}
+	public void initializeBothTables() {
+		CreateUserTable cu = new CreateUserTable();
+		CreateStockTable cs = new CreateStockTable();
+	}
+	
 	@Test
 	public void testDoGet() throws IOException {
 		SQL.register("hyunjae","Hj1234");

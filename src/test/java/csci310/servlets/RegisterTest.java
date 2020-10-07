@@ -11,10 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import csci310.CreateStockTable;
+import csci310.CreateUserTable;
+import csci310.DropStockTable;
+import csci310.DropUserTable;
 import csci310.SQL;
+import io.cucumber.java.Before;
 
 public class RegisterTest extends Mockito {
-
+	@Before
+	public void dropUserTable() {
+		DropUserTable du = new DropUserTable();
+	}
+	public void initializeUserTable() {
+		CreateUserTable cu = new CreateUserTable();
+	}
+		
 	@Test
 	public void testDoPost() throws Exception {
 	HttpServletRequest request = mock(HttpServletRequest.class);       
