@@ -24,11 +24,24 @@ const Wrapper = styled.div`
 
 var logoutinterval;
 
+const useLocalStorage = (defaultValue, key) => {
+  const [value, setValue] = React.useState(() => {
+    const stickyValue = window.localStorage.getItem(key);
+    return stickyValue !== null
+      ? JSON.parse(stickyValue)
+      : defaultValue;
+  });
+  React.useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+  return [value, setValue];
+}
+
 export default function() {
   const [alertText, setAlertText] = useState("");
   const [selectLogin, setSelectLogin] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useLocalStorage(false, "loggedIn");
+  const [username, setUsername] = useLocalStorage("", "username");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
@@ -36,15 +49,19 @@ export default function() {
   const [timer, setTimer] = useState(0);
   const [stocks, setStocks] = useState([]);
   
-  const fetchStockData = () => {
-    console.log('fetch from login')
-    fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
-      method: 'POST'
-    })
-    .then(response =>  response.json().then(data => {
-      console.log(data)
-      setStocks(jsonToArray(data));
-    }))
+  const fetchStockData = (execute = false) => {
+    if(loggedIn || execute) {
+      fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
+        method: 'POST'
+      })
+      .then(response =>  response.json().then(data => {
+        setStocks(jsonToArray(data));
+      }))
+    }
+  }
+
+  window.onload = function() {
+    fetchStockData();
   }
 
   useEffect(() => {
@@ -55,13 +72,12 @@ export default function() {
   }, [username]);
 
   useEffect(() => {
-	if(timer<0){
-	  setLoggedIn(false)
-	  clearInterval(logoutinterval)
-	  setTimer(5)
-	}
-	
-  }, [timer]);
+    if(timer<0){
+      setLoggedIn(false)
+      clearInterval(logoutinterval)
+      setTimer(5)
+    }
+  }, [timer, setLoggedIn]);
 
   const timerProgress = () => {
 	  setTimer(prevTimer => prevTimer - 1);
@@ -101,7 +117,7 @@ export default function() {
           setTimer(300);
 		      clearInterval(logoutinterval);
           logoutinterval = setInterval(timerProgress,1000);
-          fetchStockData();
+          fetchStockData(true);
         }
       }))
     }
