@@ -20,11 +20,9 @@ import io.cucumber.java.Before;
 
 public class UpdatePricesTest extends Mockito{
 	@Before
-	public void dropBothTables() {
+	public void clearBothTables() {
 		DropUserTable du = new DropUserTable();
 		DropStockTable ds = new DropStockTable();
-	}
-	public void initializeBothTables() {
 		CreateUserTable cu = new CreateUserTable();
 		CreateStockTable cs = new CreateStockTable();
 	}

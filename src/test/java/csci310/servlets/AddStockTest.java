@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -21,12 +22,10 @@ import csci310.SQL;
 import io.cucumber.java.Before;
 
 public class AddStockTest extends Mockito{
-	@Before
-	public void dropBothTables() {
+	@BeforeClass
+	public static void setup() {
 		DropUserTable du = new DropUserTable();
 		DropStockTable ds = new DropStockTable();
-	}
-	public void initializeBothTables() {
 		CreateUserTable cu = new CreateUserTable();
 		CreateStockTable cs = new CreateStockTable();
 	}

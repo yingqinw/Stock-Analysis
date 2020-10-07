@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -19,16 +20,15 @@ import csci310.SQL;
 import io.cucumber.java.Before;
 
 public class RegisterTest extends Mockito {
-	@Before
-	public void dropUserTable() {
+	@BeforeClass
+	public static void dropUserTable() {
 		DropUserTable du = new DropUserTable();
-	}
-	public void initializeUserTable() {
 		CreateUserTable cu = new CreateUserTable();
 	}
 		
 	@Test
 	public void testDoPost() throws Exception {
+		SQL.register("hyunjae","Hj1234");
 	HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
