@@ -18,9 +18,19 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import csci310.servlets.AddStock.AddStockError;
+import io.cucumber.java.Before;
 
 public class SQLTest {
-
+	@Before
+	public void dropBothTables() {
+		DropUserTable du = new DropUserTable();
+		DropStockTable ds = new DropStockTable();
+	}
+	public void initializeBothTables() {
+		CreateUserTable cu = new CreateUserTable();
+		CreateStockTable cs = new CreateStockTable();
+	}
+	
 	@Test
 	public void testUserExist() {
 		SQL s = new SQL();

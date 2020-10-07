@@ -12,8 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class UpdatePricesTest extends Mockito{
+import csci310.CreateStockTable;
+import csci310.CreateUserTable;
+import csci310.DropStockTable;
+import csci310.DropUserTable;
+import io.cucumber.java.Before;
 
+public class UpdatePricesTest extends Mockito{
+	@Before
+	public void clearBothTables() {
+		DropUserTable du = new DropUserTable();
+		DropStockTable ds = new DropStockTable();
+		CreateUserTable cu = new CreateUserTable();
+		CreateStockTable cs = new CreateStockTable();
+	}
+	
 	@Test
 	public void testDoPost() throws IOException {
 		HttpServletRequest request = mock(HttpServletRequest.class);       
