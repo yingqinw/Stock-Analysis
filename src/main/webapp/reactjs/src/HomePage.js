@@ -6,6 +6,21 @@ import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 import createActivityDetector from 'activity-detector';
 
+export const jsonToArray = (data) => {
+  let result = []
+  for (let key in data)
+  {
+    if (data.hasOwnProperty(key))
+    {
+      result.push({
+        ticker: key,
+        price: data[key]
+      })
+    }
+  }
+  return result;
+}
+
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -17,16 +32,13 @@ export default function(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAddStockForm, setShowAddStockForm] = useState(false);
-  const [stocks, setStocks] = useState([]);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
-		//console.log("check idle called")
 		const activityDetector = createActivityDetector(options)
 		activityDetector.on('idle', () => setIsIdle(true))
 		activityDetector.on('active', () => setIsIdle(false))
-		//console.log(isIdle)
 		if(!isIdle){
 			props.resetLogoutTimer()
 		}
@@ -53,7 +65,6 @@ export default function(props) {
   }
 
   const fetchStockData = (route) => {
-    console.log('fetched')
     if(props.loggedIn) {
       fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
@@ -65,7 +76,7 @@ export default function(props) {
           setAlertText(error);
         }
         else {
-          setStocks(jsonToArray(data));
+          props.setStocks(jsonToArray(data));
         }
       }))
     }
@@ -91,21 +102,6 @@ export default function(props) {
     }, [delay]);
   }
 
-  const jsonToArray = (data) => {
-    let result = []
-    for (let key in data)
-    {
-      if (data.hasOwnProperty(key))
-      {
-        result.push({
-          ticker: key,
-          price: data[key]
-        })
-      }
-    }
-    return result;
-  }
-
   useEffect(() => {
     setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
   }, [ticker]);
@@ -118,7 +114,7 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-  useInterval(function(){fetchStockData('UpdatePrices')}, 8 * 1000);
+  useInterval(function(){fetchStockData('UpdatePrices')}, 60 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -148,8 +144,8 @@ export default function(props) {
   }
   
   const removeStocks = (removed) => {
-    const newStocks = stocks.filter(stock => stock.ticker !== removed);
-    setStocks(newStocks)
+    const newStocks = props.stocks.filter(stock => stock.ticker !== removed);
+    props.setStocks(newStocks)
   }
   
   return (
@@ -182,20 +178,20 @@ export default function(props) {
                       <tr>
                         <th>Pairs</th>
                         <th>Last Price</th>
-                        <th>Remove</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {
-                        stocks.map((stock, i) => {
+                        props.stocks.map((stock, i) => {
                           return <tr key={i}>
                             <td>{stock.ticker}</td>
                             <td>{stock.price}</td>
-                            <td><i className="fa fa-times closeIcon" onClick={()=>{
+                            <td><div className="" onClick={()=>{
                               setTicker(stock.ticker);
                               removeStocks(stock.ticker);
                               fetchStockData('RemoveStock');
-                            }}></i></td>
+                            }}>Delete</div></td>
                           </tr>
                         })
                       }

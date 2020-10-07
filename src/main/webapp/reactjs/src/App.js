@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import {jsonToArray} from './HomePage';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -23,7 +23,6 @@ const Wrapper = styled.div`
 `;
 
 var logoutinterval;
-//var timersetup = false;
 
 export default function() {
   const [alertText, setAlertText] = useState("");
@@ -35,9 +34,19 @@ export default function() {
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [stocks, setStocks] = useState([]);
   
-  
-  
+  const fetchStockData = () => {
+    console.log('fetch from login')
+    fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
+      method: 'POST'
+    })
+    .then(response =>  response.json().then(data => {
+      console.log(data)
+      setStocks(jsonToArray(data));
+    }))
+  }
+
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
   }, [password]);
@@ -49,27 +58,18 @@ export default function() {
 	if(timer<0){
 	  setLoggedIn(false)
 	  clearInterval(logoutinterval)
-	  //console.log("stop interval")
 	  setTimer(5)
 	}
-	//console.log(timer)
 	
   }, [timer]);
 
   const timerProgress = () => {
-	  
 	  setTimer(prevTimer => prevTimer - 1);
-      //console.log(timer);
   }
   
   const resetLogoutTimer = () =>{
     setTimer(300);
-    //console.log("reset called");
   }
-
-  
-  
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,10 +99,9 @@ export default function() {
         else {
           setLoggedIn(true);
           setTimer(300);
-          //clearInterval(logoutinterval);
-		  //if(timersetup)
-		  clearInterval(logoutinterval);
+		      clearInterval(logoutinterval);
           logoutinterval = setInterval(timerProgress,1000);
+          fetchStockData();
         }
       }))
     }
@@ -118,6 +117,8 @@ export default function() {
               username={username}
               setLoggedIn={setLoggedIn}
               resetLogoutTimer={resetLogoutTimer}
+              stocks={stocks}
+              setStocks={setStocks}
             /> :
             <Wrapper>
               {selectLogin ? 

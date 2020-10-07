@@ -179,7 +179,7 @@ thead th {
   background: white;
   display: flex;
   align-items: center;
-  height: 60vh;
+  height: 70vh;
   width: 400px;
   position: absolute;
   top: 20%;
@@ -201,8 +201,6 @@ thead th {
   cursor: pointer;
   float: right;
   font-size: 25px;
-  margin-top: -36px;
-  margin-right: -36px;
 }
 .selectWrapper2{
   font-size: 21px;
