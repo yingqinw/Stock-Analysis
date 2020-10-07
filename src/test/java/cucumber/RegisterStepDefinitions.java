@@ -90,9 +90,10 @@ public class RegisterStepDefinitions {
 	
 	@Then("I should see the homepage differnt from signup page")
 	public void i_should_see_the_homepage_differnt_from_signup_page() {
-		By title = By.cssSelector("#root > div > div > div > button");
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/nav/a");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertTrue(driver.findElement(title).getText().contains("Sign out"));
+		assertEquals(driver.findElement(title).getText(), "STOCKANALYSIS");
 	}
 
 	@After()
