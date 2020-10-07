@@ -37,12 +37,10 @@ export default function() {
   const [stocks, setStocks] = useState([]);
   
   const fetchStockData = () => {
-    console.log('fetch from login')
     fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
       method: 'POST'
     })
     .then(response =>  response.json().then(data => {
-      console.log(data)
       setStocks(jsonToArray(data));
     }))
   }

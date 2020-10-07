@@ -64,9 +64,9 @@ export default function(props) {
     return month + '/' + day + '/' + year;
   }
 
-  const fetchStockData = (route) => {
+  const fetchStockData = (route, removedTicker = null) => {
     if(props.loggedIn) {
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
       .then(response =>  response.json().then(data => {
@@ -76,6 +76,9 @@ export default function(props) {
           setAlertText(error);
         }
         else {
+          if(route === 'AddStock') {
+            setShowAddStockForm(false);
+          }
           props.setStocks(jsonToArray(data));
         }
       }))
@@ -190,7 +193,7 @@ export default function(props) {
                             <td><div className="" onClick={()=>{
                               setTicker(stock.ticker);
                               removeStocks(stock.ticker);
-                              fetchStockData('RemoveStock');
+                              fetchStockData('RemoveStock', stock.ticker);
                             }}>Delete</div></td>
                           </tr>
                         })
