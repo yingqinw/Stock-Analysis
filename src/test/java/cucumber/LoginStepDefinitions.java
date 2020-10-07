@@ -81,9 +81,9 @@ public class LoginStepDefinitions {
 	@Then("I should see the homepage")
 	public void i_should_see_the_homepage() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.cssSelector("#root > div > div > div > button");
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/nav/a");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertTrue(driver.findElement(title).getText().contains("Sign out"));
+		assertEquals(driver.findElement(title).getText(), "STOCKANALYSIS");
 	}
 	@After()
 	public void after() {
