@@ -143,8 +143,6 @@ public class AddStock extends HttpServlet {
   		  		sc1.close();
   		  		JSONObject obj = new JSONObject(result1);
   	  			double currentPrice = obj.getDouble("c");
-  	  			System.out.println(ticker2 +" "+ currentPrice);
-  	  			out.print(ticker2 + " " + currentPrice);
   	  			updatedPrices.put(ticker2,currentPrice);
   			}
   			

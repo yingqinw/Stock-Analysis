@@ -91,7 +91,7 @@ public class RemoveStock extends HttpServlet  {
 	  		//System.out.println(result);
 	  		JSONObject obj = new JSONObject(result1);
   			double currentPrice = obj.getDouble("c");
-  			System.out.println(ticker2 +" "+ currentPrice);
+  			//System.out.println(ticker2 +" "+ currentPrice);
   			updatedPrices.put(ticker2,currentPrice);
 		}
 		PrintWriter out = response.getWriter();
