@@ -117,7 +117,7 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-  useInterval(function(){fetchStockData('UpdatePrices')}, 60 * 1000);
+  useInterval(function(){fetchStockData('UpdatePrices')}, 30 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
