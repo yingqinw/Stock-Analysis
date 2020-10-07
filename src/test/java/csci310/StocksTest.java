@@ -4,8 +4,19 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class StocksTest {
+import io.cucumber.java.Before;
 
+public class StocksTest {
+	@Before
+	public void dropBothTables() {
+		DropUserTable du = new DropUserTable();
+		DropStockTable ds = new DropStockTable();
+	}
+	public void initializeBothTables() {
+		CreateUserTable cu = new CreateUserTable();
+		CreateStockTable cs = new CreateStockTable();
+	}
+	
 	@Test
 	public void testStocks() {
 		Stocks s = new Stocks(1,"apple","1999/01/01","2020/01/01");
