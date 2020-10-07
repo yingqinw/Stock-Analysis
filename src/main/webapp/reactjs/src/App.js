@@ -7,6 +7,7 @@ import SignupForm from './SignupForm';
 import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
   width: 400px;
@@ -21,6 +22,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
+var logoutinterval;
+//var timersetup = false;
+
 export default function() {
   const [alertText, setAlertText] = useState("");
   const [selectLogin, setSelectLogin] = useState(true);
@@ -32,6 +36,8 @@ export default function() {
   const [validUserName, setValidUserName] = useState(false);
   const [timer, setTimer] = useState(0);
   
+  
+  
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
   }, [password]);
@@ -41,20 +47,29 @@ export default function() {
 
   useEffect(() => {
 	if(timer<0){
-	  setLoggedIn(false);
+	  setLoggedIn(false)
+	  clearInterval(logoutinterval)
+	  //console.log("stop interval")
+	  setTimer(5)
 	}
+	//console.log(timer)
 	
   }, [timer]);
 
   const timerProgress = () => {
+	  
 	  setTimer(prevTimer => prevTimer - 1);
+      //console.log(timer);
   }
   
   const resetLogoutTimer = () =>{
     setTimer(300);
-    console.log("reset called");
+    //console.log("reset called");
   }
 
+  
+  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +99,10 @@ export default function() {
         else {
           setLoggedIn(true);
           setTimer(300);
-          setInterval(timerProgress,1000);
+          //clearInterval(logoutinterval);
+		  //if(timersetup)
+		  clearInterval(logoutinterval);
+          logoutinterval = setInterval(timerProgress,1000);
         }
       }))
     }
