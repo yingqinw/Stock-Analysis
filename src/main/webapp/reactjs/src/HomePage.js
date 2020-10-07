@@ -4,6 +4,7 @@ import AddStockForm from './AddStockForm';
 import {useEffect, useState, useRef} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
+import createActivityDetector from 'activity-detector';
 
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
@@ -18,6 +19,24 @@ export default function(props) {
   const [showAddStockForm, setShowAddStockForm] = useState(false);
   const [stocks, setStocks] = useState([]);
   
+  function useIdle(options){
+	const [isIdle, setIsIdle] = React.useState(false)
+	React.useEffect( () => {
+		//console.log("check idle called")
+		const activityDetector = createActivityDetector(options)
+		activityDetector.on('idle', () => setIsIdle(true))
+		activityDetector.on('active', () => setIsIdle(false))
+		//console.log(isIdle)
+		if(!isIdle){
+			props.resetLogoutTimer()
+		}
+		return () => activityDetector.stop()
+	})
+  }
+  
+
+  useIdle({timeToIdle: 1000})
+
   const dateConverter = (date) => {
     const dateArr = date.split('-');
     return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
