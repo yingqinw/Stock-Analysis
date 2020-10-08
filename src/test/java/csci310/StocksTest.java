@@ -11,11 +11,10 @@ public class StocksTest {
 	public void dropBothTables() {
 		DropUserTable du = new DropUserTable();
 		DropStockTable ds = new DropStockTable();
-	}
-	public void initializeBothTables() {
 		CreateUserTable cu = new CreateUserTable();
 		CreateStockTable cs = new CreateStockTable();
 	}
+	
 	
 	@Test
 	public void testStocks() {

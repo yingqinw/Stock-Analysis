@@ -23,10 +23,9 @@ public class LoginTest extends Mockito {
 	@Before
 	public void dropUserTable() {
 		DropUserTable du = new DropUserTable();
-	}
-	public void initializeUserTable() {
 		CreateUserTable cu = new CreateUserTable();
 	}
+	
 	
 	@Test
 	public void testDoPost() throws Exception {
