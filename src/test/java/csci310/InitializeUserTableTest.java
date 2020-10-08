@@ -10,8 +10,6 @@ public class InitializeUserTableTest {
 	@Before
 	public void dropUserTable() {
 		DropUserTable du = new DropUserTable();
-	}
-	public void initializeUserTable() {
 		CreateUserTable cu = new CreateUserTable();
 	}
 	
