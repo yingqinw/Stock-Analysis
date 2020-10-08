@@ -91,7 +91,7 @@ public class UpdatePrices extends HttpServlet{
 	  		//System.out.println(result);
 	  		JSONObject obj = new JSONObject(result);
   			double currentPrice = obj.getDouble("c");
-  			System.out.println(ticker +" "+ currentPrice);
+  			//System.out.println(ticker +" "+ currentPrice);
   			updatedPrices.put(ticker,currentPrice);
 		}
 		PrintWriter out = response.getWriter();
