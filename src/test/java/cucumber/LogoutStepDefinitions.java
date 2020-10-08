@@ -45,7 +45,7 @@ public class LogoutStepDefinitions {
 	@When("I click the logout button")
 	public void i_click_the_logout_button() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/nav/a")).click();
+		driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).click();
 	}
 	@Then("I should see the login page")
 	public void i_should_see_the_login_page() {
