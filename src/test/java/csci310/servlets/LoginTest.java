@@ -21,7 +21,7 @@ import io.cucumber.java.Before;
 
 public class LoginTest extends Mockito {
 	@Before
-	public void dropUserTable() {
+	public void resetUserTable() {
 		DropUserTable du = new DropUserTable();
 		CreateUserTable cu = new CreateUserTable();
 	}
