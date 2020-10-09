@@ -4,8 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class InitializeUserTableTest {
+import io.cucumber.java.Before;
 
+public class InitializeUserTableTest {
+	@Before
+	public void dropUserTable() {
+		DropUserTable du = new DropUserTable();
+		CreateUserTable cu = new CreateUserTable();
+	}
+	
 	@Test
 	public void testInitializeUserTable() {
 		

@@ -88,16 +88,12 @@ public class RegisterStepDefinitions {
 	    assertTrue(alert.getText().contains(string));
 	}
 	
-	@When("I typed in {string} in the Email field in registration form")
-	public void i_typed_in_in_the_Email_field_in_registration_form(String string) {
-		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[4]")).sendKeys(string);
-	}
-	
 	@Then("I should see the homepage differnt from signup page")
 	public void i_should_see_the_homepage_differnt_from_signup_page() {
-		By title = By.cssSelector("#root > div > div > div > button");
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/nav/a");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertTrue(driver.findElement(title).getText().contains("Sign out"));
+		assertEquals(driver.findElement(title).getText(), "STOCKANALYSIS");
 	}
 
 	@After()

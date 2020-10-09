@@ -17,7 +17,7 @@ public class CreateUserTable {
         //System.out.println("Table created");
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS users (\n"
-                + "	id integer PRIMARY KEY,\n"
+                + "	userID integer PRIMARY KEY,\n"
                 + "	username text NOT NULL,\n"
                 + "	password text NOT NULL\n"
                 + ");";
@@ -27,7 +27,9 @@ public class CreateUserTable {
         	Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();
             stmt.execute(sql);
+            //Connection conntest = DriverManager.getConnection("exception trigger test");
         } catch (SQLException e) {
+        	//System.out.println("exception reached");
             //System.out.println(e.getMessage());
         }
     }

@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import HomePage from './HomePage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {jsonToArray} from './HomePage';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -20,27 +22,70 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
+var logoutinterval;
+
+const useLocalStorage = (defaultValue, key) => {
+  const [value, setValue] = React.useState(() => {
+    const stickyValue = window.localStorage.getItem(key);
+    return stickyValue !== null
+      ? JSON.parse(stickyValue)
+      : defaultValue;
+  });
+  React.useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+  return [value, setValue];
+}
+
 export default function() {
   const [alertText, setAlertText] = useState("");
   const [selectLogin, setSelectLogin] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useLocalStorage(false, "loggedIn");
+  const [username, setUsername] = useLocalStorage("", "username");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validPass, setValidPass] = useState(false);
   const [validUserName, setValidUserName] = useState(false);
-  const [validEmail, setValidEmail] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [stocks, setStocks] = useState([]);
   
+  const fetchStockData = (execute = false) => {
+    if(loggedIn || execute) {
+      fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
+        method: 'POST'
+      })
+      .then(response =>  response.json().then(data => {
+        setStocks(jsonToArray(data));
+      }))
+    }
+  }
+
+  window.onload = function() {
+    fetchStockData();
+  }
+
   useEffect(() => {
     setValidPass(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{1,20}$/.test(password));
   }, [password]);
   useEffect(() => {
     setValidUserName(/^[0-9a-zA-Z_.-]+$/.test(username) && username.length >= 5);
   }, [username]);
+
   useEffect(() => {
-    setValidEmail(/\S+@\S+\.\S+/.test(email) && email.length !== 0);
-  }, [email]);
+    if(timer<0){
+      setLoggedIn(false)
+      clearInterval(logoutinterval)
+      setTimer(5)
+    }
+  }, [timer, setLoggedIn]);
+
+  const timerProgress = () => {
+	  setTimer(prevTimer => prevTimer - 1);
+  }
+  
+  const resetLogoutTimer = () =>{
+    setTimer(300);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,16 +96,13 @@ export default function() {
     if(!validPass) {
       alertMessage.push("Password should contain uppercase, lowercase and numeric character.\n");
     }
-    if(!validEmail && !selectLogin) {
-      alertMessage.push("Email address is not valid. ");
-    }
     if(alertMessage.length !== 0) {
       alertMessage.join('\n');
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
       const route = selectLogin ? 'Login' : 'Register';
-      fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&email=${email}&confirmPassword=${confirmPassword}`, {
+      fetch(`http://localhost:8080/${route}?username=${username}&password=${password}&confirmPassword=${confirmPassword}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
@@ -72,6 +114,10 @@ export default function() {
         }
         else {
           setLoggedIn(true);
+          setTimer(300);
+		      clearInterval(logoutinterval);
+          logoutinterval = setInterval(timerProgress,1000);
+          fetchStockData(true);
         }
       }))
     }
@@ -82,7 +128,14 @@ export default function() {
       <div className="App-header">
         {
           loggedIn ? 
-            <HomePage /> :
+            <HomePage 
+              loggedIn={loggedIn}
+              username={username}
+              setLoggedIn={setLoggedIn}
+              resetLogoutTimer={resetLogoutTimer}
+              stocks={stocks}
+              setStocks={setStocks}
+            /> :
             <Wrapper>
               {selectLogin ? 
               <LoginForm 
@@ -100,11 +153,9 @@ export default function() {
                 setSelectLogin={setSelectLogin}
                 setUsername={setUsername}
                 setPassword={setPassword}
-                setEmail={setEmail}
                 setConfirmPassword={setConfirmPassword}
                 validUserName={validUserName}
                 validPass={validPass}
-                validEmail={validEmail}
                 password={password}
                 handleSubmit={handleSubmit}
                 alertText = {alertText}

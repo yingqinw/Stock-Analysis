@@ -16,6 +16,23 @@ export const Title = styled.div`
   transition: color .2s, border-bottom .2s;
 `;
 
+export const FormTitle = styled.div`
+  margin: 0 -4px 0 0;
+  height: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8em;
+  border-bottom: 5px solid #e2e2e2;
+  transition: color .2s, border-bottom .2s;
+  display: inline-block;
+  transition: color .2s, border-bottom .2s;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 60px);
+`;
+
 export const SelectedTitle = styled(Title)`
   color: #3e3e3e;
   border-bottom: 5px solid #3e3e3e;
