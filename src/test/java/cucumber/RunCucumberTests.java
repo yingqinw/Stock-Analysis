@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(strict = true)
+//@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/removeStock.feature"})
 public class RunCucumberTests {
 
 	@BeforeClass

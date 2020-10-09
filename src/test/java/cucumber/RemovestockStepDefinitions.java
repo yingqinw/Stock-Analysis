@@ -1,8 +1,12 @@
 package cucumber;
 
+import static org.junit.Assert.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import csci310.CreateUserTable;
 import csci310.DropUserTable;
@@ -17,13 +21,9 @@ public class RemovestockStepDefinitions {
 	private static final String ROOT_URL = "http://localhost:3000/";
 	private final WebDriver driver = new ChromeDriver();
 
-	@Before()
-	public void before() {
-		new DropUserTable();
-	}
-	
-	@Given("in mainpage and logged in")
-	public void in_mainpage_and_logged_in() {
+	@Given("in mainpage, logged in and added a stock")
+	public void in_mainpage_logged_in_and_added_a_stock() {
+		//in_mainpage_and_in_add_pop_up_window
 		new DropUserTable();
 		new CreateUserTable();
 		new InitializeUserTable();
@@ -31,67 +31,34 @@ public class RemovestockStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys("trojan");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
-	}
+	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
 	
-	@When("I click delete bottom")
-	public void i_click_delete_bottom() {
-	    // Write code here that turns the phrase above into concrete actions
-		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
-		throw new io.cucumber.java.PendingException();
+	    //I fill in a correct ticker, purchase date, and quantity
+	    driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AAPL");
+	    driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[2]")).sendKeys("11");
+	    driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[3]")).sendKeys("11102019");
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/button")).click();
 	}
 
-	@Then("I get the pop up window to delete stock")
-	public void i_get_the_pop_up_window_to_delete_stock() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@When("click Delete Bottom")
+	public void click_Delete_Bottom() {
+		//click delete bottom
+		driver.findElement(By.xpath("*[@id=\"BTC\"]/table/tbody/tr/td[3]/div")).click();
 	}
 
-	@Given("in mainpage and in delete pop up window")
-	public void in_mainpage_and_in_delete_pop_up_window() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("I can’t successfully delete stock")
-	public void i_can_t_successfully_delete_stock() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("in mainpage and in delete pop up window2")
-	public void in_mainpage_and_in_delete_pop_up_window2() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("I can’t successfully delete stock2")
-	public void i_can_t_successfully_delete_stock2() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("in mainpage and in delete pop up window3")
-	public void in_mainpage_and_in_delete_pop_up_window3() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("I can’t successfully delete stock3")
-	public void i_can_t_successfully_delete_stock3() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("in mainpage and in delete pop up window4")
-	public void in_mainpage_and_in_delete_pop_up_window4() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("I can’t successfully delete stock4")
-	public void i_can_t_successfully_delete_stock4() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	@Then("the stock remove from the list")
+	public void the_stock_remove_from_the_list() {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.xpath("*[@id=\"BTC\"]/table/tbody/tr/td[3]/div");
+		try {
+			driver.findElement(By.xpath("*[@id=\"BTC\"]/table/tbody/tr/td[3]/div"));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		}catch(Exception e) {
+			System.out.println("in exception");
+			assert(true);
+		}
+		System.out.println("out of exception");
+		assertEquals(driver.findElement(title).getText(), null);
 	}
 	
 	@After()
