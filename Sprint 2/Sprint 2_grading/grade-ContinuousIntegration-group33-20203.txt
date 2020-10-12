@@ -1,0 +1,6 @@
+Best Practice ContinuousIntegration Report
+Owner: group33-20203
+Grade: 10/10
+Comments: 
+Total successful commits: 35
+Total failing commits: 0
