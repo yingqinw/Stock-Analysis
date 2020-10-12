@@ -9,13 +9,13 @@
 |                          |                       | Scrum 4:                                         |
 |                          |                       | Scrum 5:Great work!                              |
 | Retrospective            | 6/6                   | Good retrospective.                              |
-| TDD                      | 6.0/10                |                                                  |
+| TDD                      | 6/10                  |                                                  |
 | Sustainable Pace         | 9/10                  |                                                  |
 | GitFlow                  | 0/10                  |                                                  |
 | Continuous Integration   | 8/10                  |                                                  |
-| Refactor                 | 10.0/10               |                                                  |
-| Coverage                 | 6.2/10                |                                                  |
+| Refactor                 | 10/10                 |                                                  |
+| Coverage                 | 9.8/10                |                                                  |
 | ------------------------ | -------------------   |                                                  |
-| Total                    | 72.36666666666667     |                                                  |
+| Total                    | 75.96666666666667     |                                                  |
 | ------------------------ | -------------------   |                                                  |
 | Implementation Score     | 8.0/250               |                                                  |
