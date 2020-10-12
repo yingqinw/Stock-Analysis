@@ -1,0 +1,10 @@
+Best Practice GitFlow Report
+Owner: group33-20203
+Grade: 8.5/10
+Comments: 
+
+	Pull did not follow base/head branch rules (-1) [develop<-refractor-homepagelogoutbutton]: https://github.com/CSCI310/project-20203-group33-20203/pull/65
+
+	Pull did not follow base/head branch rules (-1) [feature-alertField<-refactor-alert-fields]: https://github.com/CSCI310/project-20203-group33-20203/pull/7
+
+	Pull did not follow base/head branch rules (-1) [feature-login<-refactor-createanddropusertabletest]: https://github.com/CSCI310/project-20203-group33-20203/pull/23
