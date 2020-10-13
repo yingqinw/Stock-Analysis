@@ -1,0 +1,12 @@
+Sprint Backlog
+For the frontend and backend, Sprint 3 we will aim to implement feature #3 (Track and visualize changes in value over time of user’s portfolio) and #4 (View and compare the historical performance of a stock)
+
+Reason:
+We decide to finish the visualization of changes in stock values in a graphic chart and draw the user portfolio values in the same chart. When a user adds a stock with the add ticker for display button, the added stock price graph will display on the chart. If the user removes a stock with the remove ticker for display, that stock value line will be removed from the chart. The reason why we want to do the visualization #3 and #4 is because we finished adding and removing stock from the database from the last sprint. And we only need to visualize those values fetched from the backend to the front end. And we would also make it responsive to the browser layout from either desktop or mobile.
+
+Participants
+Yingqin Wang
+Han Gu
+Tongyu Zhu
+Hyunjea Cho
+Zongye Cen

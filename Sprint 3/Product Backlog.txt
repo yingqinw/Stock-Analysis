@@ -1,0 +1,12 @@
+Product Backlog
+1. Prediction of future values of the portfolio
+2. Ability to add or remove stocks from the portfolio (Done)
+3. Track and visualize changes in value over time of user’s portfolio (Sprint3 Goal)
+4. View and compare the historical performance of a stock (Sprint3 Goal)
+5. Works on the Chrome web browser and mobile devices
+6. The application must be secure and protect confidentiality of users’ data. (Done)
+7. Users must be able to create an account in the system (Done)
+8. User interfaces must look modern and be attractive. (Done)
+9. Must be implemented as a client-server based web application 
+10. Write more specific acceptance tests for every single feature (Sprint3 Goal)
+11. Minor UI adjustments: specific color of the banner, texts of the banner and column name (Sprint3 Goal)
