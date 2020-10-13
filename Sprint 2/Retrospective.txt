@@ -1,0 +1,27 @@
+Retrospective
+Participants: Hyunjae Cho, Han Gu, Yingqin Wang, Zongye Cen, Tongyu Zhu
+
+Questions
+What process aspects will be changed? Why? 
+Do each scrum meeting every two days so that there is less pressure for team workload
+Redistribute the work assignment and dedicate more hours to front end 
+Make sure we all answer 3 questions during the scrum meeting
+Make sure to review the gitflow best practices before committing
+Break down the feature list into more specific tasks in sprint backlog
+Remember to write comments for each refractor branch and issue
+
+What tasks will be added to the product backlog as a result of review feedback? 
+Write more specific acceptance tests for every single feature 
+Minor UI adjustments: color of the banner, texts of the banner and column name
+
+Sprint #2 Feedback
+
+Things to fix:
+1. need all possible inputs including in the acceptance test for login. eg login shows the login forms, clicking bottom to send to a page, check the text on the bottom being "Create User"
+2. change the home page banner to color gray (#787878) with text "USC CS310 Stock Portfolio Management" 
+3. Change “pairs” on the left stock column to “tickers”
+
+Other Requirements:
+1. Portfolio value and stock are on the same graph and nothing needed to done to make the chart easy to read
+2. Stock not in the portfolio can be added to the graph
+3. Mobile Device UI test: everything that changes need to be tested (via pixel size)
