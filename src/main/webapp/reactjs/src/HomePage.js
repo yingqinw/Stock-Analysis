@@ -239,7 +239,7 @@ export default function(props) {
 
     {showDeleteStockForm ? 
       <div className="addFormBackground">
-        <div className="addFormWrapper px-3">
+        <div className="deleteFormWrapper px-3">
           <DeleteStockForm
             setShowDeleteStockForm={setShowDeleteStockForm}
             alertText = {alertText}

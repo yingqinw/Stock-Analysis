@@ -19,25 +19,6 @@ export default function(props) {
           }}
             style={{borderColor: props.validTicker ? 'green':'red'}}  
           />
-          <input type="text" placeholder="Quantity" onChange={(e) => {
-            props.setQuantity(e.target.value);
-          }}
-            style={{borderColor: props.validQuantity ? 'green':'red'}} 
-          />
-          <h4>Start Date</h4>
-          <input type="date" placeholder="start date"
-            onChange={(e) => {
-              props.setStartDate(e.target.value);
-            }}
-            style={{borderColor: props.validStart? 'green':'red'}} 
-          />
-          <h4>End Date (optional)</h4>
-          <input type="date" placeholder="end date"
-            onChange={(e) => {
-              props.setEndDate(e.target.value);
-            }}
-            style={{borderColor: props.validEnd? 'green':'red'}} 
-          />
         </div>
         <Button onClick={()=>{props.resetLogoutTimer()}}>
           remove stock
