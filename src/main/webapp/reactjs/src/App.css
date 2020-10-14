@@ -72,6 +72,10 @@ form input:focus::placeholder {
   overflow: 'auto'
 }
 
+.navbar{
+  background-color:#787878;
+}
+
 .nav_brand {
   letter-spacing: 0.1em;
   font-weight: 600;
