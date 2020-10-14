@@ -190,6 +190,12 @@ export default function(props) {
           </div>
           <div className="col-md-9">
             <StockGraph />
+            <Button onClick={()=>{
+                setShowAddStockForm(true)
+            }}>Add Stock To Graph</Button>
+            <Button onClick={()=>{
+              setShowDeleteConfirmForm(true);
+            }}>Remove Stock From Graph</Button>
           </div>
         </div>
       </div>
