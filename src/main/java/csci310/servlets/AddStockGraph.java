@@ -70,7 +70,7 @@ public class AddStockGraph extends HttpServlet {
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
   		System.out.println(result);
-  		if(result.contains(":0}")) {
+  		if(result.contains("{\"s\":\"no_data\"}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
   	        response.setContentType("application/json");
   	        response.setCharacterEncoding("UTF-8");
