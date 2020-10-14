@@ -5,19 +5,20 @@ import {FormWrapper, Button} from './Modals';
 
 export default function(props) {
   return (
-    <form id="addStock-form" onSubmit={props.handleSubmit}>
-      <div className="selectWrapper2">
-        <p className ="deleteConTitle"> Are you sure?</p>
-        
-      </div>
+    <form id="addStock-form" onSubmit={(e)=>{e.preventDefault()}}>
       <FormWrapper>
-        <Button onClick={()=>{
-          props.setConfirmMsg(true);
-          props.resetLogoutTimer()}}>
+        <div className="selectWrapper2">
+          <p className ="deleteConTitle"> Do you want to delete ticker {props.ticker} ?</p>
+        </div>
+        <Button onClick={()=>{          
+          props.resetLogoutTimer()
+          props.removeStocks(props.ticker);
+          props.fetchStockData('RemoveStock', props.ticker);
+        }}>
           Yes
         </Button>
         <Button onClick={()=>{
-          props.setConfirmMsg(false);
+          props.setShowDeleteConfirmForm(false);
           props.resetLogoutTimer()}}>
           No
         </Button>
