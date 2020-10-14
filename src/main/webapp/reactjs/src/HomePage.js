@@ -196,7 +196,7 @@ export default function(props) {
                             <td>{stock.price}</td>
                             <td><div className="" onClick={()=>{
                               setShowDeleteConfirmForm(true)
-                              if(confirmMsg=== false  ){
+                              if(confirmMsg=== true){
                                 setTicker(stock.ticker);
                                 removeStocks(stock.ticker);
                                 fetchStockData('RemoveStock', stock.ticker);
