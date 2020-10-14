@@ -30,7 +30,7 @@ export const FormTitle = styled.div`
   text-align: center;
   position: absolute;
   top: 0;
-  left: calc(50% - 60px);
+  left: ${props => `calc(50% - ${props.width ?? 60}px)`};
 `;
 
 export const SelectedTitle = styled(Title)`

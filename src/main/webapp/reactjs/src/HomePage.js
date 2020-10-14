@@ -3,6 +3,7 @@ import './App.css';
 import AddStockForm from './AddStockForm';
 import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
+import DeleteStockForm from './DeleteStockForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
@@ -35,6 +36,7 @@ export default function(props) {
   const [endDate, setEndDate] = useState("");
   const [showAddStockForm, setShowAddStockForm] = useState(false);
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
+  const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -190,6 +192,14 @@ export default function(props) {
           </div>
           <div className="col-md-9">
             <StockGraph />
+            <Button onClick={()=>{
+                props.resetLogoutTimer();
+                setShowAddStockForm(true);
+            }}>Add Stock To Graph</Button>
+            <Button onClick={()=>{
+              props.resetLogoutTimer();
+              setShowDeleteStockForm(true);
+            }}>Remove Stock From Graph</Button>
           </div>
         </div>
       </div>
@@ -226,6 +236,19 @@ export default function(props) {
           />
         </div>
       </div> : <></>}  
+
+    {showDeleteStockForm ? 
+      <div className="addFormBackground">
+        <div className="deleteFormWrapper px-3">
+          <DeleteStockForm
+            setShowDeleteStockForm={setShowDeleteStockForm}
+            alertText = {alertText}
+            setAlertText={setAlertText}
+          />
+        </div>
+      </div> : <></>}  
+
+      
     </div>
   );
 }
