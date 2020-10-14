@@ -193,6 +193,22 @@ thead th {
   box-shadow: -12px 12px 0;
   padding: 80px 0 10px 0;
 }
+
+.deleteFormWrapper {
+  background: white;
+  display: flex;
+  align-items: center;
+  height: 30vh;
+  width: 450px;
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 200px);
+  border: 1px solid #e0e3eb;
+  border-radius: 2px;
+  box-shadow: -12px 12px 0;
+  padding: 80px 0 10px 0;
+}
+
 .addFormBackground {
   background-color: rgba(224, 227, 235, 0.5);
   position: fixed;

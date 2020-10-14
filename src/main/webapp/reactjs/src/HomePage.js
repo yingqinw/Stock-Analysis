@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
 import StockGraph from './StockGraph';
-import {useEffect, useState, useRef} from 'react';
+import DeleteConfirmForm from './DeleteConfirmForm';
+import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 import createActivityDetector from 'activity-detector';
@@ -33,6 +34,7 @@ export default function(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAddStockForm, setShowAddStockForm] = useState(false);
+  const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -80,30 +82,13 @@ export default function(props) {
           if(route === 'AddStock') {
             setShowAddStockForm(false);
           }
+          if(route === 'RemoveStock') {
+            setShowDeleteConfirmForm(false);
+          }
           props.setStocks(jsonToArray(data));
         }
       }))
     }
-  }
-
-  const useInterval = (callback, delay) => {
-    const savedCallback = useRef();
-  
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-  
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
   }
 
   useEffect(() => {
@@ -118,7 +103,6 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-  useInterval(function(){fetchStockData('UpdatePrices')}, 30 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -180,7 +164,7 @@ export default function(props) {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Pairs</th>
+                        <th>Tickers</th>
                         <th>Last Price</th>
                         <th>Action</th>
                       </tr>
@@ -193,8 +177,7 @@ export default function(props) {
                             <td>{stock.price}</td>
                             <td><div className="" onClick={()=>{
                               setTicker(stock.ticker);
-                              removeStocks(stock.ticker);
-                              fetchStockData('RemoveStock', stock.ticker);
+                              setShowDeleteConfirmForm(true);
                             }}>Delete</div></td>
                           </tr>
                         })
@@ -211,26 +194,38 @@ export default function(props) {
         </div>
       </div>
 	  {showAddStockForm ? 
-    <div className="addFormBackground">
-      <div className = "addFormWrapper px-3">
-        <AddStockForm
-          resetLogoutTimer={props.resetLogoutTimer}
-          handleSubmit={handleSubmit}
-          setTicker={setTicker}
-          setQuantity={setQuantity}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-          alertText = {alertText}
-          setAlertText={setAlertText}
-          validTicker={validTicker}
-          validStart={validStart}
-          validQuantity={validQuantity}
-          validEnd={validEnd}
-          setShowAddStockForm={setShowAddStockForm}
-        />
-    </div>
+      <div className="addFormBackground">
+        <div className="addFormWrapper px-3">
+          <AddStockForm
+            resetLogoutTimer={props.resetLogoutTimer}
+            handleSubmit={handleSubmit}
+            setTicker={setTicker}
+            setQuantity={setQuantity}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            alertText = {alertText}
+            setAlertText={setAlertText}
+            validTicker={validTicker}
+            validStart={validStart}
+            validQuantity={validQuantity}
+            validEnd={validEnd}
+            setShowAddStockForm={setShowAddStockForm}
+          />
+        </div>
       </div> : <></>}
+
+    {showDeleteConfirmForm ? 
+      <div className="addFormBackground">
+        <div className="deleteFormWrapper px-3">
+          <DeleteConfirmForm
+            ticker={ticker}
+            removeStocks={removeStocks}
+            fetchStockData={fetchStockData}
+            resetLogoutTimer={props.resetLogoutTimer}
+            setShowDeleteConfirmForm={setShowDeleteConfirmForm}
+          />
+        </div>
+      </div> : <></>}  
     </div>
-	
   );
 }
