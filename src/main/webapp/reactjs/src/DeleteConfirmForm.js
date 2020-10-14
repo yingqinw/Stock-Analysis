@@ -10,14 +10,14 @@ export default function(props) {
         <div className="selectWrapper2">
           <p className ="deleteConTitle"> Do you want to delete ticker {props.ticker} ?</p>
         </div>
-        <Button onClick={()=>{          
+        <Button style={{margin:20 }} onClick={()=>{          
           props.resetLogoutTimer()
           props.removeStocks(props.ticker);
           props.fetchStockData('RemoveStock', props.ticker);
         }}>
           Yes
         </Button>
-        <Button onClick={()=>{
+        <Button style={{margin:20 }} onClick={()=>{
           props.setShowDeleteConfirmForm(false);
           props.resetLogoutTimer()}}>
           No
