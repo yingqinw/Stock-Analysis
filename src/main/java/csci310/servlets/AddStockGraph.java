@@ -15,22 +15,32 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 @WebServlet("/AddStockGraph")
 public class AddStockGraph extends HttpServlet {
+	
+	public class AddStockError{
+		private String AddStockerr = "";
+		public AddStockError(String errmesg) {
+			AddStockerr = errmesg;
+		}
+	}
+	
+	private Gson gson = new Gson();
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String ticker = "AAPL";
+		String ticker = request.getParameter("ticker_graph");
 		String APIKey = "btjeu1f48v6tfmo5erv0";
-        String startDate = "09/11/2020";
-        String endDate = "09/21/2020";
+        String startDate = request.getParameter("startdate_graph");
+        String endDate = request.getParameter("enddate_graph");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+        response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
         
         PrintWriter out = response.getWriter();
-        //response.setContentType("application/json");
-        //response.setCharacterEncoding("UTF-8");
-        //out.print(this.gson.toJson(success));
-        //out.flush();  
         
-		//time ASSUMING THE TIME IN A DAY IS 5
         long startDateEpoch = 0;
         long endDateEpoch = 0;
         try {
@@ -50,9 +60,9 @@ public class AddStockGraph extends HttpServlet {
   		con.setRequestMethod("GET");
   		con.connect();
 		
-		int respondCode = con.getResponseCode(); 
+		//int respondCode = con.getResponseCode(); 
 		//if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
-		System.out.println("respond code: " + respondCode);
+		//System.out.println("respond code: " + respondCode);
 
   		//read json
   		Scanner sc = new Scanner(url.openStream());
@@ -60,21 +70,34 @@ public class AddStockGraph extends HttpServlet {
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
   		System.out.println(result);
+  		if(result.contains(":0}")) {
+  			AddStockError ase = new AddStockError("Invalid ticker!");
+  	        response.setContentType("application/json");
+  	        response.setCharacterEncoding("UTF-8");
+  	        out.print(this.gson.toJson(ase));
+  	        out.flush(); 
+  	        return;
+  		}
   		
 		//parse json
 		JSONObject obj = new JSONObject(result);
 		JSONArray c = obj.getJSONArray("c");
 		JSONArray t = obj.getJSONArray("t");
 		int length = c.length();
-		Double[] closingPrice = new Double[length];
 		String[] time = new String[length];
+		JSONArray price = new JSONArray();
+		JSONArray date = new JSONArray();
 		for(int i=0; i<length; i++) {
-			closingPrice[i] = c.getDouble(i);
+			price.put(c.getDouble(i));
 			long timeEpoch = t.getLong(i);
-			time[i] = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (timeEpoch*1000));
-			System.out.println("Closing Price: " + closingPrice[i] + " time: " + time[i]);
-			out.print("Closing Price: " + closingPrice[i] + " time: " + time[i]);
+			time[i] = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (timeEpoch*1000));
+			date.put(time[i]);
 		}
+		response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(price);
+        out.print(date);
+        out.flush();
 	}
 
 }

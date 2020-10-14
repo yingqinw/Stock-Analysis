@@ -24,7 +24,7 @@ public class DataServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String ticker = "AAPL";
 		String APIKey = "btjeu1f48v6tfmo5erv0";
-        String startDate = "09/11/2020";
+        String startDate = "06/11/2020";
         String endDate = "09/21/2020";
         
         PrintWriter out = response.getWriter();
@@ -71,12 +71,22 @@ public class DataServlet extends HttpServlet {
 		int length = c.length();
 		Double[] closingPrice = new Double[length];
 		String[] time = new String[length];
+		JSONArray price = new JSONArray();
+		JSONArray date = new JSONArray();
 		for(int i=0; i<length; i++) {
 			closingPrice[i] = c.getDouble(i);
+			price.put(c.getDouble(i));
 			long timeEpoch = t.getLong(i);
-			time[i] = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (timeEpoch*1000));
+			time[i] = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (timeEpoch*1000));
+			date.put(time[i]);
 			System.out.println("Closing Price: " + closingPrice[i] + " time: " + time[i]);
 			out.print("Closing Price: " + closingPrice[i] + " time: " + time[i]);
 		}
+		response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(price);
+        out.print(date);
+        out.flush();
+		
 	}
 }
