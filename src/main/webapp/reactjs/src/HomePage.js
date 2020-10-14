@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
 import StockGraph from './StockGraph';
+import DeleteConfirmForm from './DeleteConfirmForm';
 import {useEffect, useState, useRef} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
@@ -33,6 +34,8 @@ export default function(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAddStockForm, setShowAddStockForm] = useState(false);
+  const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
+  const [confirmMsg, setConfirmMsg ] = useState(false);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -192,9 +195,12 @@ export default function(props) {
                             <td>{stock.ticker}</td>
                             <td>{stock.price}</td>
                             <td><div className="" onClick={()=>{
-                              setTicker(stock.ticker);
-                              removeStocks(stock.ticker);
-                              fetchStockData('RemoveStock', stock.ticker);
+                              setShowDeleteConfirmForm(true)
+                              if(confirmMsg=== false  ){
+                                setTicker(stock.ticker);
+                                removeStocks(stock.ticker);
+                                fetchStockData('RemoveStock', stock.ticker);
+                              }
                             }}>Delete</div></td>
                           </tr>
                         })
@@ -230,7 +236,16 @@ export default function(props) {
         />
     </div>
       </div> : <></>}
+
+    {showDeleteConfirmForm ? 
+    <div className="addFormBackground">
+      <div className = "addFormWrapper px-3">
+        <DeleteConfirmForm
+          setConfirmMsg ={setConfirmMsg}
+          setShowDeleteConfirmForm={setShowDeleteConfirmForm}
+        />
+     </div>
+      </div> : <></>}  
     </div>
-	
   );
 }
