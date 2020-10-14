@@ -28,6 +28,10 @@
   	<servlet-name>RemoveStock</servlet-name>
   	<servlet-class>csci310.servlets.RemoveStock</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AddStockGraph</servlet-name>
+  	<servlet-class>csci310.servlets.AddStockGraph</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>RemoveStock</servlet-name>
   	<url-pattern>/RemoveStock</url-pattern>
@@ -51,5 +55,9 @@
   	<servlet-mapping>
   	<servlet-name>Register</servlet-name>
   	<url-pattern>/Register</url-pattern>
+  	</servlet-mapping>
+  	<servlet-mapping>
+  	<servlet-name>AddStockGraph</servlet-name>
+  	<url-pattern>/AddStockGraph</url-pattern>
   	</servlet-mapping>
 </web-app>
