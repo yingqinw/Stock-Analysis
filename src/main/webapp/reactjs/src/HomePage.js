@@ -89,26 +89,6 @@ export default function(props) {
     }
   }
 
-  const useInterval = (callback, delay) => {
-    const savedCallback = useRef();
-  
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-  
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
-
   useEffect(() => {
     setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
   }, [ticker]);
@@ -121,7 +101,6 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-  useInterval(function(){fetchStockData('UpdatePrices')}, 30 * 1000);
 
   const handleSubmit = (e) => {
     e.preventDefault();
