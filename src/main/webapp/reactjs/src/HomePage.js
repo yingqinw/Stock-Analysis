@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
+import StockGraph from './StockGraph';
 import {useEffect, useState, useRef} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
@@ -205,7 +206,7 @@ export default function(props) {
             </div>
           </div>
           <div className="col-md-9">
-            Insert Graph Here
+            <StockGraph />
           </div>
         </div>
       </div>
