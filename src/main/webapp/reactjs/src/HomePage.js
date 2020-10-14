@@ -153,8 +153,8 @@ export default function(props) {
   
   return (
     <div className="homepageWrapper">
-      <Navbar bg="light" expand="lg" className="text-uppercase mb-3">
-        <Navbar.Brand className="nav_brand" href="/">Stockanalysis</Navbar.Brand>
+      <Navbar expand="lg" className="text-uppercase mb-3">
+        <Navbar.Brand className="nav_brand" style={{ color: '#f0f3fa' }} href="/">USC CS310 Stock Portfolio Management</Navbar.Brand>
         <Navbar.Toggle className="justify-content-end" aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
