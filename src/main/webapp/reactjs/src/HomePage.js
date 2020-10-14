@@ -183,7 +183,7 @@ export default function(props) {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Pairs</th>
+                        <th>Tickers</th>
                         <th>Last Price</th>
                         <th>Action</th>
                       </tr>
