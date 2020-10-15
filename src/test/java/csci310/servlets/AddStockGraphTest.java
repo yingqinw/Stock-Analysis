@@ -24,8 +24,8 @@ public class AddStockGraphTest extends Mockito {
         when(response.getWriter()).thenReturn(writer);
         
         when(request.getParameter("ticker_graph")).thenReturn("AAPL");
-        when(request.getParameter("startdate_graph")).thenReturn("10/05/2020");
-        when(request.getParameter("endDate_graph")).thenReturn("10/13/2020");
+        when(request.getParameter("startdate_graph")).thenReturn("09/11/2020");
+        when(request.getParameter("enddate_graph")).thenReturn("09/21/2020");
         
         new AddStockGraph().doPost(request, response);
         
