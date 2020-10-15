@@ -9,10 +9,10 @@ for(i=0;i<4;i++){
 
 export default function(props) {
 	
-	//labels: ['10-7', '10-8', '10-9','10-10', '10-11'],
+	//labels: 
 	
 	const state = {
-  	labels: labels1,
+  	labels: ['10-7', '10-8', '10-9','10-10', '10-11'],
   	datasets: [
       {
       label: 'AAPL',
