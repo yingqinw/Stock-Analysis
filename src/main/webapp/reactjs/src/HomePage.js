@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import AddStockForm from './AddStockForm';
+import AddStockToGraphForm from './AddStockToGraphForm';
 import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
@@ -24,6 +25,13 @@ export const jsonToArray = (data) => {
   return result;
 }
 
+var graphStart = '10/05/2020'
+var graphEnd = '10/13/2020'  
+
+//var graphTickers = []
+//var graphLabels = []
+//var graphPrices = []
+
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -35,8 +43,12 @@ export default function(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAddStockForm, setShowAddStockForm] = useState(false);
+  const [showAddStockGraph, setShowAddStockGraph] = useState(false);
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
+  const [graphTickers, setGraphTickers] = useState([]);
+  const [graphLabels, setGraphLabels] = useState([]);
+  const [graphPrices, setGraphPrices] = useState([]);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -93,6 +105,50 @@ export default function(props) {
     }
   }
 
+    const fetchGraphData = (route) => {
+	//console.log("fetching");
+    if(props.loggedIn) {
+      fetch(`http://localhost:8080/${route}?ticker_graph=${ticker}&startdate_graph=${graphStart}&enddate_graph=${graphEnd}`, {
+        method: 'POST'
+      })
+      .then(response =>  response.json().then(data => {
+        const error = data.AddStockerr;
+        if(error) {
+          setAlertText("");
+          setAlertText(error);
+        }
+        else {
+          if(route === 'AddStockGraph') {
+            setShowAddStockGraph(false);
+			if(!graphTickers.includes(ticker)){
+				setGraphTickers(graphTickers.concat(ticker));
+				//console.log(graphTickers);
+				var labelsGraph = (jsonToArray(data.date))[0].price; //I have no idea why the json is structured like this
+				var pricesGraph = (jsonToArray(data.price))[0].price;
+				//console.log(prices);
+				//console.log(labelsGraph.price);
+				setGraphLabels(labelsGraph);
+				setGraphPrices(graphPrices.concat(pricesGraph));
+				//console.log(graphLabels);
+				//graphPrices = jsonToArray(data.price);
+			}
+			
+			
+          }
+		  
+          //props.setStocks(jsonToArray(data));
+		  //console.log(jsonToArray(data.date));
+		  
+        }
+      }))
+    }
+  }
+
+  
+  
+
+  
+
   useEffect(() => {
     setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
   }, [ticker]);
@@ -105,6 +161,21 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
+  //useEffect(() => {
+    //console.log(graphLabels);
+  //}, [graphLabels]);
+
+  const handleAddToGraph = (e) => {
+	e.preventDefault();
+    const alertMessage = [];
+    if(!validTicker) {
+      alertMessage.push("Ticker should have at least 1 uppercase letters.");
+    }
+    setAlertText(alertMessage);
+    if(alertMessage.length === 0) {
+      fetchGraphData('AddStockGraph');
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -191,10 +262,14 @@ export default function(props) {
             </div>
           </div>
           <div className="col-md-9">
-            <StockGraph />
+            <StockGraph 
+			  graphTickers={graphTickers}
+			  graphLabels={graphLabels}
+			  graphPrices={graphPrices}
+			/>
             <Button onClick={()=>{
                 props.resetLogoutTimer();
-                setShowAddStockForm(true);
+                setShowAddStockGraph(true);
             }}>Add Stock To Graph</Button>
             <Button onClick={()=>{
               props.resetLogoutTimer();
@@ -220,6 +295,21 @@ export default function(props) {
             validQuantity={validQuantity}
             validEnd={validEnd}
             setShowAddStockForm={setShowAddStockForm}
+          />
+        </div>
+      </div> : <></>}
+	
+	  {showAddStockGraph ? 
+      <div className="addFormBackground">
+        <div className="addFormWrapper px-3">
+          <AddStockToGraphForm
+            resetLogoutTimer={props.resetLogoutTimer}
+            handleAddToGraph={handleAddToGraph}
+            setTicker={setTicker}
+            alertText = {alertText}
+            setAlertText={setAlertText}
+            validTicker={validTicker}
+            setShowAddStockGraph={setShowAddStockGraph}
           />
         </div>
       </div> : <></>}

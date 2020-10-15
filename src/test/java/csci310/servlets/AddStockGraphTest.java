@@ -23,6 +23,10 @@ public class AddStockGraphTest extends Mockito {
         PrintWriter writer = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(writer);
         
+        when(request.getParameter("ticker_graph")).thenReturn("AAPL");
+        when(request.getParameter("startdate_graph")).thenReturn("10/05/2020");
+        when(request.getParameter("endDate_graph")).thenReturn("10/13/2020");
+        
         new AddStockGraph().doPost(request, response);
         
         writer.flush();

@@ -27,6 +27,16 @@ public class AddStockGraph extends HttpServlet {
 		}
 	}
 	
+	
+	public class AddStockData{
+		private JSONArray date = new JSONArray();
+		private JSONArray price = new JSONArray();
+		public AddStockData(JSONArray labels, JSONArray prices) {
+			date = labels;
+			price = prices;
+		}
+	}
+	
 	private Gson gson = new Gson();
 	
 	@Override
@@ -87,16 +97,22 @@ public class AddStockGraph extends HttpServlet {
 		String[] time = new String[length];
 		JSONArray price = new JSONArray();
 		JSONArray date = new JSONArray();
+		JSONArray pricesAndDate = new JSONArray();
 		for(int i=0; i<length; i++) {
 			price.put(c.getDouble(i));
 			long timeEpoch = t.getLong(i);
 			time[i] = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (timeEpoch*1000));
 			date.put(time[i]);
+			//pricesAndDate.put(time[i],c.getDouble(i));
 		}
-		response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(price);
-        out.print(date);
+        
+        AddStockData asd = new AddStockData(date,price);
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    out.print(this.gson.toJson(asd));
+	    out.flush(); 
+        //out.print(price);
+        //out.print(date);
         out.flush();
 	}
 
