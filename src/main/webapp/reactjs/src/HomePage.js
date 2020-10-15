@@ -28,9 +28,9 @@ export const jsonToArray = (data) => {
 var graphStart = '10/05/2020'
 var graphEnd = '10/13/2020'  
 
-var graphTickers = []
-var graphLabels = []
-var graphPrices = []
+//var graphTickers = []
+//var graphLabels = []
+//var graphPrices = []
 
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
@@ -46,6 +46,9 @@ export default function(props) {
   const [showAddStockGraph, setShowAddStockGraph] = useState(false);
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
+  const [graphTickers, setGraphTickers] = useState([]);
+  const [graphLabels, setGraphLabels] = useState([]);
+  const [graphPrices, setGraphPrices] = useState([]);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -103,10 +106,10 @@ export default function(props) {
   }
 
     const fetchGraphData = (route) => {
-	console.log("fetching");
+	//console.log("fetching");
     if(props.loggedIn) {
       fetch(`http://localhost:8080/${route}?ticker_graph=${ticker}&startdate_graph=${graphStart}&enddate_graph=${graphEnd}`, {
-        method: 'GET'
+        method: 'POST'
       })
       .then(response =>  response.json().then(data => {
         const error = data.AddStockerr;
@@ -117,8 +120,25 @@ export default function(props) {
         else {
           if(route === 'AddStockGraph') {
             setShowAddStockGraph(false);
+			if(!graphTickers.includes(ticker)){
+				setGraphTickers(graphTickers.concat(ticker));
+				//console.log(graphTickers);
+				var labelsGraph = (jsonToArray(data.date))[0].price; //I have no idea why the json is structured like this
+				var pricesGraph = (jsonToArray(data.price))[0].price;
+				//console.log(prices);
+				//console.log(labelsGraph.price);
+				setGraphLabels(labelsGraph);
+				setGraphPrices(graphPrices.concat(pricesGraph));
+				//console.log(graphLabels);
+				//graphPrices = jsonToArray(data.price);
+			}
+			
+			
           }
+		  
           //props.setStocks(jsonToArray(data));
+		  //console.log(jsonToArray(data.date));
+		  
         }
       }))
     }
@@ -141,6 +161,9 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
+  //useEffect(() => {
+    //console.log(graphLabels);
+  //}, [graphLabels]);
 
   const handleAddToGraph = (e) => {
 	e.preventDefault();
@@ -239,7 +262,11 @@ export default function(props) {
             </div>
           </div>
           <div className="col-md-9">
-            <StockGraph />
+            <StockGraph 
+			  graphTickers={graphTickers}
+			  graphLabels={graphLabels}
+			  graphPrices={graphPrices}
+			/>
             <Button onClick={()=>{
                 props.resetLogoutTimer();
                 setShowAddStockGraph(true);
