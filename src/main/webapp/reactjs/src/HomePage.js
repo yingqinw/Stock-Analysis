@@ -143,6 +143,7 @@ export default function(props) {
             setGraphLabels(data.date.myArrayList);
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
+            setShowSelectDatesForm(false);
           }
         }
       }))
@@ -235,9 +236,6 @@ export default function(props) {
           <Navbar.Text>
               <Button className="my-auto" onClick={()=>{
                 props.setLoggedIn(false);
-                // window.localStorage.removeItem("graphTickers");
-                // window.localStorage.removeItem("graphLabels");
-                // window.localStorage.removeItem("graphPrices");
                 setGraphLabels([]);
                 setGraphTickers([]);
                 setGraphPrices([]);
