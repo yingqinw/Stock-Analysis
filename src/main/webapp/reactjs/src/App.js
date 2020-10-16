@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 
 var logoutinterval;
 
-const useLocalStorage = (defaultValue, key) => {
+export const useLocalStorage = (defaultValue, key) => {
   const [value, setValue] = React.useState(() => {
     const stickyValue = window.localStorage.getItem(key);
     return stickyValue !== null

@@ -22,7 +22,10 @@ export default function(props) {
     props.graphPrices.splice(removeIndex, 1);
     props.setGraphTickers(props.graphTickers);
     props.setGraphPrices(props.graphPrices);
+    window.localStorage.setItem("graphTickers", JSON.stringify(props.graphTickers));
+    window.localStorage.setItem("graphPrices", JSON.stringify(props.graphPrices));
     if(props.graphTickers.length === 0) {
+      window.localStorage.setItem("graphLabels", JSON.stringify([]));
       props.setGraphLabels([]);
     }
     props.setShowDeleteStockForm(false)
