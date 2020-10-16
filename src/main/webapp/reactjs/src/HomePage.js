@@ -130,17 +130,19 @@ export default function(props) {
             }
           }
           else {
-            // setGraphLabels(jsonToArray(data.date.myArrayList));
-            console.log(jsonToArray(data))
             let tickerArray = [];
             let priceArray = [];
-            for(const item in jsonToArray(data.prices.map)) {
-              console.log(item)
-              tickerArray.push(item.ticker);
-              priceArray.push(item.price);
+            const tickerValues = data.prices.map;
+            for (let tickerName in tickerValues) {
+              if (tickerValues.hasOwnProperty(tickerName)) {
+                var pricesJson = tickerValues[tickerName];
+                tickerArray.push(tickerName);
+                priceArray.push(pricesJson.myArrayList);
+              }
             }
-            // setGraphTickers(tickerArray);
-            // setGraphPrices(priceArray);
+            setGraphLabels(data.date.myArrayList);
+            setGraphTickers(tickerArray);
+            setGraphPrices(priceArray);
           }
         }
       }))
