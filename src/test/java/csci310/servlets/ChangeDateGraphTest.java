@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class AddStockGraphTest extends Mockito {
+public class ChangeDateGraphTest extends Mockito{
 
 	@Test
 	public void testDoPost() throws IOException {
@@ -23,11 +23,11 @@ public class AddStockGraphTest extends Mockito {
         PrintWriter writer = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(writer);
         
-        when(request.getParameter("ticker_graph")).thenReturn("AAPL");
-        when(request.getParameter("startdate_graph")).thenReturn("09/11/2020");
-        when(request.getParameter("enddate_graph")).thenReturn("09/21/2020");
+        when(request.getParameter("tickers_graph")).thenReturn("[ \"AAPL\", \"AMZN\", \"QQQ\" ]");
+        when(request.getParameter("startdate_graph")).thenReturn("08/05/2020");
+        when(request.getParameter("enddate_graph")).thenReturn("10/13/2020");
         
-        new AddStockGraph().doPost(request, response);
+        new ChangeDateGraph().doPost(request, response);
         
         writer.flush();
 		assertTrue(true);

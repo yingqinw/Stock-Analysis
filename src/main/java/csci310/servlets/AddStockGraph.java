@@ -79,7 +79,7 @@ public class AddStockGraph extends HttpServlet {
   		String result = "";
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
-  		System.out.println(result);
+  		
   		if(result.contains("{\"s\":\"no_data\"}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
   	        response.setContentType("application/json");
@@ -97,7 +97,6 @@ public class AddStockGraph extends HttpServlet {
 		String[] time = new String[length];
 		JSONArray price = new JSONArray();
 		JSONArray date = new JSONArray();
-		JSONArray pricesAndDate = new JSONArray();
 		for(int i=0; i<length; i++) {
 			price.put(c.getDouble(i));
 			long timeEpoch = t.getLong(i);
@@ -110,10 +109,8 @@ public class AddStockGraph extends HttpServlet {
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    out.print(this.gson.toJson(asd));
+	    System.out.print(this.gson.toJson(asd).toString());
 	    out.flush(); 
-        //out.print(price);
-        //out.print(date);
-        out.flush();
 	}
 
 }
