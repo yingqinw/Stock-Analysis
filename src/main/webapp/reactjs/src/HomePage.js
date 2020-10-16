@@ -9,6 +9,7 @@ import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 import createActivityDetector from 'activity-detector';
+import {useLocalStorage} from './App';
 
 export const jsonToArray = (data) => {
   let result = []
@@ -42,9 +43,9 @@ export default function(props) {
   const [showAddStockGraph, setShowAddStockGraph] = useState(false);
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
-  const [graphTickers, setGraphTickers] = useState([]);
-  const [graphLabels, setGraphLabels] = useState([]);
-  const [graphPrices, setGraphPrices] = useState([]);
+  const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
+  const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
+  const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -278,7 +279,7 @@ export default function(props) {
 	
 	  {showAddStockGraph ? 
       <div className="addFormBackground">
-        <div className="addFormWrapper px-3">
+        <div className="deleteFormWrapper px-3">
           <AddStockToGraphForm
             resetLogoutTimer={props.resetLogoutTimer}
             handleAddToGraph={handleAddToGraph}
