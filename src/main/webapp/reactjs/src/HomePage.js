@@ -28,10 +28,6 @@ export const jsonToArray = (data) => {
 var graphStart = '10/05/2020'
 var graphEnd = '10/13/2020'  
 
-//var graphTickers = []
-//var graphLabels = []
-//const graphPrices1 = []
-
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -105,8 +101,7 @@ export default function(props) {
     }
   }
 
-    const fetchGraphData = (route) => {
-	//console.log("fetching");
+  const fetchGraphData = (route) => {
     if(props.loggedIn) {
       fetch(`http://localhost:8080/${route}?ticker_graph=${ticker}&startdate_graph=${graphStart}&enddate_graph=${graphEnd}`, {
         method: 'POST'
@@ -120,36 +115,19 @@ export default function(props) {
         else {
           if(route === 'AddStockGraph') {
             setShowAddStockGraph(false);
-			if(!graphTickers.includes(ticker)){
-				setGraphTickers(graphTickers.concat(ticker));
-				//console.log(graphTickers);
-				var labelsGraph = (jsonToArray(data.date))[0].price; //I have no idea why the json is structured like this
-				var pricesGraph = (jsonToArray(data.price))[0].price;
-				//console.log(prices);
-				//console.log(labelsGraph.price);
-				setGraphLabels(labelsGraph);
-				var tempArray = [pricesGraph];
-				setGraphPrices(graphPrices.concat(tempArray));
-				//graphPrices1.push(pricesGraph);
-				//console.log(graphLabels);
-				//graphPrices = jsonToArray(data.price);
-			}
-			
-			
+            if(!graphTickers.includes(ticker)){
+              setGraphTickers(graphTickers.concat(ticker));
+              var labelsGraph = (jsonToArray(data.date))[0].price; //I have no idea why the json is structured like this
+              var pricesGraph = (jsonToArray(data.price))[0].price;
+              setGraphLabels(labelsGraph);
+              var tempArray = [pricesGraph];
+              setGraphPrices(graphPrices.concat(tempArray));
+            }
           }
-		  
-          //props.setStocks(jsonToArray(data));
-		  //console.log(jsonToArray(data.date));
-		  
         }
       }))
     }
   }
-
-  
-  
-
-  
 
   useEffect(() => {
     setValidTicker(/^[A-Z]{1,}$/.test(ticker) && ticker.length >= 1 && ticker.length <= 5);
@@ -163,9 +141,6 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
-  //useEffect(() => {
-    //console.log(graphPrices1);
-  //}, [graphPrices1]);
 
   const handleAddToGraph = (e) => {
 	e.preventDefault();
@@ -265,11 +240,10 @@ export default function(props) {
           </div>
           <div className="col-md-9">
             <StockGraph 
-			  graphTickers={graphTickers}
-			  graphLabels={graphLabels}
-			  graphPrices={graphPrices}
-			  //graphPrices1={graphPrices1}
-			/>
+              graphTickers={graphTickers}
+              graphLabels={graphLabels}
+              graphPrices={graphPrices}
+            />
             <Button onClick={()=>{
                 props.resetLogoutTimer();
                 setShowAddStockGraph(true);
@@ -334,9 +308,18 @@ export default function(props) {
       <div className="addFormBackground">
         <div className="deleteFormWrapper px-3">
           <DeleteStockForm
+            ticker={ticker}
+            setTicker={setTicker}
+            graphTickers={graphTickers}
+            setGraphTickers={setGraphTickers}
+            setGraphLabels={setGraphLabels}
+            graphPrices={graphPrices}
+            setGraphPrices={setGraphPrices}
             setShowDeleteStockForm={setShowDeleteStockForm}
             alertText = {alertText}
             setAlertText={setAlertText}
+            validTicker={validTicker}
+            resetLogoutTimer={props.resetLogoutTimer}
           />
         </div>
       </div> : <></>}  
