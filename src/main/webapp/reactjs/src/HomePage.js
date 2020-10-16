@@ -5,6 +5,7 @@ import AddStockToGraphForm from './AddStockToGraphForm';
 import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
+import SelectDatesForm from './SelectDatesForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
@@ -46,6 +47,7 @@ export default function(props) {
   const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
   const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
   const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
+  const [showSelectDatesForm, setShowSelectDatesForm] = useState(false);
   
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
@@ -253,6 +255,10 @@ export default function(props) {
               props.resetLogoutTimer();
               setShowDeleteStockForm(true);
             }}>Remove Stock From Graph</Button>
+            <Button onClick={()=>{
+              props.resetLogoutTimer();
+              setShowSelectDatesForm(true);
+            }}>Select Dates</Button>
           </div>
         </div>
       </div>
@@ -324,6 +330,22 @@ export default function(props) {
           />
         </div>
       </div> : <></>}  
+
+      {
+        showSelectDatesForm ? 
+        <div className="addFormBackground">
+          <div className="addFormWrapper px-3">
+            <SelectDatesForm
+              setShowSelectDatesForm={setShowSelectDatesForm}
+              setEndDate={setEndDate}
+              setStartDate={setStartDate}
+              alertText = {alertText}
+              setAlertText={setAlertText}
+              resetLogoutTimer={props.resetLogoutTimer}
+            />
+          </div>
+        </div> : <></>
+      }
 
       
     </div>
