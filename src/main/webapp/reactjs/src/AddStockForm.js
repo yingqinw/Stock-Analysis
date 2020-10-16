@@ -10,6 +10,7 @@ export default function(props) {
         <FormTitle>Add stock</FormTitle>
         <i className="fa fa-times closeIcon" onClick={()=>{
           props.setShowAddStockForm(false)
+          props.setAlertText("")
         }}></i>
       </div>
       <FormWrapper>

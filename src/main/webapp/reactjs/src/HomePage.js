@@ -27,9 +27,6 @@ export const jsonToArray = (data) => {
   return result;
 }
 
-var graphStart = '10/05/2020'
-var graphEnd = '10/13/2020'  
-
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -70,8 +67,12 @@ export default function(props) {
     return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
   }
 
-  const jsDateConverter = () => {
-    const date = new Date();
+  const newDateConverter = (date) => {
+    const dateArr = date.split('-');
+    return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+  }
+
+  const jsDateConverter = (date) => {
     const year = date.getFullYear();
     let month = (1 + date.getMonth()).toString();
     month = month.length > 1 ? month : '0' + month;
@@ -104,9 +105,10 @@ export default function(props) {
     }
   }
 
-  const fetchGraphData = (route) => {
+  const fetchGraphData = (route, ticker, startDateGraph=newDateConverter(startDate), endDateGraph=newDateConverter(endDate)) => {
     if(props.loggedIn) {
-      fetch(`http://localhost:8080/${route}?ticker_graph=${ticker}&startdate_graph=${graphStart}&enddate_graph=${graphEnd}`, {
+      const tickerParameter = route === 'AddStockGraph'? 'ticker_graph': 'tickers_graph';
+      fetch(`http://localhost:8080/${route}?${tickerParameter}=${ticker}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
@@ -127,6 +129,19 @@ export default function(props) {
               setGraphPrices(graphPrices.concat(tempArray));
             }
           }
+          else {
+            // setGraphLabels(jsonToArray(data.date.myArrayList));
+            console.log(jsonToArray(data))
+            let tickerArray = [];
+            let priceArray = [];
+            for(const item in jsonToArray(data.prices.map)) {
+              console.log(item)
+              tickerArray.push(item.ticker);
+              priceArray.push(item.price);
+            }
+            // setGraphTickers(tickerArray);
+            // setGraphPrices(priceArray);
+          }
         }
       }))
     }
@@ -145,15 +160,35 @@ export default function(props) {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
 
-  const handleAddToGraph = (e) => {
-	e.preventDefault();
+  const handleAddToGraph = (e, route='AddStockGraph') => {
+	  e.preventDefault();
     const alertMessage = [];
-    if(!validTicker) {
+    if(!validTicker && route === 'AddStockGraph') {
       alertMessage.push("Ticker should have at least 1 uppercase letters.");
+    }
+    if(!validStart && route !== 'AddStockGraph') {
+      alertMessage.push("Please enter a start date.")	
+    }
+    if(!validEnd && route !== 'AddStockGraph') {
+      alertMessage.push("Please choose an end date that is after start date.")	
+    }
+    if(endDate.length === 0) {
+      setEndDate(jsDateConverter(new Date()));
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      fetchGraphData('AddStockGraph');
+      const tickerArray = graphTickers.map(ticker => `"${ticker}"`).join(',');
+      const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
+      if(startDate.length === 0 && endDate.length === 0) {
+        let sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
+        setStartDate(jsDateConverter(sevenDaysAgo))
+        setEndDate(jsDateConverter(new Date()))
+      }
+      else {
+        fetchGraphData(route, tickerString);
+      }
     }
   }
 
@@ -176,7 +211,7 @@ export default function(props) {
       alertMessage.join('\n');
     }
     if(endDate.length === 0) {
-      setEndDate(jsDateConverter());
+      setEndDate(jsDateConverter(new Date()));
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
@@ -196,7 +231,15 @@ export default function(props) {
         <Navbar.Toggle className="justify-content-end" aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
-              <Button className="my-auto" onClick={()=>{props.setLoggedIn(false)}}>
+              <Button className="my-auto" onClick={()=>{
+                props.setLoggedIn(false);
+                // window.localStorage.removeItem("graphTickers");
+                // window.localStorage.removeItem("graphLabels");
+                // window.localStorage.removeItem("graphPrices");
+                setGraphLabels([]);
+                setGraphTickers([]);
+                setGraphPrices([]);
+              }}>
                 log out
               <Arrow className="arrow"></Arrow>
             </Button>
@@ -341,6 +384,9 @@ export default function(props) {
               setStartDate={setStartDate}
               alertText = {alertText}
               setAlertText={setAlertText}
+              handleAddToGraph={handleAddToGraph}
+              validStart={validStart}
+              validEnd={validEnd}
               resetLogoutTimer={props.resetLogoutTimer}
             />
           </div>
