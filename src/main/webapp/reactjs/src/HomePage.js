@@ -30,7 +30,7 @@ var graphEnd = '10/13/2020'
 
 //var graphTickers = []
 //var graphLabels = []
-//var graphPrices = []
+//const graphPrices1 = []
 
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
@@ -128,7 +128,9 @@ export default function(props) {
 				//console.log(prices);
 				//console.log(labelsGraph.price);
 				setGraphLabels(labelsGraph);
-				setGraphPrices(graphPrices.concat(pricesGraph));
+				var tempArray = [pricesGraph];
+				setGraphPrices(graphPrices.concat(tempArray));
+				//graphPrices1.push(pricesGraph);
 				//console.log(graphLabels);
 				//graphPrices = jsonToArray(data.price);
 			}
@@ -162,8 +164,8 @@ export default function(props) {
     setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
   }, [endDate,startDate]);
   //useEffect(() => {
-    //console.log(graphLabels);
-  //}, [graphLabels]);
+    //console.log(graphPrices1);
+  //}, [graphPrices1]);
 
   const handleAddToGraph = (e) => {
 	e.preventDefault();
@@ -266,6 +268,7 @@ export default function(props) {
 			  graphTickers={graphTickers}
 			  graphLabels={graphLabels}
 			  graphPrices={graphPrices}
+			  //graphPrices1={graphPrices1}
 			/>
             <Button onClick={()=>{
                 props.resetLogoutTimer();
