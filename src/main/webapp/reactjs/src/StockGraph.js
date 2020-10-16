@@ -26,15 +26,17 @@ export default function(props) {
       } 
   	]
      */
-
+	//console.log(props.graphPrices);
 	var dataset1 = [];
 	var i;
 	for(i = 0; i<props.graphTickers.length;i++){
+		/*
 		var data1 = [];
 		var j;
 		for(j=0; j<props.graphLabels.length;j++){
 			data1.push(props.graphPrices[i*props.graphLabels.length + j]);
 		}
+		*/
 		var color = colors[i%7];
 		dataset1.push({
 			label: props.graphTickers[i],
@@ -43,7 +45,7 @@ export default function(props) {
 			backgroundColor: color,
 			borderColor: color,
 			borderWidth: 2,
-			data: data1
+			data: props.graphPrices[i]
 		})
 	}
 	
