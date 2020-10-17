@@ -1,4 +1,34 @@
 Feature: New User register
+  Scenario: Login letter
+  	Given I am on the index page of signup
+  	When I am on the signup page1
+  	Then I should see the login letter to go login page r
+  	
+  Scenario: Signup letter
+  	Given I am on the index page of signup
+  	When I am on the signup page2
+  	Then I should see the signup letter to go signup page r
+  	
+   Scenario: Username block
+  	Given I am on the index page of signup
+  	When I am on the signup page3
+  	Then I should see the username block r
+  	
+  Scenario: Password block
+  	Given I am on the index page of signup
+  	When I am on the signup page4
+  	Then I should see the password block r
+  	
+  Scenario: Retype Password block
+  	Given I am on the index page of signup
+  	When I am on the signup page5
+  	Then I should see the retype password block r
+  	
+  Scenario: Create user button
+  	Given I am on the index page of signup
+  	When I am on the signup page6
+  	Then I should see the create user button 
+  	
   Scenario: User types in invalid username in registration
     Given I am on the index page of signup
     When I typed in 'he' in the Username field in registration form
