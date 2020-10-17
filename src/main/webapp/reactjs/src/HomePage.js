@@ -160,7 +160,7 @@ export default function(props) {
     setValidStart(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(startDate));
   }, [startDate]);
   useEffect(() => {
-    setValidEnd(endDate.localeCompare(startDate)===1 || !endDate.includes("-"));
+    setValidEnd(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(endDate) && endDate.localeCompare(startDate)===1);
   }, [endDate,startDate]);
 
   const handleAddToGraph = (e, route='AddStockGraph') => {
