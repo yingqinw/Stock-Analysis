@@ -49,6 +49,66 @@ public class RegisterStepDefinitions {
 		By form = By.xpath("//*[@id=\"signup-form\"]/div[2]/div");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(form));
 	}
+	
+	@When("I am on the signup page1")
+	public void i_am_on_the_login_page1() {
+		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).click();
+	}
+
+	@Then("I should see the login letter to go login page r")
+	public void i_should_see_the_login_letter_to_go_login_page_r() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[1]")).getText(), "LOGIN");
+	}
+
+	@When("I am on the signup page2")
+	public void i_am_on_the_login_page2() {
+		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).click();
+	}
+
+	@Then("I should see the signup letter to go signup page r")
+	public void i_should_see_the_signup_letter_to_go_signup_page_r() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).getText(), "SIGNUP");
+	}
+	
+	@When("I am on the signup page3")
+	public void i_am_on_the_signup_page3() {
+		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).click();
+	}
+
+	@Then("I should see the username block r")
+	public void i_should_see_the_username_block_r() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[1]")).getAttribute("placeholder"), "Username");
+	}
+
+	@When("I am on the signup page4")
+	public void i_am_on_the_signup_page4() {
+		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).click();
+	}
+
+	@Then("I should see the password block r")
+	public void i_should_see_the_password_block_r() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[2]")).getAttribute("placeholder"), "Password");
+	}
+
+	@When("I am on the signup page5")
+	public void i_am_on_the_signup_page5() {
+		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).click();
+	}
+
+	@Then("I should see the retype password block r")
+	public void i_should_see_the_retype_password_block_r() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[3]")).getAttribute("placeholder"), "Retype Password");
+	}
+	
+	@When("I am on the signup page6")
+	public void i_am_on_the_signup_page6() {
+		driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")).click();
+	}
+
+	@Then("I should see the create user button")
+	public void i_should_see_the_create_user_button() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/button")).getText(), "CREATE USER");
+	}
 
 	@When("I typed in {string} in the Username field in registration form")
 	public void i_typed_in_in_the_Username_field_in_registration_form(String string) {
@@ -93,7 +153,7 @@ public class RegisterStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.xpath("//*[@id=\"root\"]/div/div/div/nav/a");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertEquals(driver.findElement(title).getText(), "STOCKANALYSIS");
+		assertEquals(driver.findElement(title).getText(), "USC CS310 STOCK PORTFOLIO MANAGEMENT");
 	}
 
 	@After()
