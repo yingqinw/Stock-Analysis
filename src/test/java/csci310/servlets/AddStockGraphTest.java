@@ -30,7 +30,25 @@ public class AddStockGraphTest extends Mockito {
         new AddStockGraph().doPost(request, response);
         
         writer.flush();
-		assertTrue(true);
+        assertTrue(stringWriter.toString().contains("09/14/2020"));
+        
+        
+        //trigger addstockerr
+        HttpServletRequest request1 = mock(HttpServletRequest.class);       
+        HttpServletResponse response1 = mock(HttpServletResponse.class);
+        
+        StringWriter stringWriter1 = new StringWriter();
+        PrintWriter writer1 = new PrintWriter(stringWriter1);
+        when(response1.getWriter()).thenReturn(writer1);
+        
+        when(request1.getParameter("ticker_graph")).thenReturn("WRONGSTOCK");
+        when(request1.getParameter("startdate_graph")).thenReturn("09/11/2020");
+        when(request1.getParameter("enddate_graph")).thenReturn("09/21/2020");
+        
+        new AddStockGraph().doPost(request1, response1);
+        
+        writer1.flush();
+        assertTrue(stringWriter1.toString().contains("Invalid"));
 	}
 
 }
