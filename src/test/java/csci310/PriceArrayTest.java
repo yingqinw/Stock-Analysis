@@ -9,7 +9,7 @@ import java.text.ParseException;
 import org.junit.Test;
 
 public class PriceArrayTest {
-	/*
+	
 	@Test
 	public void testpopulateStockPrice() throws ParseException, IOException {
 		PriceArray PA = new PriceArray("IBM", "10/05/2020", "10/09/2020");
@@ -18,7 +18,7 @@ public class PriceArrayTest {
 		Double BIMPriceOnOct9 = 127.79;
 		assertEquals(roundResult, BIMPriceOnOct9);
 	}
-	*/
+	
 	@Test
 	public void testpopulateStockPrice2() throws ParseException, IOException {
 		PriceArray PA = new PriceArray("IBM", "10/03/2020", "10/03/2020");
@@ -26,7 +26,7 @@ public class PriceArrayTest {
 		PA.printPriceArray();
 		assertTrue(PA.isEmpty);
 	}
-	/*
+	
 	@Test
 	public void predictFuturePrices() throws ParseException, IOException {
 		PriceArray PA = new PriceArray("IBM", "10/05/2020", "10/31/2020");
@@ -35,5 +35,5 @@ public class PriceArrayTest {
 		//PA.printPriceArray();
 		assertEquals(tradingDate, "10/31/2020");
 	}
-	*/
+	
 }

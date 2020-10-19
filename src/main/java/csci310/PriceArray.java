@@ -47,7 +47,7 @@ public class PriceArray {
   			result += sc.nextLine();
   		}
   		sc.close();
-  		System.out.println(result);
+  		//System.out.println(result);
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
