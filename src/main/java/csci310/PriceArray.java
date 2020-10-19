@@ -18,11 +18,13 @@ public class PriceArray {
 	public String[] tradingDate;
 	public Double[] stockPrice;
 	private String APIKey = "btjeu1f48v6tfmo5erv0";
+	public boolean isEmpty;
 	public PriceArray(String ticker, String startDate, String endDate) throws ParseException {
 		this.ticker = ticker;
 		this.startDate = startDate;
 		this.startDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(startDate+" 22:00:00").getTime() / 1000;
 		this.endDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(endDate+" 22:00:00").getTime() / 1000;
+		this.isEmpty = true;
 		//this.endDateEpoch += 86400;
 	}
 	public void populateStockPrice() throws IOException, ParseException {
@@ -41,17 +43,20 @@ public class PriceArray {
   		//read json
   		Scanner sc = new Scanner(url.openStream());
   		String result = "";
-  		boolean hasContent = false;
   		while(sc.hasNext()) {
   			result += sc.nextLine();
-  			hasContent = true;
   		}
   		sc.close();
-  		//System.out.println(result);
+  		System.out.println(result);
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
-		if(obj.length() == 0) return;
+		String status = (String) obj.get("s"); 
+		if(!status.equals("ok")) {
+			System.out.println("bad API request input");
+			return;
+		}
+		isEmpty = false;
 		JSONArray c = obj.getJSONArray("c");
 		JSONArray t = obj.getJSONArray("t");
 		int length = c.length();
@@ -65,6 +70,11 @@ public class PriceArray {
 		predictFuturePrices();
 	}
 	public void printPriceArray() {
+		System.out.println(">>>Printing PriceArray of " + ticker);
+		if(isEmpty) {
+			System.out.println("The PriceArray is Empty");
+			return;
+		}
 		for(int i=0; i<tradingDate.length; i++) {
 			System.out.println("Time: " + tradingDate[i] + " Price: " + stockPrice[i]);
 		}

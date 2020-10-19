@@ -25,11 +25,13 @@ public class Portfolio {
 	Double[] portfolioValue;
 	String[] tradingDate;
 	private String APIKey = "btjeu1f48v6tfmo5erv0";
+	boolean isEmpty;
 	public Portfolio(String username, String startDate, String endDate) {
-		username = this.username;
+		this.username = username;
 		this.PFstartDate = startDate;
 		this.PFendDate = endDate;
-		stocks = new Vector<PriceArray>();
+		this.stocks = new Vector<PriceArray>();
+		this.isEmpty = true;
 	}
 	public void addStock(String ticker, String StockStartDate, String StockEndDate) throws ParseException {
 		PriceArray PA = new PriceArray(ticker, StockStartDate, StockEndDate);
@@ -66,18 +68,21 @@ public class Portfolio {
   		//read json
   		Scanner sc = new Scanner(url.openStream());
   		String result = "";
-  		boolean hasContent = false;
   		while(sc.hasNext()) {
   			result += sc.nextLine();
-  			hasContent = true;
-  		}
+  			}
   		sc.close();
   		//System.out.println(result);
-  		if(!hasContent) return;
+
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
-		if(obj.length() == 0) return;
+		String status = (String) obj.get("s"); 
+		if(!status.equals("ok")) {
+			System.out.println("bad API request input in portfolio value trading date");
+			return;
+		}
+		isEmpty = false;
 		JSONArray t = obj.getJSONArray("t");
 		int length = t.length();
 		tradingDate = new String[length];
@@ -89,6 +94,10 @@ public class Portfolio {
 	}
 	public void printPortfolio() {
 		System.out.println(">>>>Printing portfolio<<<<");
+		if(isEmpty) {
+			System.out.println("The portfolio is Empty due to input dates does not contain trading date.");
+			return;
+		}
 		for(int z=0; z<tradingDate.length; z++) {
 			System.out.println("Date: "+ tradingDate[z] + " dayPFvalue: " + portfolioValue[z]);
 		}
