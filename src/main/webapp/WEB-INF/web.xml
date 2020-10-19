@@ -36,6 +36,10 @@
   	<servlet-name>ChangeDateGraph</servlet-name>
   	<servlet-class>csci310.servlets.ChangeDateGraph</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AddPortfolioGraph</servlet-name>
+  	<servlet-class>csci310.servlets.AddPortfolioGraph</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>RemoveStock</servlet-name>
   	<url-pattern>/RemoveStock</url-pattern>
@@ -67,5 +71,9 @@
   	<servlet-mapping>
   	<servlet-name>ChangeDateGraph</servlet-name>
   	<url-pattern>/ChangeDateGraph</url-pattern>
+  	</servlet-mapping>
+  	<servlet-mapping>
+  	<servlet-name>AddPortfolioGraph</servlet-name>
+  	<url-pattern>/AddPortfolioGraph</url-pattern>
   	</servlet-mapping>
 </web-app>
