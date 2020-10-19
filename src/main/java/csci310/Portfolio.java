@@ -72,9 +72,9 @@ public class Portfolio {
   			result += sc.nextLine(); 
   		}
   		sc.close();
-  		System.out.println(result);
-  		System.out.println(PFstartDate);
-  		System.out.println(PFendDate);
+  		//System.out.println(result);
+  		//System.out.println(PFstartDate);
+  		//System.out.println(PFendDate);
 		//parse json 
 		JSONObject obj = new JSONObject(result);
 		String status = (String) obj.get("s"); 
@@ -118,7 +118,7 @@ public class Portfolio {
 					if(tradingDate[z].equals(temp.tradingDate[0])) temp.syncIndex = -z;
 				}
 			}
-			System.out.println(temp.ticker + "'s syncIndex: " + temp.syncIndex);
+			//System.out.println(temp.ticker + "'s syncIndex: " + temp.syncIndex);
 		}
 		//loop thru everyday then every stock to calculate sum of stock prices
 		if(tradingDate == null) return;
@@ -130,7 +130,7 @@ public class Portfolio {
 				//System.out.println("stock: " + stocks.get(j).ticker + " currSyncIndex: " + currSyncIndex + " stockprice length: " + stocks.get(j).stockPrice.length);
 				if(currSyncIndex >= 0 && currSyncIndex < stocks.get(j).stockPrice.length) {
 					dayPFvalue += stocks.get(j).stockPrice[currSyncIndex]*stocks.get(j).quantity;
-					System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
+					//System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
 				}
 				stocks.get(j).syncIndex++; 
 			}
