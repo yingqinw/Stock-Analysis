@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 public class PriceArray {
 	public String ticker;
+	public int quantity;
 	public String startDate;
 	public long startDateEpoch;
 	public long endDateEpoch;
@@ -19,8 +20,9 @@ public class PriceArray {
 	public Double[] stockPrice;
 	private String APIKey = "btjeu1f48v6tfmo5erv0";
 	public boolean isEmpty;
-	public PriceArray(String ticker, String startDate, String endDate) throws ParseException {
+	public PriceArray(String ticker, int quantity, String startDate, String endDate) throws ParseException {
 		this.ticker = ticker;
+		this.quantity = quantity;
 		this.startDate = startDate;
 		this.startDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(startDate+" 22:00:00").getTime() / 1000;
 		this.endDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(endDate+" 22:00:00").getTime() / 1000;

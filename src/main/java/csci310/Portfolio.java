@@ -33,8 +33,8 @@ public class Portfolio {
 		this.stocks = new Vector<PriceArray>();
 		this.isEmpty = true;
 	}
-	public void addStock(String ticker, String StockStartDate, String StockEndDate) throws ParseException {
-		PriceArray PA = new PriceArray(ticker, StockStartDate, StockEndDate);
+	public void addStock(String ticker, int quantity, String StockStartDate, String StockEndDate) throws ParseException {
+		PriceArray PA = new PriceArray(ticker, quantity, StockStartDate, StockEndDate);
 		stocks.add(PA);
 	}
 	public void deleteStock(String ticker) {
@@ -128,7 +128,7 @@ public class Portfolio {
 				int currSyncIndex = stocks.get(j).syncIndex;
 				//System.out.println("stock: " + stocks.get(j).ticker + " currSyncIndex: " + currSyncIndex + " stockprice length: " + stocks.get(j).stockPrice.length);
 				if(currSyncIndex >= 0 && currSyncIndex < stocks.get(j).stockPrice.length) {
-					dayPFvalue += stocks.get(j).stockPrice[currSyncIndex];
+					dayPFvalue += stocks.get(j).stockPrice[currSyncIndex]*stocks.get(j).quantity;
 					System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
 				}
 				stocks.get(j).syncIndex++; 
