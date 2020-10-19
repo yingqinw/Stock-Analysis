@@ -175,6 +175,20 @@ export default function(props) {
     if(!validEnd && route !== 'AddStockGraph') {
       alertMessage.push("Please choose an end date that is after start date.")	
     }
+	if(alertMessage.length === 0 && route !== 'AddStockGraph'){
+		let sDate = new Date(startDate)
+		let eDate = new Date(endDate)
+		let sDay = sDate.getDay()
+		let eDay = eDate.getDay()
+		let sIsWeekend = (sDay === 6) || (sDay === 0)
+		let eIsWeekend = (eDay === 6) || (eDay === 0)
+		let msDay = 60*60*24*1000
+		let isClose = ((Math.floor((eDate - sDate) / msDay) <= 3))
+		if(sIsWeekend && eIsWeekend && isClose){
+			alertMessage.push("Please do not choose two days from the same weekend.")
+		}
+	}
+	
     if(endDate.length === 0) {
       setEndDate(jsDateConverter(new Date()));
     }
