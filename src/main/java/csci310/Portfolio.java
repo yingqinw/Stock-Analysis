@@ -54,7 +54,7 @@ public class Portfolio {
 		PFendDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(PFendDate +" 22:00:00").getTime() / 1000;
 		
 		String website = "https://finnhub.io/api/v1/stock/candle?symbol="+ "IBM" +
-        		"&resolution=D&from=" + (int)(PFstartDateEpoch-86400) + 
+        		"&resolution=D&from=" + (long)(PFstartDateEpoch-86400) + 
         		"&to=" + PFendDateEpoch + "&token=" + APIKey;
         URL url = new URL(website);
   		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -63,18 +63,18 @@ public class Portfolio {
 		
 		int respondCode = con.getResponseCode(); 
 		if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
-		System.out.println("respond code: " + respondCode);
+		//System.out.println("respond code: " + respondCode);
 
   		//read json
   		Scanner sc = new Scanner(url.openStream());
   		String result = "";
   		while(sc.hasNext()) {
-  			result += sc.nextLine();
-  			}
+  			result += sc.nextLine(); 
+  		}
   		sc.close();
-  		//System.out.println(result);
-
-  		
+  		System.out.println(result);
+  		System.out.println(PFstartDate);
+  		System.out.println(PFendDate);
 		//parse json 
 		JSONObject obj = new JSONObject(result);
 		String status = (String) obj.get("s"); 
@@ -103,7 +103,7 @@ public class Portfolio {
 		}
 	}
 	public void populatePortfolioValue() throws IOException, ParseException {
-		getPFTradingDate(); 
+		getPFTradingDate();
 		//populate stock prices
 		for(int i=0; i<stocks.size(); i++) {
 			PriceArray temp = stocks.get(i);
@@ -121,6 +121,7 @@ public class Portfolio {
 			//System.out.println(temp.ticker + "'s syncIndex: " + temp.syncIndex);
 		}
 		//loop thru everyday then every stock to calculate sum of stock prices
+		if(tradingDate == null) return;
 		int PFDayCount = tradingDate.length;
 		for(int i= 0; i < PFDayCount; i++) { 
 			Double dayPFvalue = 0.0;
@@ -129,9 +130,9 @@ public class Portfolio {
 				//System.out.println("stock: " + stocks.get(j).ticker + " currSyncIndex: " + currSyncIndex + " stockprice length: " + stocks.get(j).stockPrice.length);
 				if(currSyncIndex >= 0 && currSyncIndex < stocks.get(j).stockPrice.length) {
 					dayPFvalue += stocks.get(j).stockPrice[currSyncIndex]*stocks.get(j).quantity;
-					System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
+					//System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
 				}
-				stocks.get(j).syncIndex++; 
+				stocks.get(j).syncIndex++;
 			}
 			portfolioValue[i] = dayPFvalue;
 		}

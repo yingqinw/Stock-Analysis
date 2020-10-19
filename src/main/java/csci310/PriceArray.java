@@ -31,8 +31,8 @@ public class PriceArray {
 	}
 	public void populateStockPrice() throws IOException, ParseException {
 		String website = "https://finnhub.io/api/v1/stock/candle?symbol="+ ticker +
-        		"&resolution=D&from=" + (int)(startDateEpoch-86400) + 
-        		"&to=" + (int)(endDateEpoch) + "&token=" + APIKey;
+        		"&resolution=D&from=" + (long)(startDateEpoch-86400) + 
+        		"&to=" + (long)(endDateEpoch) + "&token=" + APIKey;
         URL url = new URL(website);
   		HttpURLConnection con = (HttpURLConnection) url.openConnection();
   		con.setRequestMethod("GET");

@@ -16,14 +16,14 @@ public class PriceArrayTest {
 		PA.populateStockPrice();
 		Double roundResult = Math.round(PA.stockPrice[PA.stockPrice.length-1]*100.0)/100.0;
 		Double BIMPriceOnOct9 = 127.79;
-		assertEquals(roundResult, BIMPriceOnOct9);
+		assertEquals(roundResult, BIMPriceOnOct9); 
 	}
 	
 	@Test
 	public void testpopulateStockPrice2() throws ParseException, IOException {
 		PriceArray PA = new PriceArray("IBM", 1, "10/03/2020", "10/03/2020");
 		PA.populateStockPrice();
-		PA.printPriceArray();
+		//PA.printPriceArray();
 		assertTrue(PA.isEmpty);
 	}
 	

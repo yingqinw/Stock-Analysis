@@ -8,7 +8,6 @@ import java.text.ParseException;
 import org.junit.Test;
 
 public class PortfolioTest {
-	
 	@Test
 	public void testAddStock() throws ParseException {
 		Portfolio p = new Portfolio("ken", "10/05/2020", "10/09/2020");
@@ -93,6 +92,25 @@ public class PortfolioTest {
 		Double after = p6.portfolioValue[0];
 		//p6.printPortfolio();
 		assertTrue((Double)before*3.0 == (Double)after);
+	}
+	
+	@Test
+	public void testPopulatePortfolioValue5() throws ParseException, IOException {
+		Portfolio p6 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p6.populatePortfolioValue();
+		//p6.printPortfolio();
+		
+		p6.addStock("IBM", 1, "9/01/2020", "9/30/2020");
+		p6.populatePortfolioValue();
+		//p6.printPortfolio();
+		
+		boolean check = false;
+		int count = 0;
+		for(int i=0; i<p6.tradingDate.length; i++) {
+			if(p6.portfolioValue[i] == 0) count++;
+		}
+		if(count == 5) check = true;
+		assertTrue(check);
 	}
 }
 
