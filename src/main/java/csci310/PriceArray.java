@@ -49,7 +49,7 @@ public class PriceArray {
   			result += sc.nextLine();
   		}
   		sc.close();
-  		//System.out.println(result);
+  		System.out.println(result);
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
@@ -78,7 +78,7 @@ public class PriceArray {
 			return;
 		}
 		for(int i=0; i<tradingDate.length; i++) {
-			System.out.println("Time: " + tradingDate[i] + " Price: " + stockPrice[i]);
+			System.out.println("Time: " + tradingDate[i] + " Price: " + stockPrice[i]); 
 		}
 	}
 	public void predictFuturePrices() throws ParseException{
