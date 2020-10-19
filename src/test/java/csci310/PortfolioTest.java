@@ -8,7 +8,7 @@ import java.text.ParseException;
 import org.junit.Test;
 
 public class PortfolioTest {
-	/*
+	
 	@Test
 	public void testAddStock() throws ParseException {
 		Portfolio p = new Portfolio("ken", "10/05/2020", "10/09/2020");
@@ -79,7 +79,7 @@ public class PortfolioTest {
 		if(count == 2) check = true;
 		assertTrue(check);
 	}
-	*/
+	
 	@Test
 	public void testPopulatePortfolioValue4() throws ParseException, IOException {
 		Portfolio p6 = new Portfolio("ken", "10/05/2020", "10/05/2020");

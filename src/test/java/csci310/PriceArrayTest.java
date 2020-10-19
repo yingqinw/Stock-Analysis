@@ -21,7 +21,7 @@ public class PriceArrayTest {
 	
 	@Test
 	public void testpopulateStockPrice2() throws ParseException, IOException {
-		PriceArray PA = new PriceArray("IBM", 1,  "10/03/2020", "10/03/2020");
+		PriceArray PA = new PriceArray("IBM", 1, "10/03/2020", "10/03/2020");
 		PA.populateStockPrice();
 		PA.printPriceArray();
 		assertTrue(PA.isEmpty);
