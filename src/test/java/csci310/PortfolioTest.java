@@ -112,6 +112,7 @@ public class PortfolioTest {
 		if(count == 5) check = true;
 		assertTrue(check);
 	}
+	
 }
 
 
