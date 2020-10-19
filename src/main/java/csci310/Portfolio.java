@@ -22,8 +22,8 @@ public class Portfolio {
 	
 	long PFstartDateEpoch;
 	long PFendDateEpoch;
-	Double[] portfolioValue;
-	String[] tradingDate;
+	public Double[] portfolioValue;
+	public String[] tradingDate;
 	private String APIKey = "btjeu1f48v6tfmo5erv0";
 	boolean isEmpty;
 	public Portfolio(String username, String startDate, String endDate) {
@@ -129,7 +129,7 @@ public class Portfolio {
 				//System.out.println("stock: " + stocks.get(j).ticker + " currSyncIndex: " + currSyncIndex + " stockprice length: " + stocks.get(j).stockPrice.length);
 				if(currSyncIndex >= 0 && currSyncIndex < stocks.get(j).stockPrice.length) {
 					dayPFvalue += stocks.get(j).stockPrice[currSyncIndex]*stocks.get(j).quantity;
-					System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
+					//System.out.println("on date: " + tradingDate[i] + " day["+ i +"], adding day[" + (int)(currSyncIndex) + "]'s value of " + stocks.get(j).ticker + " to portfolio.");
 				}
 				stocks.get(j).syncIndex++; 
 			}

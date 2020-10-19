@@ -80,20 +80,6 @@ public class PortfolioTest {
 		assertTrue(check);
 	}
 	
-	@Test
-	public void testPopulatePortfolioValue4() throws ParseException, IOException {
-		Portfolio p6 = new Portfolio("ken", "10/05/2020", "10/05/2020");
-		p6.addStock("RACE", 1, "10/05/2020", "10/05/2020");
-		p6.populatePortfolioValue();
-		//p6.printPortfolio();
-		Double before = p6.portfolioValue[0];
-		
-		p6.addStock("RACE", 2, "10/05/2020", "10/05/2020");
-		p6.populatePortfolioValue();
-		Double after = p6.portfolioValue[0];
-		//p6.printPortfolio();
-		assertTrue((Double)before*3.0 == (Double)after);
-	}
 }
 
 
