@@ -66,7 +66,7 @@ public class AddStock extends HttpServlet {
   		String result = "";
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
-  		System.out.println(result);
+  		//System.out.println(result);
   		if(result.contains(":0}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
   	        response.setContentType("application/json");

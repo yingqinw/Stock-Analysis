@@ -38,9 +38,9 @@ public class PriceArray {
   		con.setRequestMethod("GET");
   		con.connect();
 		
-		int respondCode = con.getResponseCode(); 
-		if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
-		System.out.println("respond code: " + respondCode);
+		//int respondCode = con.getResponseCode(); 
+		//if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
+		//System.out.println("respond code: " + respondCode);
 
   		//read json
   		Scanner sc = new Scanner(url.openStream());
@@ -49,7 +49,7 @@ public class PriceArray {
   			result += sc.nextLine();
   		}
   		sc.close();
-  		System.out.println(result);
+  		//System.out.println(result);
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
