@@ -83,6 +83,21 @@ form input:focus::placeholder {
   margin-top: 60px;
 }
 
+.market-pairs2{
+  background-color: #FFFFFF;
+  border: 1px solid #e0e3eb;
+  padding-top: 14px;
+  border-radius: 2px;
+  
+}
+
+.graphButton{
+  margin-bottom: 70px;
+  margin-top: -50px;
+  margin-left: 50px;
+  size: relative;
+}
+
 .market-pairs {
   background-color: #FFFFFF;
   border: 1px solid #e0e3eb;
