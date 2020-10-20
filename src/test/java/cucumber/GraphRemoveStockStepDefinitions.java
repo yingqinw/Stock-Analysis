@@ -53,13 +53,13 @@ public class GraphRemoveStockStepDefinitions {
 		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[2]")).click();
 	}
 	
-	@Then("I should see the remove stock from graph button")
-	public void i_should_see_the_remove_stock_from_graph_button() {
+	@Then("I should see the remove stock from graph button gr")
+	public void i_should_see_the_remove_stock_from_graph_button_gr() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[2]")).getText(), "REMOVE STOCK FROM GRAPH");
 	}
 
-	@Then("I get the pop up window for remove stock")
-	public void i_get_the_pop_up_window_for_remove_stock() {
+	@Then("I get the pop up window for remove stock gr")
+	public void i_get_the_pop_up_window_for_remove_stock_gr() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/div")).getText(), "REMOVE STOCK");
 	}
 
