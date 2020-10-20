@@ -6,7 +6,7 @@ import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
 import SelectDatesForm from './SelectDatesForm';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useCallback} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 import createActivityDetector from 'activity-detector';
@@ -58,7 +58,6 @@ export default function(props) {
 		return () => activityDetector.stop()
 	})
   }
-  
 
   useIdle({timeToIdle: 1000})
 
@@ -236,7 +235,7 @@ export default function(props) {
     props.setStocks(newStocks)
   }
 
-  const fetchPortfolioValues = () => {
+  const fetchPortfolioValues = useCallback(() => {
     let startDay, endDay;
     if(startDate.length === 0 && endDate.length === 0) {
       let sevenDaysAgo = new Date();
@@ -276,7 +275,15 @@ export default function(props) {
       }
       setGraphLabels(data.date.myArrayList);
     }))
-  }
+  }, [startDate, endDate, graphPrices, graphTickers, props.username, setGraphLabels, setGraphPrices, setGraphTickers])
+
+  // fetch portfolio values once the user logs in
+  useEffect(() => {
+    if(props.loggedIn) {
+      fetchPortfolioValues();
+    }
+  }, [props.loggedIn, fetchPortfolioValues])
+
   return (
     <div className="homepageWrapper">
       <Navbar expand="lg" className="text-uppercase mb-3">
