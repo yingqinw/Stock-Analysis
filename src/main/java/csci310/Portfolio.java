@@ -61,8 +61,8 @@ public class Portfolio {
   		con.setRequestMethod("GET");
   		con.connect();
 		
-		int respondCode = con.getResponseCode(); 
-		if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
+//		int respondCode = con.getResponseCode(); 
+//		if(respondCode != 200) throw new RuntimeException("HttpResponseCode:  "+ respondCode);
 		//System.out.println("respond code: " + respondCode);
 
   		//read json

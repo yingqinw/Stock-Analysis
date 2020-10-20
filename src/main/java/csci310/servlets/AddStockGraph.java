@@ -63,7 +63,7 @@ public class AddStockGraph extends HttpServlet {
        
         //connect to API
         String website = "https://finnhub.io/api/v1/stock/candle?symbol="+ ticker +
-        		"&resolution=D&from=" + startDateEpoch + 
+        		"&resolution=D&from=" + (long)(startDateEpoch-86400) + 
         		"&to=" + endDateEpoch + "&token=" + APIKey;
         URL url = new URL(website);
   		HttpURLConnection con = (HttpURLConnection) url.openConnection();
