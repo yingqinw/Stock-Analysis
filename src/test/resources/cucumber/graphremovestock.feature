@@ -2,12 +2,12 @@ Feature: User logout
   Scenario: Remove stock from graph button
     Given I am on index page gr
 	When I login and am on the Hompage gr
-	Then I should see the remove stock from graph button
+	Then I should see the remove stock from graph button gr
 
   Scenario: Remove stock to graph
     Given I login and am on the Hompage gr
 	When I click remove stock to graph button
-	Then I get the pop up window for remove stock 
+	Then I get the pop up window for remove stock gr
 	
   Scenario: Ticker block
     Given I login and am on the Hompage gr
