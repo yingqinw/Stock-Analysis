@@ -196,6 +196,7 @@ export default function(props) {
         fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
         setStartDate(jsDateConverter(sevenDaysAgo))
         setEndDate(jsDateConverter(new Date()))
+        fetchPortfolioValues();
       }
       else {
         fetchGraphData(route, tickerString);
@@ -360,9 +361,6 @@ export default function(props) {
               props.resetLogoutTimer();
               setShowSelectDatesForm(true);
             }}>Select Dates</Button>
-            <Button onClick={()=> {
-              fetchPortfolioValues()
-            }}>Fetch portfolio</Button>
           </div>
         </div>
       </div>
