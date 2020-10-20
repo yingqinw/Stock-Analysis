@@ -64,11 +64,6 @@ export default function(props) {
 
   const dateConverter = (date) => {
     const dateArr = date.split('-');
-    return `${dateArr[1]}\\${dateArr[2]}\\${dateArr[0]}`;
-  }
-
-  const newDateConverter = (date) => {
-    const dateArr = date.split('-');
     return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
   }
 
@@ -105,7 +100,7 @@ export default function(props) {
     }
   }
 
-  const fetchGraphData = (route, ticker, startDateGraph=newDateConverter(startDate), endDateGraph=newDateConverter(endDate)) => {
+  const fetchGraphData = (route, ticker, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
       const tickerParameter = route === 'AddStockGraph'? 'ticker_graph': 'tickers_graph';
       fetch(`http://localhost:8080/${route}?${tickerParameter}=${ticker}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
@@ -240,7 +235,48 @@ export default function(props) {
     const newStocks = props.stocks.filter(stock => stock.ticker !== removed);
     props.setStocks(newStocks)
   }
-  
+
+  const fetchPortfolioValues = () => {
+    let startDay, endDay;
+    if(startDate.length === 0 && endDate.length === 0) {
+      let sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      startDay = jsDateConverter(sevenDaysAgo);
+      endDay = jsDateConverter(new Date());
+      setStartDate(jsDateConverter(sevenDaysAgo))
+      setEndDate(jsDateConverter(new Date()))
+    }
+    else {
+      startDay = startDate.indexOf('-') > -1? dateConverter(startDate): startDate;
+      endDay = endDate.indexOf('-') > -1? dateConverter(endDate): endDate;
+    }
+    fetch(`http://localhost:8080/AddPortfolioGraph?username=${props.username}&startdate_graph=${startDay}&enddate_graph=${endDay}`, {
+        method:  'POST'
+    })
+    .then(response =>  response.json().then(data => {
+      // check if portfolio is already in the graph
+      let removeIndex = -1;
+      let newGraphPrices = graphPrices;
+      let newGraphTickers = graphTickers;
+      if(newGraphTickers.includes('portfolio')) {
+        // find the removal index
+        newGraphTickers.forEach((item,i) => {
+          if(item === 'portfolio') {
+            removeIndex = i;
+          }
+        })
+        // replace with new array
+        newGraphPrices[removeIndex] = data.price.myArrayList;
+      }
+      else {
+        // push portfolio values to end of graph array
+        setGraphTickers(newGraphTickers.concat('portfolio'));
+        newGraphPrices.push(data.price.myArrayList)
+        setGraphPrices(newGraphPrices);
+      }
+      setGraphLabels(data.date.myArrayList);
+    }))
+  }
   return (
     <div className="homepageWrapper">
       <Navbar expand="lg" className="text-uppercase mb-3">
@@ -253,6 +289,7 @@ export default function(props) {
                 setGraphLabels([]);
                 setGraphTickers([]);
                 setGraphPrices([]);
+                window.localStorage.clear();
               }}>
                 log out
               <Arrow className="arrow"></Arrow>
@@ -298,26 +335,27 @@ export default function(props) {
               </div>
             </div>
           </div>
-          <div className="col-md-9 market-pairs2">
+          <div className="col-md-9">
             <StockGraph 
               graphTickers={graphTickers}
               graphLabels={graphLabels}
               graphPrices={graphPrices}
             />
- 	    <div className="graphButton">
-	    <Button onClick={()=>{
-		props.resetLogoutTimer();
-		setShowAddStockGraph(true);
-	    }}>Add Stock To Graph</Button>
-	    <Button onClick={()=>{
-	      props.resetLogoutTimer();
-	      setShowDeleteStockForm(true);
-	    }}>Remove Stock From Graph</Button>
-	    <Button onClick={()=>{
-	      props.resetLogoutTimer();
-	      setShowSelectDatesForm(true);
-	    }}>Select Dates</Button>
-	    </div>
+            <Button onClick={()=>{
+                props.resetLogoutTimer();
+                setShowAddStockGraph(true);
+            }}>Add Stock To Graph</Button>
+            <Button onClick={()=>{
+              props.resetLogoutTimer();
+              setShowDeleteStockForm(true);
+            }}>Remove Stock From Graph</Button>
+            <Button onClick={()=>{
+              props.resetLogoutTimer();
+              setShowSelectDatesForm(true);
+            }}>Select Dates</Button>
+            <Button onClick={()=> {
+              fetchPortfolioValues()
+            }}>Fetch portfolio</Button>
           </div>
         </div>
       </div>
@@ -409,7 +447,6 @@ export default function(props) {
         </div> : <></>
       }
 
-      
     </div>
   );
 }
