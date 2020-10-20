@@ -298,24 +298,26 @@ export default function(props) {
               </div>
             </div>
           </div>
-          <div className="col-md-9">
+          <div className="col-md-9 market-pairs2">
             <StockGraph 
               graphTickers={graphTickers}
               graphLabels={graphLabels}
               graphPrices={graphPrices}
             />
-            <Button onClick={()=>{
-                props.resetLogoutTimer();
-                setShowAddStockGraph(true);
-            }}>Add Stock To Graph</Button>
-            <Button onClick={()=>{
-              props.resetLogoutTimer();
-              setShowDeleteStockForm(true);
-            }}>Remove Stock From Graph</Button>
-            <Button onClick={()=>{
-              props.resetLogoutTimer();
-              setShowSelectDatesForm(true);
-            }}>Select Dates</Button>
+ 	    <div className="graphButton">
+	    <Button onClick={()=>{
+		props.resetLogoutTimer();
+		setShowAddStockGraph(true);
+	    }}>Add Stock To Graph</Button>
+	    <Button onClick={()=>{
+	      props.resetLogoutTimer();
+	      setShowDeleteStockForm(true);
+	    }}>Remove Stock From Graph</Button>
+	    <Button onClick={()=>{
+	      props.resetLogoutTimer();
+	      setShowSelectDatesForm(true);
+	    }}>Select Dates</Button>
+	    </div>
           </div>
         </div>
       </div>
