@@ -32,7 +32,7 @@ export default function(props) {
             }}
             style={{borderColor: props.validStart? 'green':'red'}} 
           />
-          <h4>End Date (optional)</h4>
+          <h4>End Date</h4>
           <input type="date" placeholder="end date"
             onChange={(e) => {
               props.setEndDate(e.target.value);
