@@ -48,8 +48,8 @@ public class GraphAddStockStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
 	
-	@When("I click add stock to graph button")
-	public void i_click_add_stock_to_graph_button() {
+	@When("I click add stock to graph button ga")
+	public void i_click_add_stock_to_graph_button_ga() {
 		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).click();
 	}
 
@@ -63,18 +63,13 @@ public class GraphAddStockStepDefinitions {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).getAttribute("placeholder"), "Ticker");
 	}
 
-	@Then("I should see the add stock button to graph button")
-	public void i_should_see_the_add_stock_button_to_graph_button() {
+	@Then("I should see the add stock button to graph ga")
+	public void i_should_see_the_add_stock_button_to_graph_ga() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button")).getText(), "ADD STOCK TO GRAPH");
 	}
 
-	@Then("I should see the title called USC CS310 Stock Portfolio Management")
-	public void i_should_see_the_title_called_USC_CS310_Stock_Portfolio_Management() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/nav/a")).getText(), "USC CS310 STOCK PORTFOLIO MANAGEMENT");
-	}
-
-	@Then("I should see the add stock to graph button")
-	public void i_should_see_the_add_stock_to_graph_button() {
+	@Then("I should see the add stock to graph button ga")
+	public void i_should_see_the_add_stock_to_graph_button_ga() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "ADD STOCK TO GRAPH");
 	}
 	
