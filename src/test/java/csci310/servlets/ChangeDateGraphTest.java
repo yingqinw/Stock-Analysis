@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import csci310.SQL;
+import csci310.Stocks;
+
 public class ChangeDateGraphTest extends Mockito{
 
 	@Test
@@ -23,6 +26,10 @@ public class ChangeDateGraphTest extends Mockito{
         PrintWriter writer = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(writer);
         
+        Stocks s = new Stocks(1,"IBM","10/06/2020","10/09/2020");
+		SQL.register("Bigmonster","Abc123");
+		SQL.addStock("Bigmonster",s);
+		when(request.getParameter("username")).thenReturn("Bigmonster");
         when(request.getParameter("tickers_graph")).thenReturn("[ \"AAPL\", \"AMZN\", \"QQQ\" ]");
         when(request.getParameter("startdate_graph")).thenReturn("08/05/2020");
         when(request.getParameter("enddate_graph")).thenReturn("10/13/2020");

@@ -36,6 +36,9 @@ public class AddStockTest extends Mockito{
 		HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);
         
+        when(request.getParameter("startdate_graph")).thenReturn("09/11/2020");
+        when(request.getParameter("enddate_graph")).thenReturn("10/10/2020");
+        
         when(request.getParameter("ticker")).thenReturn("AAPL");
         when(request.getParameter("quantity")).thenReturn("1");
         when(request.getParameter("startdate")).thenReturn("09/11/2020");
@@ -54,6 +57,9 @@ public class AddStockTest extends Mockito{
 		//add different stock
 		HttpServletRequest request5 = mock(HttpServletRequest.class);       
         HttpServletResponse response5 = mock(HttpServletResponse.class);
+        
+        when(request5.getParameter("startdate_graph")).thenReturn("09/11/2020");
+        when(request5.getParameter("enddate_graph")).thenReturn("10/10/2020");
         
         when(request5.getParameter("ticker")).thenReturn("IBM");
         when(request5.getParameter("quantity")).thenReturn("1");
@@ -80,6 +86,8 @@ public class AddStockTest extends Mockito{
         when(request1.getParameter("startdate")).thenReturn("09/11/2020");
         when(request1.getParameter("enddate")).thenReturn("09/21/2020");
         when(request1.getParameter("username")).thenReturn("hyunjae");
+        when(request1.getParameter("startdate_graph")).thenReturn("09/11/2020");
+        when(request1.getParameter("enddate_graph")).thenReturn("10/10/2020");
         StringWriter stringWriter1 = new StringWriter();
         PrintWriter writer1 = new PrintWriter(stringWriter1);
         when(response1.getWriter()).thenReturn(writer1);
@@ -92,7 +100,8 @@ public class AddStockTest extends Mockito{
 		//trigger database exception
 		HttpServletRequest request2 = mock(HttpServletRequest.class);       
         HttpServletResponse response2 = mock(HttpServletResponse.class);
-        
+        when(request2.getParameter("startdate_graph")).thenReturn("09/11/2020");
+        when(request2.getParameter("enddate_graph")).thenReturn("10/10/2020");
         when(request2.getParameter("ticker")).thenReturn("AAPL");
         when(request2.getParameter("quantity")).thenReturn("1");
         when(request2.getParameter("startdate")).thenReturn("09/11/2020");
