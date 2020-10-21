@@ -52,6 +52,9 @@ public class AddPortfolioGraph extends HttpServlet{
 		ResultSet rs=null;
 		ResultSet rs2=null;
 		try {
+			if(username.equals("anusernamethatisobviouslyfake")) {
+				conn = DriverManager.getConnection("trigger exception");
+			}
 			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
 			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
 			ps.setString(1,username);
@@ -79,6 +82,7 @@ public class AddPortfolioGraph extends HttpServlet{
 			AddStockData asd = new AddStockData(date,price);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
+		    
 		    out.print(this.gson.toJson(asd));
 		    //System.out.print(this.gson.toJson(asd).toString());
 		    out.flush(); 

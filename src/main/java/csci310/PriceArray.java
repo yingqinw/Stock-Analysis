@@ -73,10 +73,10 @@ public class PriceArray {
 	}
 	public void printPriceArray() {
 		System.out.println(">>>Printing PriceArray of " + ticker);
-		if(isEmpty) {
-			System.out.println("The PriceArray is Empty");
-			return;
-		}
+		//if(isEmpty) {
+			//System.out.println("The PriceArray is Empty");
+			//return;
+		//}
 		for(int i=0; i<tradingDate.length; i++) {
 			System.out.println("Time: " + tradingDate[i] + " Price: " + stockPrice[i]); 
 		}
