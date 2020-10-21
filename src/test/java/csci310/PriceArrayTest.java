@@ -32,8 +32,10 @@ public class PriceArrayTest {
 		PriceArray PA = new PriceArray("IBM", 1, "10/05/2020", "10/31/2020");
 		PA.populateStockPrice();
 		String tradingDate = PA.tradingDate[PA.tradingDate.length-1];
-		//PA.printPriceArray();
+		PA.printPriceArray();
 		assertEquals(tradingDate, "10/31/2020");
 	}
+	
+	
 	
 }

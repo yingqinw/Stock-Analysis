@@ -20,7 +20,6 @@ import csci310.InitializeUserTable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.module.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
