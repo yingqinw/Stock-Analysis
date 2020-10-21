@@ -6,7 +6,7 @@ import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
 import SelectDatesForm from './SelectDatesForm';
-import {useEffect, useState, useCallback} from 'react';
+import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 import createActivityDetector from 'activity-detector';
@@ -45,7 +45,11 @@ export default function(props) {
   const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
   const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
   const [showSelectDatesForm, setShowSelectDatesForm] = useState(false);
-  
+  const [validBuy, setValidBuy] = useState(false);
+  const [validSell, setValidSell] = useState(false);
+  const [buyDate, setBuyDate] = useState("");
+  const [sellDate, setSellDate] = useState("");
+
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
@@ -75,9 +79,9 @@ export default function(props) {
     return month + '/' + day + '/' + year;
   }
 
-  const fetchStockData = (route, removedTicker = null) => {
+  const fetchStockData = (route, removedTicker = null, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(buyDate)}&enddate=${dateConverter(sellDate)}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
       .then(response =>  response.json().then(data => {
@@ -102,7 +106,7 @@ export default function(props) {
   const fetchGraphData = (route, ticker, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
       const tickerParameter = route === 'AddStockGraph'? 'ticker_graph': 'tickers_graph';
-      fetch(`http://localhost:8080/${route}?${tickerParameter}=${ticker}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
+      fetch(`http://localhost:8080/${route}?${tickerParameter}=${ticker}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}&username=${props.username}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
@@ -156,6 +160,12 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(endDate) && endDate.localeCompare(startDate)===1);
   }, [endDate,startDate]);
+  useEffect(() => {
+    setValidBuy(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(buyDate));
+  }, [buyDate]);
+  useEffect(() => {
+    setValidSell(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(sellDate) && sellDate.localeCompare(buyDate)===1);
+  }, [sellDate,buyDate]);
 
   const handleAddToGraph = (e, route='AddStockGraph') => {
 	  e.preventDefault();
@@ -212,21 +222,30 @@ export default function(props) {
     if(!validQuantity) {
       alertMessage.push("Quantity should be a number greater than 0.");
     }
-    if(!validStart) {
+    if(!validBuy) {
       alertMessage.push("Please enter a start date.")	
     }
-    if(!validEnd){
+    if(!validSell){
       alertMessage.push("Please choose an end date that is after start date.")	
     }
     if(alertMessage.length !== 0) {
       alertMessage.join('\n');
     }
-    if(endDate.length === 0) {
-      setEndDate(jsDateConverter(new Date()));
+    if(sellDate.length === 0) {
+      setSellDate(jsDateConverter(new Date()));
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      fetchStockData('AddStock');
+      if(startDate.length === 0 && endDate.length === 0) {
+        let sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        fetchStockData('AddStock', null, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
+        setStartDate(jsDateConverter(sevenDaysAgo))
+        setEndDate(jsDateConverter(new Date()))
+      }
+      else {
+        fetchStockData('AddStock');
+      }
     }
   }
   
@@ -373,14 +392,14 @@ export default function(props) {
             handleSubmit={handleSubmit}
             setTicker={setTicker}
             setQuantity={setQuantity}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
+            setStartDate={setBuyDate}
+            setEndDate={setSellDate}
             alertText = {alertText}
             setAlertText={setAlertText}
             validTicker={validTicker}
-            validStart={validStart}
+            validStart={validBuy}
             validQuantity={validQuantity}
-            validEnd={validEnd}
+            validEnd={validSell}
             setShowAddStockForm={setShowAddStockForm}
           />
         </div>
