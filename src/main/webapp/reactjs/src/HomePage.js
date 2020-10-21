@@ -196,7 +196,6 @@ export default function(props) {
         fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
         setStartDate(jsDateConverter(sevenDaysAgo))
         setEndDate(jsDateConverter(new Date()))
-        fetchPortfolioValues();
       }
       else {
         fetchGraphData(route, tickerString);
@@ -236,54 +235,54 @@ export default function(props) {
     props.setStocks(newStocks)
   }
 
-  const fetchPortfolioValues = useCallback(() => {
-    let startDay, endDay;
-    if(startDate.length === 0 && endDate.length === 0) {
-      let sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      startDay = jsDateConverter(sevenDaysAgo);
-      endDay = jsDateConverter(new Date());
-      setStartDate(jsDateConverter(sevenDaysAgo))
-      setEndDate(jsDateConverter(new Date()))
-    }
-    else {
-      startDay = startDate.indexOf('-') > -1? dateConverter(startDate): startDate;
-      endDay = endDate.indexOf('-') > -1? dateConverter(endDate): endDate;
-    }
-    fetch(`http://localhost:8080/AddPortfolioGraph?username=${props.username}&startdate_graph=${startDay}&enddate_graph=${endDay}`, {
-        method:  'POST'
-    })
-    .then(response =>  response.json().then(data => {
-      // check if portfolio is already in the graph
-      let removeIndex = -1;
-      let newGraphPrices = graphPrices;
-      let newGraphTickers = graphTickers;
-      if(newGraphTickers.includes('portfolio')) {
-        // find the removal index
-        newGraphTickers.forEach((item,i) => {
-          if(item === 'portfolio') {
-            removeIndex = i;
-          }
-        })
-        // replace with new array
-        newGraphPrices[removeIndex] = data.price.myArrayList;
-      }
-      else {
-        // push portfolio values to end of graph array
-        setGraphTickers(newGraphTickers.concat('portfolio'));
-        newGraphPrices.push(data.price.myArrayList)
-        setGraphPrices(newGraphPrices);
-      }
-      setGraphLabels(data.date.myArrayList);
-    }))
-  }, [startDate, endDate, graphPrices, graphTickers, props.username, setGraphLabels, setGraphPrices, setGraphTickers])
+  // const fetchPortfolioValues = useCallback(() => {
+  //   let startDay, endDay;
+  //   if(startDate.length === 0 && endDate.length === 0) {
+  //     let sevenDaysAgo = new Date();
+  //     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  //     startDay = jsDateConverter(sevenDaysAgo);
+  //     endDay = jsDateConverter(new Date());
+  //     setStartDate(jsDateConverter(sevenDaysAgo))
+  //     setEndDate(jsDateConverter(new Date()))
+  //   }
+  //   else {
+  //     startDay = startDate.indexOf('-') > -1? dateConverter(startDate): startDate;
+  //     endDay = endDate.indexOf('-') > -1? dateConverter(endDate): endDate;
+  //   }
+  //   fetch(`http://localhost:8080/AddPortfolioGraph?username=${props.username}&startdate_graph=${startDay}&enddate_graph=${endDay}`, {
+  //       method:  'POST'
+  //   })
+  //   .then(response =>  response.json().then(data => {
+  //     // check if portfolio is already in the graph
+  //     let removeIndex = -1;
+  //     let newGraphPrices = graphPrices;
+  //     let newGraphTickers = graphTickers;
+  //     if(newGraphTickers.includes('portfolio')) {
+  //       // find the removal index
+  //       newGraphTickers.forEach((item,i) => {
+  //         if(item === 'portfolio') {
+  //           removeIndex = i;
+  //         }
+  //       })
+  //       // replace with new array
+  //       newGraphPrices[removeIndex] = data.price.myArrayList;
+  //     }
+  //     else {
+  //       // push portfolio values to end of graph array
+  //       setGraphTickers(newGraphTickers.concat('portfolio'));
+  //       newGraphPrices.push(data.price.myArrayList)
+  //       setGraphPrices(newGraphPrices);
+  //     }
+  //     setGraphLabels(data.date.myArrayList);
+  //   }))
+  // }, [startDate, endDate, graphPrices, graphTickers, props.username, setGraphLabels, setGraphPrices, setGraphTickers])
 
-  // fetch portfolio values once the user logs in
-  useEffect(() => {
-    if(props.loggedIn) {
-      fetchPortfolioValues();
-    }
-  }, [props.loggedIn, fetchPortfolioValues])
+  // // fetch portfolio values once the user logs in
+  // useEffect(() => {
+  //   if(props.loggedIn) {
+  //     fetchPortfolioValues();
+  //   }
+  // }, [props.loggedIn, fetchPortfolioValues])
 
   return (
     <div className="homepageWrapper">
