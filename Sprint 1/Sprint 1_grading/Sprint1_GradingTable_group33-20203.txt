@@ -1,21 +1,21 @@
 			Grading Table - Team33
 
-| Section                  | Grade                 | Note                                             |
-|--------------------------|-----------------------|--------------------------------------------------|
-| Sprint Planning          | 9/9                   | Awesome!                                         |
-| Scrums                   | 24.166666666666668/25 | Scrum 1:Files not commited close to meeting time |
-|                          |                       | Scrum 2:                                         |
-|                          |                       | Scrum 3:                                         |
-|                          |                       | Scrum 4:                                         |
-|                          |                       | Scrum 5:Great work!                              |
-| Retrospective            | 6/6                   | Good retrospective.                              |
-| TDD                      | 6/10                  |                                                  |
-| Sustainable Pace         | 9/10                  |                                                  |
-| GitFlow                  | 0/10                  |                                                  |
-| Continuous Integration   | 8/10                  |                                                  |
-| Refactor                 | 10/10                 |                                                  |
-| Coverage                 | 9.8/10                |                                                  |
-| ------------------------ | -------------------   |                                                  |
-| Total                    | 81.96666666666667     |                                                  |
-| ------------------------ | -------------------   |                                                  |
-| Implementation Score     | 8.0/250               |                                                  |
+| Section                  | Grade               | Note                                             |
+|--------------------------|---------------------|--------------------------------------------------|
+| Sprint Planning          | 9.0/9               | Awesome!                                         |
+| Scrums                   | 24.2/25             | Scrum 1:Files not commited close to meeting time |
+|                          |                     | Scrum 2:                                         |
+|                          |                     | Scrum 3:                                         |
+|                          |                     | Scrum 4:                                         |
+|                          |                     | Scrum 5:Great work!                              |
+| Retrospective            | 6.0/6               |                                                  |
+| TDD                      | 6.7/10              |                                                  |
+| Sustainable Pace         | 10/10               |                                                  |
+| GitFlow                  | 9/10                |                                                  |
+| Continuous Integration   | 8/10                |                                                  |
+| Refactor                 | 10/10               |                                                  |
+| Coverage                 | 9.8/10              |                                                  |
+| ------------------------ | ------------------- |                                                  |
+| Total                    | 92.7                |                                                  |
+| ------------------------ | ------------------- |                                                  |
+| Implementation Score     | 8/250               |                                                  |
