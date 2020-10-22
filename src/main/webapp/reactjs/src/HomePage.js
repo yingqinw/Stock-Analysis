@@ -27,6 +27,24 @@ export const jsonToArray = (data) => {
   return result;
 }
 
+export const jsonToArray2 = (data) => {
+  let result = []
+  for (let key in data)
+  {
+    if (data.hasOwnProperty(key))
+    {
+      result.push({
+        ticker: key,
+        price: data[key]
+      })
+    }
+  }
+  return result;
+}
+
+export const isEmpty = (data) => {
+  return Object.keys(data).length === 0 && data.constructor === Object;
+}
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -85,6 +103,7 @@ export default function(props) {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
       .then(response =>  response.json().then(data => {
+		//console.log("here")
         const error = data.AddStockerr;
         if(error) {
           setAlertText("");
@@ -97,7 +116,35 @@ export default function(props) {
           if(route === 'RemoveStock') {
             setShowDeleteConfirmForm(false);
           }
-          props.setStocks(jsonToArray(data));
+		  console.log(data);
+		  //console.log(jsonToArray2(data.update.map));
+		  if(!isEmpty(data.update)){
+			props.setStocks(jsonToArray2(data.update.map));
+		  }else{
+			console.log("empty")
+		  }
+		  
+		   let removeIndex = -1;
+  	       let newGraphPrices = graphPrices;
+  	       let newGraphTickers = graphTickers;
+  	       if(newGraphTickers.includes('portfolio')) {
+      	   // find the removal index
+       		newGraphTickers.forEach((item,i) => {
+         		if(item === 'portfolio') {
+           			removeIndex = i;
+        		}
+       		})
+       			// replace with new array
+       		newGraphPrices[removeIndex] = data.price.myArrayList;
+     		}
+     		else {
+       			// push portfolio values to end of graph array
+       			setGraphTickers(newGraphTickers.concat('portfolio'));
+       			newGraphPrices.push(data.price.myArrayList)
+       			setGraphPrices(newGraphPrices);
+     		}
+     		setGraphLabels(data.date.myArrayList);
+          
         }
       }))
     }
