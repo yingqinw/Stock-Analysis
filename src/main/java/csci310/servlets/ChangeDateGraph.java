@@ -5,6 +5,11 @@ import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,6 +24,8 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import csci310.Portfolio;
 
 
 @WebServlet("/ChangeDateGraph")
@@ -44,6 +51,7 @@ public class ChangeDateGraph extends HttpServlet{
 		ArrayList<String> tickers = this.gson.fromJson(tickers_string, listType);
 
 		String APIKey = "btjeu1f48v6tfmo5erv0";
+		String username = request.getParameter("username");
         String startDate = request.getParameter("startdate_graph");
         String endDate = request.getParameter("enddate_graph");
         response.addHeader("Access-Control-Allow-Origin", "*");
@@ -99,12 +107,73 @@ public class ChangeDateGraph extends HttpServlet{
 			}
 			prices.put(ticker, price);
         }
-        AddStockData asd = new AddStockData(date,prices);
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    out.print(this.gson.toJson(asd));
-	    //System.out.println(this.gson.toJson(asd).toString());
-	    out.flush(); 
+        
+        Portfolio p = new Portfolio(username, startDate, endDate);
+        Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs=null;
+		ResultSet rs2=null;
+		try {
+			if(username.equals("anusernamethatisobviouslyfake")) {
+				conn = DriverManager.getConnection("trigger exception");
+			}
+			conn = DriverManager.getConnection("jdbc:sqlite:project.db");
+			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
+			ps.setString(1,username);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				int userID = rs.getInt("userID");
+				ps2=conn.prepareStatement("SELECT * FROM stocks WHERE userID=?");
+				ps2.setInt(1, userID);
+				rs2=ps2.executeQuery();
+				while(rs2.next()) {
+					String ticker =rs2.getString("ticker");
+					String dayPurchase = rs2.getString("dayPurchase");
+					String daySold = rs2.getString("daySold");
+					int quantity = rs2.getInt("quantity");
+					p.addStock(ticker, quantity, dayPurchase, daySold);
+				}
+			}
+			p.populatePortfolioValue();
+			JSONArray price = new JSONArray();
+			for(int i =0;i<p.tradingDate.length;i++) {
+				price.put(p.portfolioValue[i]);
+			}
+			prices.put("portfolio", price);
+			if(!setdate) {
+				for(int i =0;i<p.tradingDate.length;i++) {
+					date.put(p.tradingDate[i]);
+				}
+				setdate = true;
+			}
+			
+			AddStockData asd = new AddStockData(date,prices);
+		    response.setContentType("application/json");
+		    response.setCharacterEncoding("UTF-8");
+		    out.print(this.gson.toJson(asd));
+		    //System.out.println(this.gson.toJson(asd).toString());
+		    out.flush(); 
+			 
+			
+		}catch(SQLException sqle) {
+			System.out.println("sqle: "+sqle.getMessage());
+		} catch (ParseException e) {
+		}
+		try {
+			if(rs!=null) {rs.close();}
+			if(rs2!=null) {rs2.close();}
+			if(ps!=null) {ps.close();}
+			if(ps2!=null) {ps2.close();}
+			if(conn!=null) {conn.close(); }
+		}catch(SQLException sqle) {
+			System.out.println("sqle closing stuff: "+sqle.getMessage());
+		}
 	}
 
+        
+        
+        
+        
+       
 }

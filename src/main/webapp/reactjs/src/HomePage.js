@@ -6,7 +6,7 @@ import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
 import SelectDatesForm from './SelectDatesForm';
-import {useEffect, useState, useCallback} from 'react';
+import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 import createActivityDetector from 'activity-detector';
@@ -27,6 +27,24 @@ export const jsonToArray = (data) => {
   return result;
 }
 
+export const jsonToArray2 = (data) => {
+  let result = []
+  for (let key in data)
+  {
+    if (data.hasOwnProperty(key))
+    {
+      result.push({
+        ticker: key,
+        price: data[key]
+      })
+    }
+  }
+  return result;
+}
+
+export const isEmpty = (data) => {
+  return Object.keys(data).length === 0 && data.constructor === Object;
+}
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -45,7 +63,11 @@ export default function(props) {
   const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
   const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
   const [showSelectDatesForm, setShowSelectDatesForm] = useState(false);
-  
+  const [validBuy, setValidBuy] = useState(false);
+  const [validSell, setValidSell] = useState(false);
+  const [buyDate, setBuyDate] = useState("");
+  const [sellDate, setSellDate] = useState("");
+
   function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
@@ -62,8 +84,13 @@ export default function(props) {
   useIdle({timeToIdle: 1000})
 
   const dateConverter = (date) => {
-    const dateArr = date.split('-');
-    return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+    if(date.indexOf('-') > -1) {
+      const dateArr = date.split('-');
+      return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+    }
+    else {
+      return date;
+    }
   }
 
   const jsDateConverter = (date) => {
@@ -75,12 +102,16 @@ export default function(props) {
     return month + '/' + day + '/' + year;
   }
 
-  const fetchStockData = (route, removedTicker = null) => {
+  const fetchStockData = (route, removedTicker = null, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(startDate)}&enddate=${dateConverter(endDate)}`, {
+      const realStartDateGraph = startDateGraph.indexOf('-') > -1? dateConverter(startDateGraph) : startDateGraph;
+      const realEndDateGraph = endDateGraph.indexOf('-') > -1? dateConverter(endDateGraph) : endDateGraph;
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(buyDate)}&enddate=${dateConverter(sellDate)}&startdate_graph=${realStartDateGraph}&enddate_graph=${realEndDateGraph}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
       .then(response =>  response.json().then(data => {
+		//console.log("here")
+		//console.log(data)
         const error = data.AddStockerr;
         if(error) {
           setAlertText("");
@@ -93,7 +124,35 @@ export default function(props) {
           if(route === 'RemoveStock') {
             setShowDeleteConfirmForm(false);
           }
-          props.setStocks(jsonToArray(data));
+		  //console.log(data);
+		  //console.log(jsonToArray2(data.update.map));
+		  if(!isEmpty(data.update)){
+			props.setStocks(jsonToArray2(data.update.map));
+		  }else{
+			console.log("empty")
+		  }
+		  
+		   let removeIndex = -1;
+  	       let newGraphPrices = graphPrices;
+  	       let newGraphTickers = graphTickers;
+  	       if(newGraphTickers.includes('portfolio')) {
+      	   // find the removal index
+       		newGraphTickers.forEach((item,i) => {
+         		if(item === 'portfolio') {
+           			removeIndex = i;
+        		}
+       		})
+       			// replace with new array
+       		newGraphPrices[removeIndex] = data.price.myArrayList;
+     		}
+     		else {
+       			// push portfolio values to end of graph array
+       			setGraphTickers(newGraphTickers.concat('portfolio'));
+       			newGraphPrices.push(data.price.myArrayList)
+       			setGraphPrices(newGraphPrices);
+     		}
+     		setGraphLabels(data.date.myArrayList);
+          
         }
       }))
     }
@@ -102,7 +161,7 @@ export default function(props) {
   const fetchGraphData = (route, ticker, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
       const tickerParameter = route === 'AddStockGraph'? 'ticker_graph': 'tickers_graph';
-      fetch(`http://localhost:8080/${route}?${tickerParameter}=${ticker}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
+      fetch(`http://localhost:8080/${route}?${tickerParameter}=${ticker}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}&username=${props.username}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
@@ -156,6 +215,12 @@ export default function(props) {
   useEffect(() => {
     setValidEnd(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(endDate) && endDate.localeCompare(startDate)===1);
   }, [endDate,startDate]);
+  useEffect(() => {
+    setValidBuy(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(buyDate));
+  }, [buyDate]);
+  useEffect(() => {
+    setValidSell(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(sellDate) && sellDate.localeCompare(buyDate)===1);
+  }, [sellDate,buyDate]);
 
   const handleAddToGraph = (e, route='AddStockGraph') => {
 	  e.preventDefault();
@@ -188,7 +253,9 @@ export default function(props) {
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      const tickerArray = graphTickers.map(ticker => `"${ticker}"`).join(',');
+      let realGraphTickers = graphTickers;
+      realGraphTickers = realGraphTickers.filter(ticker => ticker !== "portfolio");
+      const tickerArray = realGraphTickers.map(ticker => `"${ticker}"`).join(',');
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
         let sevenDaysAgo = new Date();
@@ -196,7 +263,6 @@ export default function(props) {
         fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
         setStartDate(jsDateConverter(sevenDaysAgo))
         setEndDate(jsDateConverter(new Date()))
-        fetchPortfolioValues();
       }
       else {
         fetchGraphData(route, tickerString);
@@ -213,21 +279,30 @@ export default function(props) {
     if(!validQuantity) {
       alertMessage.push("Quantity should be a number greater than 0.");
     }
-    if(!validStart) {
+    if(!validBuy) {
       alertMessage.push("Please enter a start date.")	
     }
-    if(!validEnd){
+    if(!validSell){
       alertMessage.push("Please choose an end date that is after start date.")	
     }
     if(alertMessage.length !== 0) {
       alertMessage.join('\n');
     }
-    if(endDate.length === 0) {
-      setEndDate(jsDateConverter(new Date()));
+    if(sellDate.length === 0) {
+      setSellDate(jsDateConverter(new Date()));
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      fetchStockData('AddStock');
+      if(startDate.length === 0 && endDate.length === 0) {
+        let sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        fetchStockData('AddStock', null, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
+        setStartDate(jsDateConverter(sevenDaysAgo))
+        setEndDate(jsDateConverter(new Date()))
+      }
+      else {
+        fetchStockData('AddStock');
+      }
     }
   }
   
@@ -236,54 +311,54 @@ export default function(props) {
     props.setStocks(newStocks)
   }
 
-  const fetchPortfolioValues = useCallback(() => {
-    let startDay, endDay;
-    if(startDate.length === 0 && endDate.length === 0) {
-      let sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      startDay = jsDateConverter(sevenDaysAgo);
-      endDay = jsDateConverter(new Date());
-      setStartDate(jsDateConverter(sevenDaysAgo))
-      setEndDate(jsDateConverter(new Date()))
-    }
-    else {
-      startDay = startDate.indexOf('-') > -1? dateConverter(startDate): startDate;
-      endDay = endDate.indexOf('-') > -1? dateConverter(endDate): endDate;
-    }
-    fetch(`http://localhost:8080/AddPortfolioGraph?username=${props.username}&startdate_graph=${startDay}&enddate_graph=${endDay}`, {
-        method:  'POST'
-    })
-    .then(response =>  response.json().then(data => {
-      // check if portfolio is already in the graph
-      let removeIndex = -1;
-      let newGraphPrices = graphPrices;
-      let newGraphTickers = graphTickers;
-      if(newGraphTickers.includes('portfolio')) {
-        // find the removal index
-        newGraphTickers.forEach((item,i) => {
-          if(item === 'portfolio') {
-            removeIndex = i;
-          }
-        })
-        // replace with new array
-        newGraphPrices[removeIndex] = data.price.myArrayList;
-      }
-      else {
-        // push portfolio values to end of graph array
-        setGraphTickers(newGraphTickers.concat('portfolio'));
-        newGraphPrices.push(data.price.myArrayList)
-        setGraphPrices(newGraphPrices);
-      }
-      setGraphLabels(data.date.myArrayList);
-    }))
-  }, [startDate, endDate, graphPrices, graphTickers, props.username, setGraphLabels, setGraphPrices, setGraphTickers])
+  // const fetchPortfolioValues = useCallback(() => {
+  //   let startDay, endDay;
+  //   if(startDate.length === 0 && endDate.length === 0) {
+  //     let sevenDaysAgo = new Date();
+  //     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  //     startDay = jsDateConverter(sevenDaysAgo);
+  //     endDay = jsDateConverter(new Date());
+  //     setStartDate(jsDateConverter(sevenDaysAgo))
+  //     setEndDate(jsDateConverter(new Date()))
+  //   }
+  //   else {
+  //     startDay = startDate.indexOf('-') > -1? dateConverter(startDate): startDate;
+  //     endDay = endDate.indexOf('-') > -1? dateConverter(endDate): endDate;
+  //   }
+  //   fetch(`http://localhost:8080/AddPortfolioGraph?username=${props.username}&startdate_graph=${startDay}&enddate_graph=${endDay}`, {
+  //       method:  'POST'
+  //   })
+  //   .then(response =>  response.json().then(data => {
+  //     // check if portfolio is already in the graph
+  //     let removeIndex = -1;
+  //     let newGraphPrices = graphPrices;
+  //     let newGraphTickers = graphTickers;
+  //     if(newGraphTickers.includes('portfolio')) {
+  //       // find the removal index
+  //       newGraphTickers.forEach((item,i) => {
+  //         if(item === 'portfolio') {
+  //           removeIndex = i;
+  //         }
+  //       })
+  //       // replace with new array
+  //       newGraphPrices[removeIndex] = data.price.myArrayList;
+  //     }
+  //     else {
+  //       // push portfolio values to end of graph array
+  //       setGraphTickers(newGraphTickers.concat('portfolio'));
+  //       newGraphPrices.push(data.price.myArrayList)
+  //       setGraphPrices(newGraphPrices);
+  //     }
+  //     setGraphLabels(data.date.myArrayList);
+  //   }))
+  // }, [startDate, endDate, graphPrices, graphTickers, props.username, setGraphLabels, setGraphPrices, setGraphTickers])
 
-  // fetch portfolio values once the user logs in
-  useEffect(() => {
-    if(props.loggedIn) {
-      fetchPortfolioValues();
-    }
-  }, [props.loggedIn, fetchPortfolioValues])
+  // // fetch portfolio values once the user logs in
+  // useEffect(() => {
+  //   if(props.loggedIn) {
+  //     fetchPortfolioValues();
+  //   }
+  // }, [props.loggedIn, fetchPortfolioValues])
 
   return (
     <div className="homepageWrapper">
@@ -374,14 +449,14 @@ export default function(props) {
             handleSubmit={handleSubmit}
             setTicker={setTicker}
             setQuantity={setQuantity}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
+            setStartDate={setBuyDate}
+            setEndDate={setSellDate}
             alertText = {alertText}
             setAlertText={setAlertText}
             validTicker={validTicker}
-            validStart={validStart}
+            validStart={validBuy}
             validQuantity={validQuantity}
-            validEnd={validEnd}
+            validEnd={validSell}
             setShowAddStockForm={setShowAddStockForm}
           />
         </div>
@@ -411,6 +486,8 @@ export default function(props) {
             fetchStockData={fetchStockData}
             resetLogoutTimer={props.resetLogoutTimer}
             setShowDeleteConfirmForm={setShowDeleteConfirmForm}
+			startDate={startDate}
+			endDate={endDate}
           />
         </div>
       </div> : <></>}  

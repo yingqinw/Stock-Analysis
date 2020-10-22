@@ -34,37 +34,28 @@ public class LoginMobileStepDefinitions {
 	@Before()
 	public void before() {
 		Map<String, Object> deviceMetrics = new HashMap<>();
-
 		deviceMetrics.put("width", 414);
-
 		deviceMetrics.put("height", 896);
-
 		deviceMetrics.put("pixelRatio", 3.0);
-
 		Map<String, Object> mobileEmulation = new HashMap<>();
-
 		mobileEmulation.put("deviceMetrics", deviceMetrics);
-
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-
 		driver = new ChromeDriver(chromeOptions);
-		
-		
 		new DropUserTable();
 	}
 	
 	@Given("I am on the index page i lm")
 	public void i_am_on_the_index_page_i_lm() {
-	    driver.get(ROOT_URL);
+	    	driver.get(ROOT_URL);
 	}
 	
 	@Given("I am on the index page with existing account lm")
 	public void i_am_on_the_index_page_with_existing_account_lm() {
-		new DropUserTable();
-		new CreateUserTable();
-		new InitializeUserTable();
-	    driver.get(ROOT_URL);
+	    	new DropUserTable();
+	    	new CreateUserTable();
+	    	new InitializeUserTable();
+	    	driver.get(ROOT_URL);
 	}
 	
 	@When("I am on the login page1 lm")
@@ -119,24 +110,24 @@ public class LoginMobileStepDefinitions {
 
 	@When("I typed in {string} in the Username field lm")
 	public void i_typed_in_in_the_Username_field_lm(String string) {
-	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys(string);
+	    	driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys(string);
 	}
 
 	@When("I click the login button lm")
 	public void i_click_the_login_butto_lm() {
-	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	    	driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
 
 	@Then("I should see the border color of Username is red lm")
 	public void i_should_see_the_border_color_of_Username_is_red_lm() {
-	    WebElement username = driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]"));
-	    assertEquals("rgb(255, 0, 0)",username.getCssValue("border-color"));
+	    	WebElement username = driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]"));
+	    	assertEquals("rgb(255, 0, 0)",username.getCssValue("border-color"));
 	}
 
 	@Then("I should see error message {string} lm")
 	public void i_should_see_error_message_lm(String string) {
-	    WebElement alert = driver.findElement(By.cssSelector("#login-form > div.alertWrapper"));
-	    assertTrue(alert.getText().contains(string));
+	    	WebElement alert = driver.findElement(By.cssSelector("#login-form > div.alertWrapper"));
+	    	assertTrue(alert.getText().contains(string));
 	}
 	
 	@Then("I should see the border color of Username is not red lm")

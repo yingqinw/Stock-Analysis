@@ -13,7 +13,7 @@ export default function(props) {
         <Button style={{margin:20 }} onClick={()=>{          
           props.resetLogoutTimer()
           props.removeStocks(props.ticker);
-          props.fetchStockData('RemoveStock', props.ticker);
+          props.fetchStockData('RemoveStock', props.ticker,props.startDate,props.endDate);
         }}>
           Yes
         </Button>
