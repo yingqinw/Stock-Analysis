@@ -141,6 +141,12 @@ public class ChangeDateGraph extends HttpServlet{
 				price.put(p.portfolioValue[i]);
 			}
 			prices.put("portfolio", price);
+			if(!setdate) {
+				for(int i =0;i<p.tradingDate.length;i++) {
+					date.put(p.tradingDate[i]);
+				}
+				setdate = true;
+			}
 			
 			AddStockData asd = new AddStockData(date,prices);
 		    response.setContentType("application/json");
