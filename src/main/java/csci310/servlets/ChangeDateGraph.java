@@ -35,11 +35,9 @@ public class ChangeDateGraph extends HttpServlet{
 	public class AddStockData{
 		private JSONArray date = new JSONArray();
 		private JSONObject prices = new JSONObject();
-		private JSONArray portfolio = new JSONArray();
-		public AddStockData(JSONArray labels, JSONObject price, JSONArray portfoliovalue) {
+		public AddStockData(JSONArray labels, JSONObject price) {
 			date = labels;
 			prices = price;
-			portfolio = portfoliovalue;
 		}
 	}
 	
@@ -142,8 +140,9 @@ public class ChangeDateGraph extends HttpServlet{
 			for(int i =0;i<p.tradingDate.length;i++) {
 				price.put(p.portfolioValue[i]);
 			}
+			prices.put("portfolio", price);
 			
-			AddStockData asd = new AddStockData(date,prices,price);
+			AddStockData asd = new AddStockData(date,prices);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    out.print(this.gson.toJson(asd));
