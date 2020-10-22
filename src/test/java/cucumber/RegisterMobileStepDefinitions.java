@@ -34,22 +34,15 @@ public class RegisterMobileStepDefinitions {
 	@Before()
 	public void before() {
 		Map<String, Object> deviceMetrics = new HashMap<>();
-
 		deviceMetrics.put("width", 414);
-
 		deviceMetrics.put("height", 896);
-
 		deviceMetrics.put("pixelRatio", 3.0);
-
 		Map<String, Object> mobileEmulation = new HashMap<>();
-
 		mobileEmulation.put("deviceMetrics", deviceMetrics);
-
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-
 		driver = new ChromeDriver(chromeOptions);
-		
+	
 		new DropUserTable();
 	}
 	
@@ -161,8 +154,8 @@ public class RegisterMobileStepDefinitions {
 	
 	@Then("I should see error message {string} in registration form sm")
 	public void i_should_see_error_message_in_registration_form_sm(String string) {
-	    WebElement alert = driver.findElement(By.cssSelector("#signup-form > div.alertWrapper"));
-	    assertTrue(alert.getText().contains(string));
+	    	WebElement alert = driver.findElement(By.cssSelector("#signup-form > div.alertWrapper"));
+	    	assertTrue(alert.getText().contains(string));
 	}
 	
 	@Then("I should see the homepage differnt from signup page sm")
