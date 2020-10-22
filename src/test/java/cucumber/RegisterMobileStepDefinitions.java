@@ -34,22 +34,15 @@ public class RegisterMobileStepDefinitions {
 	@Before()
 	public void before() {
 		Map<String, Object> deviceMetrics = new HashMap<>();
-
 		deviceMetrics.put("width", 414);
-
 		deviceMetrics.put("height", 896);
-
 		deviceMetrics.put("pixelRatio", 3.0);
-
 		Map<String, Object> mobileEmulation = new HashMap<>();
-
 		mobileEmulation.put("deviceMetrics", deviceMetrics);
-
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-
 		driver = new ChromeDriver(chromeOptions);
-		
+	
 		new DropUserTable();
 	}
 	
@@ -140,13 +133,13 @@ public class RegisterMobileStepDefinitions {
 	@Then("I should see the border color of Username is red in registration form sm")
 	public void i_should_see_the_border_color_of_Username_is_red_in_registration_form_sm() {
 		WebElement username = driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[1]"));
-	    assertEquals("rgb(255, 0, 0)",username.getCssValue("border-color"));
+	    	assertEquals("rgb(255, 0, 0)",username.getCssValue("border-color"));
 	}
 
    @Then("I should see the border color of Username is not red in registration form sm")
 	public void i_should_see_the_border_color_of_Username_is_not_red_in_registration_form_sm() {
-	   WebElement username = driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[1]"));
-	   assertTrue(username.getCssValue("border-color").toString() != "rgb(255, 0, 0)");
+	   	WebElement username = driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/div/input[1]"));
+	   	assertTrue(username.getCssValue("border-color").toString() != "rgb(255, 0, 0)");
 	}
    
 	@When("I typed in {string} in the Password field in registration form sm")
@@ -161,8 +154,8 @@ public class RegisterMobileStepDefinitions {
 	
 	@Then("I should see error message {string} in registration form sm")
 	public void i_should_see_error_message_in_registration_form_sm(String string) {
-	    WebElement alert = driver.findElement(By.cssSelector("#signup-form > div.alertWrapper"));
-	    assertTrue(alert.getText().contains(string));
+	    	WebElement alert = driver.findElement(By.cssSelector("#signup-form > div.alertWrapper"));
+	    	assertTrue(alert.getText().contains(string));
 	}
 	
 	@Then("I should see the homepage differnt from signup page sm")

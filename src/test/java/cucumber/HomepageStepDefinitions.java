@@ -96,17 +96,17 @@ public class HomepageStepDefinitions {
 
 	@Then("I should see the add stock to graph button")
 	public void i_should_see_the_add_stock_to_graph_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\\\"root\\\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "ADD STOCK TO GRAPH");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "ADD STOCK TO GRAPH");
 	}
 
 	@Then("I should see the remove stock from graph button")
 	public void i_should_see_the_remove_stock_from_graph_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\\\"root\\\"]/div/div/div/div/div/div[2]/div[2]/button[2]")).getText(), "REMOVE STOCK FROM GRAPH");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[2]")).getText(), "REMOVE STOCK FROM GRAPH");
 	}
 
 	@Then("I should see the select dates button")
 	public void i_should_see_the_select_dates_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\\\"root\\\"]/div/div/div/div/div/div[2]/div[2]/button[3]")).getText(), "SELECT DATES");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[3]")).getText(), "SELECT DATES");
 	}
 	
 	@After()
