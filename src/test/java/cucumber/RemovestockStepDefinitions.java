@@ -143,10 +143,15 @@ public class RemovestockStepDefinitions {
 
 	@Then("there should be gone that I intend to delete")
 	public void there_should_be_gone_that_I_intend_to_delete() {
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-		By title2 = By.xpath("//*[@id=\"BTC\"]/table/thead/tr/th[1]");
-		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
-		assertEquals(driver.findElement(title2).getText(), "Tickers");
+		boolean isFound = true;
+		try {
+			driver.findElement(By.xpath("//*[@id=\"BTC\"]/table/tbody"));
+		}
+		catch(org.openqa.selenium.NoSuchElementException e){
+			isFound = false;
+			assertFalse(isFound);
+			driver.quit();
+		}
 	}
 	
 	@After()
