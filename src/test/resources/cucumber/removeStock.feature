@@ -26,7 +26,6 @@ Feature: User delete stocks
 	Then there is still the stock that I added
 	
   Scenario: Delete the stock
-	Given in mainpage, logged in, and add a stock2
-	And I click the delete button for the first stock
-	And I click the yes button
+	Given in mainpage, logged in, and add a stock
+	And I click the delete button for the stock and click the yes button
 	Then there should be gone that I intend to delete

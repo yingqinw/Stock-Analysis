@@ -18,7 +18,9 @@ import csci310.InitializeUserTable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Step definitions for Cucumber tests.
@@ -121,51 +123,31 @@ public class RemovestockStepDefinitions {
 		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[1]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "AMZN");
-	}
-	
-	@Given("in mainpage, logged in, and add a stock2")
-	public void in_mainpage_logged_in_and_add_a_stock2() {
-		new DropUserTable();
-		new CreateUserTable();
-		new InitializeUserTable();
-	    driver.get(ROOT_URL);
-	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys("trojan");
-	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
-	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
-	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
-	    driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AAPL");
-		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[2]")).sendKeys("12");
-		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[3]")).sendKeys("12102019");
-		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[4]")).sendKeys("05102020");
-		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/button")).click();
-	}
-
-	@When("I click the delete button for the first stock")
-	public void i_click_the_delete_button_for_the_first_stock() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr[1]/td[3]/div");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		driver.findElement(title).click();
-	}
-
-	@When("I click the yes button")
-	public void i_click_the_yes_button() {
-		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
-	}
-	
-	@Then("there should be gone that I intend to delete")
-	public void there_should_be_gone_that_I_intend_to_delete() {
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[1]");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertEquals(driver.findElement(title).getText(), "AMZN");
 		WebDriverWait wait2 = new WebDriverWait(driver, 10);
 		By title2 = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div");
 		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
 		driver.findElement(title2).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+		
+		
 	}
 	
+	@When("I click the delete button for the stock and click the yes button")
+	public void i_click_the_delete_button_for_the_stock_and_click_the_yes_button() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		driver.findElement(title).click();
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+	}
+
+	@Then("there should be gone that I intend to delete")
+	public void there_should_be_gone_that_I_intend_to_delete() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+		By title2 = By.xpath("//*[@id=\"BTC\"]/table/thead/tr/th[1]");
+		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+		assertEquals(driver.findElement(title2).getText(), "Tickers");
+	}
 	
 	@After()
 	public void after() {
