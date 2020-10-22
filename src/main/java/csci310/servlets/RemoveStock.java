@@ -31,9 +31,11 @@ public class RemoveStock extends HttpServlet  {
 	public class AddStockData{
 		private JSONArray date = new JSONArray();
 		private JSONArray price = new JSONArray();
-		public AddStockData(JSONArray labels, JSONArray prices) {
+		private JSONObject update = new JSONObject();
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates) {
 			date = labels;
 			price = prices;
+			update = updates;
 		}
 	}
 	
@@ -102,10 +104,10 @@ public class RemoveStock extends HttpServlet  {
   			updatedPrices.put(ticker2,currentPrice);
 		}
 		PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(updatedPrices);
-	    out.flush(); 
+        //response.setContentType("application/json");
+        //response.setCharacterEncoding("UTF-8");
+        //out.print(updatedPrices);
+	    //out.flush(); 
 	    Portfolio p = new Portfolio(username, startDate, endDate);
         if(!username.equals("fakeusername")) {
   		try {
@@ -132,12 +134,12 @@ public class RemoveStock extends HttpServlet  {
   				price.put(p.portfolioValue[j]);
   				date.put(p.tradingDate[j]);
   			}
-  			AddStockData asd = new AddStockData(date,price);
+  			AddStockData asd = new AddStockData(date,price,updatedPrices);
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    
   		    out.print(this.gson.toJson(asd));
-  		    //System.out.println(this.gson.toJson(asd).toString());
+  		    System.out.println(this.gson.toJson(asd).toString());
   		    out.flush(); 
   			
   		}catch(SQLException sqle) {

@@ -104,6 +104,7 @@ export default function(props) {
       })
       .then(response =>  response.json().then(data => {
 		//console.log("here")
+		//console.log(data)
         const error = data.AddStockerr;
         if(error) {
           setAlertText("");
@@ -116,7 +117,7 @@ export default function(props) {
           if(route === 'RemoveStock') {
             setShowDeleteConfirmForm(false);
           }
-		  console.log(data);
+		  //console.log(data);
 		  //console.log(jsonToArray2(data.update.map));
 		  if(!isEmpty(data.update)){
 			props.setStocks(jsonToArray2(data.update.map));
@@ -476,6 +477,8 @@ export default function(props) {
             fetchStockData={fetchStockData}
             resetLogoutTimer={props.resetLogoutTimer}
             setShowDeleteConfirmForm={setShowDeleteConfirmForm}
+			startDate={startDate}
+			endDate={endDate}
           />
         </div>
       </div> : <></>}  
