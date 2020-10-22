@@ -147,6 +147,7 @@ public class RemovestockStepDefinitions {
 		try {
 			driver.findElement(By.xpath("//*[@id=\"BTC\"]/table/tbody"));
 		}
+		
 		catch(org.openqa.selenium.NoSuchElementException e){
 			isFound = false;
 			assertFalse(isFound);
