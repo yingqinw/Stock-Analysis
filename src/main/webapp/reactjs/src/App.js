@@ -55,6 +55,8 @@ export default function() {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
+		//console.log(data);
+		//console.log(jsonToArray(data));
         setStocks(jsonToArray(data));
       }))
     }
@@ -75,7 +77,7 @@ export default function() {
     if(timer<0){
       setLoggedIn(false)
       clearInterval(logoutinterval)
-      setTimer(5)
+      setTimer(300)
     }
   }, [timer, setLoggedIn]);
 
