@@ -142,6 +142,7 @@ public class ChangeDateGraph extends HttpServlet{
 			}
 			prices.put("portfolio", price);
 			if(!setdate) {
+				//System.out.println("setdate triggered");
 				for(int i =0;i<p.tradingDate.length;i++) {
 					date.put(p.tradingDate[i]);
 				}
@@ -157,7 +158,7 @@ public class ChangeDateGraph extends HttpServlet{
 			 
 			
 		}catch(SQLException sqle) {
-			System.out.println("sqle: "+sqle.getMessage());
+			//System.out.println("sqle: "+sqle.getMessage());
 		} catch (ParseException e) {
 		}
 		try {
@@ -167,7 +168,7 @@ public class ChangeDateGraph extends HttpServlet{
 			if(ps2!=null) {ps2.close();}
 			if(conn!=null) {conn.close(); }
 		}catch(SQLException sqle) {
-			System.out.println("sqle closing stuff: "+sqle.getMessage());
+			//System.out.println("sqle closing stuff: "+sqle.getMessage());
 		}
 	}
 
