@@ -84,8 +84,13 @@ export default function(props) {
   useIdle({timeToIdle: 1000})
 
   const dateConverter = (date) => {
-    const dateArr = date.split('-');
-    return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+    if(date.indexOf('-') > -1) {
+      const dateArr = date.split('-');
+      return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+    }
+    else {
+      return date;
+    }
   }
 
   const jsDateConverter = (date) => {
@@ -99,7 +104,9 @@ export default function(props) {
 
   const fetchStockData = (route, removedTicker = null, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
-      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(buyDate)}&enddate=${dateConverter(sellDate)}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
+      const realStartDateGraph = startDateGraph.indexOf('-') > -1? dateConverter(startDateGraph) : startDateGraph;
+      const realEndDateGraph = endDateGraph.indexOf('-') > -1? dateConverter(endDateGraph) : endDateGraph;
+      fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(buyDate)}&enddate=${dateConverter(sellDate)}&startdate_graph=${realStartDateGraph}&enddate_graph=${realEndDateGraph}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
       .then(response =>  response.json().then(data => {
@@ -246,7 +253,9 @@ export default function(props) {
     }
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
-      const tickerArray = graphTickers.map(ticker => `"${ticker}"`).join(',');
+      let realGraphTickers = graphTickers;
+      realGraphTickers = realGraphTickers.filter(ticker => ticker !== "portfolio");
+      const tickerArray = realGraphTickers.map(ticker => `"${ticker}"`).join(',');
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
         let sevenDaysAgo = new Date();
