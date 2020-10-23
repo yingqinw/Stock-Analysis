@@ -94,10 +94,10 @@ public class Portfolio {
 	}
 	public void printPortfolio() {
 		System.out.println(">>>>Printing portfolio<<<<");
-		//if(isEmpty) {
-			//System.out.println("The portfolio is Empty due to input dates does not contain trading date.");
-			//return;
-		//}
+		if(isEmpty) {
+			System.out.println("The portfolio is Empty due to input dates does not contain trading date.");
+			return;
+		}
 		for(int z=0; z<tradingDate.length; z++) {
 			System.out.println("Date: "+ tradingDate[z] + " dayPFvalue: " + portfolioValue[z]);
 		}
