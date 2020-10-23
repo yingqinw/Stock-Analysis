@@ -32,8 +32,13 @@ public class LogoutStepDefinitions {
 		new DropUserTable();
 	}
 	
-	@Given("I login and am on the Hompage")
-	public void i_login_and_am_on_the_Hompage() {
+	@Given("I am on index page o")
+	public void i_am_on_index_page_o() {
+		driver.get(ROOT_URL);
+	}
+	
+	@Given("I login and am on the Hompage o")
+	public void i_login_and_am_on_the_Hompage_o() {
 		new DropUserTable();
 		new CreateUserTable();
 		new InitializeUserTable();
@@ -42,6 +47,12 @@ public class LogoutStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
+	
+	@Then("I should see the logout button")
+	public void i_should_see_the_logout_button() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).getText(), "LOG OUT");
+	}
+	
 	@When("I click the logout button")
 	public void i_click_the_logout_button() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);

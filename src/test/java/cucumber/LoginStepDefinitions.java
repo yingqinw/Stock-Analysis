@@ -32,8 +32,8 @@ public class LoginStepDefinitions {
 		new DropUserTable();
 	}
 	
-	@Given("I am on the index page")
-	public void i_am_on_the_index_page() {
+	@Given("I am on the index page i")
+	public void i_am_on_the_index_page_i() {
 	    driver.get(ROOT_URL);
 	}
 	
@@ -43,6 +43,56 @@ public class LoginStepDefinitions {
 		new CreateUserTable();
 		new InitializeUserTable();
 	    driver.get(ROOT_URL);
+	}
+	
+	@When("I am on the login page1")
+	public void i_am_on_the_login_page1() {
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")).click();
+	}
+
+	@Then("I should see the login letter to go login page")
+	public void i_should_see_the_login_letter_to_go_login_page() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")).getText(), "LOGIN");
+	}
+
+	@When("I am on the login page2")
+	public void i_am_on_the_login_page2() {
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")).click();
+	}
+
+	@Then("I should see the signup letter to go signup page")
+	public void i_should_see_the_signup_letter_to_go_signup_page() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[2]")).getText(), "SIGNUP");
+	}
+	
+	@When("I am on the login page3")
+	public void i_am_on_the_login_page3() {
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")).click();
+	}
+
+	@Then("I should see the username block")
+	public void i_should_see_the_username_block() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).getAttribute("placeholder"), "Username");
+	}
+
+	@When("I am on the login page4")
+	public void i_am_on_the_login_page4() {
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")).click();
+	}
+
+	@Then("I should see the password block")
+	public void i_should_see_the_password_block() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).getAttribute("placeholder"), "Password");
+	}
+	
+	@When("I am on the login page5")
+	public void i_am_on_the_login_page5() {
+		driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")).click();
+	}
+
+	@Then("I should see the login button")
+	public void i_should_see_the_login_button() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).getText(), "LOGIN");
 	}
 
 	@When("I typed in {string} in the Username field")
@@ -83,7 +133,7 @@ public class LoginStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.xpath("//*[@id=\"root\"]/div/div/div/nav/a");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertEquals(driver.findElement(title).getText(), "STOCKANALYSIS");
+		assertEquals(driver.findElement(title).getText(), "USC CS310 STOCK PORTFOLIO MANAGEMENT");
 	}
 	@After()
 	public void after() {

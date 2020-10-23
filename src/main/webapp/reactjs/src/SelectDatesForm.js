@@ -4,35 +4,28 @@ import {FormTitle, FormWrapper, Button, Arrow} from './Modals';
 
 
 export default function(props) {
+
   return (
-    <form id="addStock-form" onSubmit={props.handleSubmit}>
+    <form id="addStock-form" onSubmit={(e) => {
+      props.handleAddToGraph(e, "ChangeDateGraph");
+    }}>
       <div className="selectWrapper2">
-        <FormTitle>Add stock</FormTitle>
+        <FormTitle>Select Dates</FormTitle>
         <i className="fa fa-times closeIcon" onClick={()=>{
-          props.setShowAddStockForm(false)
-          props.setAlertText("")
+          props.setShowSelectDatesForm(false);
+          props.setAlertText("");
         }}></i>
       </div>
       <FormWrapper>
         <div className="fields">
-          <input type="text" placeholder="Ticker" onChange={(e) => {
-            props.setTicker(e.target.value);
-          }}
-            style={{borderColor: props.validTicker ? 'green':'red'}}  
-          />
-          <input type="text" placeholder="Quantity" onChange={(e) => {
-            props.setQuantity(e.target.value);
-          }}
-            style={{borderColor: props.validQuantity ? 'green':'red'}} 
-          />
-          <h4>Buy date</h4>
+          <h4>Start Date</h4>
           <input type="date" placeholder="start date"
             onChange={(e) => {
               props.setStartDate(e.target.value);
             }}
             style={{borderColor: props.validStart? 'green':'red'}} 
           />
-          <h4>Sell date</h4>
+          <h4>End Date</h4>
           <input type="date" placeholder="end date"
             onChange={(e) => {
               props.setEndDate(e.target.value);
@@ -41,7 +34,7 @@ export default function(props) {
           />
         </div>
         <Button onClick={()=>{props.resetLogoutTimer()}}>
-          add stock
+          Confirm Dates
           <Arrow className="arrow"></Arrow>
         </Button>
       </FormWrapper>
