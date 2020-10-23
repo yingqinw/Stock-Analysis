@@ -8,7 +8,7 @@
 |                          |                     | Scrum 3:                                         |
 |                          |                     | Scrum 4:                                         |
 |                          |                     | Scrum 5:Great work!                              |
-| Retrospective            | 6.0/6               |                                                  |
+| Retrospective            | 6.0/6               | Good retrospective.                              |
 | TDD                      | 6.7/10              |                                                  |
 | Sustainable Pace         | 10/10               |                                                  |
 | GitFlow                  | 9/10                |                                                  |
