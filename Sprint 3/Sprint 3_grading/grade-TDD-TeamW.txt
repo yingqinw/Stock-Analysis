@@ -1,0 +1,15 @@
+Best Practice TDD Report
+Owner: TeamW
+Grade: 6.4/10
+Comments: 
+	No test method found for: dataservlet.doget
+		Commit: https://github.com/CSCI310/project-20203-group33-20203/commit/9031c3e05b4b2965e7eace7540f2fadade60d6cf
+	No test method found for: portfolio.printportfolio
+		Commit: https://github.com/CSCI310/project-20203-group33-20203/commit/980fc20c59df9ee282d166491a0482792d1ece10
+	No test method found for: pricearray.printpricearray
+		Commit: https://github.com/CSCI310/project-20203-group33-20203/commit/980fc20c59df9ee282d166491a0482792d1ece10
+	No test method found for: pricearray.predictfutureprices
+		Commit: https://github.com/CSCI310/project-20203-group33-20203/commit/980fc20c59df9ee282d166491a0482792d1ece10
+Correct TDD methods: 7
+Incorrect TDD methods: 4
+Total methods evaluated for TDD: 11
