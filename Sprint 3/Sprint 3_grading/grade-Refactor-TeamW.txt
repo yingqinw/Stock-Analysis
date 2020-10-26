@@ -1,0 +1,14 @@
+Best Practice Refactor Report
+Owner: TeamW
+Grade: 10.0/10
+Comments: 
+Issue 161
+	KenZCen satisfied 7 of 7 requirements for this issue.
+Issue 141
+	yingqinw satisfied 7 of 7 requirements for this issue.
+Issue 128
+	HanGuMichael satisfied 7 of 7 requirements for this issue.
+Issue 124
+	vivianzzhu91 satisfied 7 of 7 requirements for this issue.
+Issue 109
+	hyunjaec satisfied 7 of 7 requirements for this issue.
