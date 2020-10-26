@@ -1,0 +1,21 @@
+			Grading Table - Team W 
+
+| Section                  | Grade               | Note                        |
+|--------------------------|---------------------|-----------------------------|
+| Sprint Planning          | 9.0/9               | Good work                   |
+| Scrums                   | 25.0/25             | Scrum 1:Good job!           |
+|                          |                     | Scrum 2:Good job !!         |
+|                          |                     | Scrum 3:Amazing charts      |
+|                          |                     | Scrum 4:Good work!          |
+|                          |                     | Scrum 5:Overall great work! |
+| Retrospective            | TBD                 |                             |
+| TDD                      | 6.4/10              |                             |
+| Sustainable Pace         | 10/10               |                             |
+| GitFlow                  | 10/10               |                             |
+| Continuous Integration   | 9/10                |                             |
+| Refactor                 | 10/10               |                             |
+| Coverage                 | 7.5/10              |                             |
+| ------------------------ | ------------------- |                             |
+| Total                    | 40.4                |                             |
+| ------------------------ | ------------------- |                             |
+| Implementation Score     | 82/250              |                             |
