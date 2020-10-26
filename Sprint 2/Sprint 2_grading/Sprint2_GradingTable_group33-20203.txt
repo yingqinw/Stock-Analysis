@@ -1,4 +1,4 @@
-			Grading Table - Team33
+			Grading Table - Team 33
 
 | Section                  | Grade               | Note                                                                     |
 |--------------------------|---------------------|--------------------------------------------------------------------------|
@@ -8,7 +8,7 @@
 |                          |                     | Scrum 3:Please answer all 3 questions(including obstacles/blockages)     |
 |                          |                     | Scrum 4:                                                                 |
 |                          |                     | Scrum 5:                                                                 |
-| Retrospective            | TBD                 |                                                                          |
+| Retrospective            | 6.0/6               | Excellent job with your process, keep up the good work!                  |
 | TDD                      | 10/10               |                                                                          |
 | Sustainable Pace         | 9/10                |                                                                          |
 | GitFlow                  | 8.5/10              |                                                                          |
@@ -16,6 +16,6 @@
 | Refactor                 | 9.7/10              |                                                                          |
 | Coverage                 | 9.8/10              |                                                                          |
 | ------------------------ | ------------------- |                                                                          |
-| Total                    | 89.0                |                                                                          |
+| Total                    | 95.0                |                                                                          |
 | ------------------------ | ------------------- |                                                                          |
 | Implementation Score     | 28/250              |                                                                          |
