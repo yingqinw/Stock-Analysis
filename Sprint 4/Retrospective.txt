@@ -1,0 +1,42 @@
+Participants: Hyunjae Cho, Han Gu, Yingqin Wang, Zongye Cen, Tongyu Zhu
+
+Questions
+1.What process aspects will be changed? Why? 
+	a.Layout the workflow of how will frontend and backend depend on each other, and set 
+	b.Divide the test writing part earlier
+	c.Remember to write test before committing any function
+	d.More detailed acceptance tests towards stakeholders’ requirements
+
+2.What tasks will be added to the product backlog as a result of review feedback? 
+	a.Add a feature to toggle stocks into or from the user’s portfolio
+	b.Add a feature to display the portfolio value on the current date
+	c.More UI modifications to existing forms 
+	d.Add cancel button to those forms and change confirm buttons into specific required text
+	e.Add security strategy to ensure safe data protection
+	f.Change default date in graph to past 3 months instead of past 7 days
+
+Sprint #3 feedbacks
+
+Things to fix: 
+	1.Modify delete stock confirmation pop up 
+		a.Change ‘yes’ into ‘delete stock’
+		b.Change ‘no’ into ‘cancel’
+	2.Write feasibility report to exclude the future value prediction requirement
+	3.Check in with CPs to exclude tests towards any chart-related functionality
+	4.Add acceptance test showing that we could not go to the homepage without logging in
+		a.Simple test, maybe refreshing the page when the new user first see the page
+	5.Change default date for the graph from past 7 days to past three months
+	6.Modify the Add stock to graph form button
+		a.Change ‘add stock to graph’ to ‘view stock’
+		b.Add a ‘cancel’ button
+
+Additional requirements:
+	1.Need to display overall portfolio value on the homepage 
+		a.Current date (today) value, not historical array of values
+	2.Write three more security strategy 
+	3.Add confirmation dialog for remove stock from graph
+		a.Add a ‘cancel’ button
+	4.User can choose to select ticker to include into their portfolio values
+		a.Maybe use a toggle button to include or exclude the tickers
+
+

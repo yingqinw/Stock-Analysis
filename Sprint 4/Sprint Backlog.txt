@@ -1,0 +1,13 @@
+Sprint Backlog
+For the frontend and backend, Spring 4 will be writing feasibility analysis for prediction of future values of portfolio and UI adjustment for mobile devices with following acceptance tests.
+
+Reason:
+We decided to implement the feasible analysis for future values of the user’s portfolio which is the last ‘main’ feature requirement that our team left. This functionality is impossible to implement since many factors can affect the future stock prices and it’s difficult to predict unforeseen events. We will be also doing to optimize the UI of homepage for mobile devices so that the users can play with it on their mobile devices, and we can add acceptance tests for them.
+
+Participants
+Yingqin Wang
+Han Gu
+Tongyu Zhu
+Hyunjea Cho
+Zongye Cen
+

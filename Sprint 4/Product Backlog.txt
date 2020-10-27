@@ -1,0 +1,11 @@
+Product Backlog
+1. Prediction of future values of the portfolio
+Write feasibility analysis to convince it’s not feasible to implement
+2. Works on the Chrome web browser and mobile devices
+3. Must be implemented as a client-server based web application 
+4. Add a feature to toggle stocks into or from the user’s portfolio
+5. Add a feature to display the portfolio value on the current date
+6. More UI modifications to existing forms 
+Add cancel button to those forms and change confirm buttons into specific required text
+7. Add security strategy to ensure safe data protection
+8. Change default date in graph to past 3 months instead of past 7 days
