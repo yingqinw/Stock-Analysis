@@ -352,6 +352,7 @@ export default function(props) {
                         <th>Tickers</th>
                         <th>Last Price</th>
                         <th>Action</th>
+                        <th>Option</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -361,10 +362,20 @@ export default function(props) {
                             <td>{stock.ticker}</td>
                             <td>{stock.price}</td>
                             <td><div className="" onClick={()=>{
-							  props.resetLogoutTimer();
+							                props.resetLogoutTimer();
                               setTicker(stock.ticker);
                               setShowDeleteConfirmForm(true);
-                            }}>Delete</div></td>
+                            }}>Delete</div></td> 
+                            <td><div className='custom-control custom-switch'>
+                              <input
+                                type='checkbox'
+                                className='custom-control-input'
+                                id={stock.ticker}
+                                readOnly
+                                defaultChecked
+                              />
+                              <label className='custom-control-label' htmlFor={stock.ticker} />
+                            </div></td>
                           </tr>
                         })
                       }
