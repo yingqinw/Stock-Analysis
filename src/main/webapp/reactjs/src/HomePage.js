@@ -9,7 +9,7 @@ import SelectDatesForm from './SelectDatesForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
-import createActivityDetector from 'activity-detector';
+//import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
 
 export const jsonToArray = (data) => {
@@ -68,7 +68,7 @@ export default function(props) {
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
 
-  function useIdle(options){
+/*  function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
 		const activityDetector = createActivityDetector(options)
@@ -80,8 +80,8 @@ export default function(props) {
 		return () => activityDetector.stop()
 	})
   }
-
-  useIdle({timeToIdle: 1000})
+*/
+//  useIdle({timeToIdle: 1000})
 
   const dateConverter = (date) => {
     if(date.indexOf('-') > -1) {
@@ -387,6 +387,7 @@ export default function(props) {
               <div className="header-wrap">
                 <Button className="my-auto" onClick={()=>{
                   setShowAddStockForm(true)
+				  props.resetLogoutTimer();
                 }}>Add stock</Button>
               </div>
               <div className="tab-content"> 
@@ -406,6 +407,7 @@ export default function(props) {
                             <td>{stock.ticker}</td>
                             <td>{stock.price}</td>
                             <td><div className="" onClick={()=>{
+							  props.resetLogoutTimer();
                               setTicker(stock.ticker);
                               setShowDeleteConfirmForm(true);
                             }}>Delete</div></td>
