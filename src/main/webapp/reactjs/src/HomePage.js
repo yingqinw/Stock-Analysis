@@ -6,11 +6,13 @@ import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
 import SelectDatesForm from './SelectDatesForm';
+import RemoveConfirmForm from './RemoveConfirmForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
-import createActivityDetector from 'activity-detector';
+//import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
+//import {deleteStock} from './DeleteStockForm';
 
 export const jsonToArray = (data) => {
   let result = []
@@ -58,6 +60,7 @@ export default function(props) {
   const [showAddStockForm, setShowAddStockForm] = useState(false);
   const [showAddStockGraph, setShowAddStockGraph] = useState(false);
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
+  const [showRemoveConfirmForm, setShowRemoveConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
   const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
   const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
@@ -68,7 +71,7 @@ export default function(props) {
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
 
-  function useIdle(options){
+/*  function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
 		const activityDetector = createActivityDetector(options)
@@ -80,8 +83,8 @@ export default function(props) {
 		return () => activityDetector.stop()
 	})
   }
-
-  useIdle({timeToIdle: 1000})
+*/
+//  useIdle({timeToIdle: 1000})
 
   const dateConverter = (date) => {
     if(date.indexOf('-') > -1) {
@@ -259,7 +262,7 @@ export default function(props) {
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
         let sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
         fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
         setStartDate(jsDateConverter(sevenDaysAgo))
         setEndDate(jsDateConverter(new Date()))
@@ -294,10 +297,10 @@ export default function(props) {
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
       if(startDate.length === 0 && endDate.length === 0) {
-        let sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        fetchStockData('AddStock', null, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
-        setStartDate(jsDateConverter(sevenDaysAgo))
+        let thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 90);
+        fetchStockData('AddStock', null, jsDateConverter(thirtyDaysAgo), jsDateConverter(new Date()));
+        setStartDate(jsDateConverter(thirtyDaysAgo))
         setEndDate(jsDateConverter(new Date()))
       }
       else {
@@ -387,6 +390,7 @@ export default function(props) {
               <div className="header-wrap">
                 <Button className="my-auto" onClick={()=>{
                   setShowAddStockForm(true)
+				  props.resetLogoutTimer();
                 }}>Add stock</Button>
               </div>
               <div className="tab-content"> 
@@ -406,6 +410,7 @@ export default function(props) {
                             <td>{stock.ticker}</td>
                             <td>{stock.price}</td>
                             <td><div className="" onClick={()=>{
+							  props.resetLogoutTimer();
                               setTicker(stock.ticker);
                               setShowDeleteConfirmForm(true);
                             }}>Delete</div></td>
@@ -428,7 +433,7 @@ export default function(props) {
               <Button onClick={()=>{
                   props.resetLogoutTimer();
                   setShowAddStockGraph(true);
-              }}>Add Stock To Graph</Button>
+              }}>VIEW STOCK</Button>
               <Button onClick={()=>{
                 props.resetLogoutTimer();
                 setShowDeleteStockForm(true);
@@ -490,6 +495,26 @@ export default function(props) {
 			endDate={endDate}
           />
         </div>
+      </div> : <></>}
+
+	{showRemoveConfirmForm ? 
+      <div className="addFormBackground">
+        <div className="deleteFormWrapper px-3">
+          <RemoveConfirmForm
+            ticker={ticker}
+            fetchStockData={fetchStockData}
+            resetLogoutTimer={props.resetLogoutTimer}
+            setShowRemoveConfirmForm={setShowRemoveConfirmForm}
+			setTicker={setTicker}
+            graphTickers={graphTickers}
+            setGraphTickers={setGraphTickers}
+            setGraphLabels={setGraphLabels}
+            graphPrices={graphPrices}
+            setGraphPrices={setGraphPrices}
+            alertText = {alertText}
+            setAlertText={setAlertText}
+          />
+        </div>
       </div> : <></>}  
 
     {showDeleteStockForm ? 
@@ -504,6 +529,7 @@ export default function(props) {
             graphPrices={graphPrices}
             setGraphPrices={setGraphPrices}
             setShowDeleteStockForm={setShowDeleteStockForm}
+			setShowRemoveConfirmForm={setShowRemoveConfirmForm}
             alertText = {alertText}
             setAlertText={setAlertText}
             validTicker={validTicker}

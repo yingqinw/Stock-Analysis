@@ -79,6 +79,7 @@ export default function() {
       clearInterval(logoutinterval)
       setTimer(300)
     }
+	//console.log(timer);
   }, [timer, setLoggedIn]);
 
   const timerProgress = () => {
@@ -86,7 +87,7 @@ export default function() {
   }
   
   const resetLogoutTimer = () =>{
-    setTimer(300);
+    setTimer(120);
   }
 
   const handleSubmit = (e) => {
@@ -116,7 +117,8 @@ export default function() {
         }
         else {
           setLoggedIn(true);
-          setTimer(300);
+		  resetLogoutTimer();
+          //setTimer(300);
 		      clearInterval(logoutinterval);
           logoutinterval = setInterval(timerProgress,1000);
           fetchStockData(true);
