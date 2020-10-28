@@ -259,7 +259,7 @@ export default function(props) {
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
         let sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
         fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
         setStartDate(jsDateConverter(sevenDaysAgo))
         setEndDate(jsDateConverter(new Date()))
@@ -294,10 +294,10 @@ export default function(props) {
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
       if(startDate.length === 0 && endDate.length === 0) {
-        let sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        fetchStockData('AddStock', null, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
-        setStartDate(jsDateConverter(sevenDaysAgo))
+        let thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 90);
+        fetchStockData('AddStock', null, jsDateConverter(thirtyDaysAgo), jsDateConverter(new Date()));
+        setStartDate(jsDateConverter(thirtyDaysAgo))
         setEndDate(jsDateConverter(new Date()))
       }
       else {
