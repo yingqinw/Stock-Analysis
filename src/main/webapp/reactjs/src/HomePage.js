@@ -6,11 +6,13 @@ import StockGraph from './StockGraph';
 import DeleteConfirmForm from './DeleteConfirmForm';
 import DeleteStockForm from './DeleteStockForm';
 import SelectDatesForm from './SelectDatesForm';
+import RemoveConfirmForm from './RemoveConfirmForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 //import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
+//import {deleteStock} from './DeleteStockForm';
 
 export const jsonToArray = (data) => {
   let result = []
@@ -58,6 +60,7 @@ export default function(props) {
   const [showAddStockForm, setShowAddStockForm] = useState(false);
   const [showAddStockGraph, setShowAddStockGraph] = useState(false);
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
+  const [showRemoveConfirmForm, setShowRemoveConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
   const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
   const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
@@ -430,7 +433,7 @@ export default function(props) {
               <Button onClick={()=>{
                   props.resetLogoutTimer();
                   setShowAddStockGraph(true);
-              }}>Add Stock To Graph</Button>
+              }}>VIEW STOCK</Button>
               <Button onClick={()=>{
                 props.resetLogoutTimer();
                 setShowDeleteStockForm(true);
@@ -492,6 +495,26 @@ export default function(props) {
 			endDate={endDate}
           />
         </div>
+      </div> : <></>}
+
+	{showRemoveConfirmForm ? 
+      <div className="addFormBackground">
+        <div className="deleteFormWrapper px-3">
+          <RemoveConfirmForm
+            ticker={ticker}
+            fetchStockData={fetchStockData}
+            resetLogoutTimer={props.resetLogoutTimer}
+            setShowRemoveConfirmForm={setShowRemoveConfirmForm}
+			setTicker={setTicker}
+            graphTickers={graphTickers}
+            setGraphTickers={setGraphTickers}
+            setGraphLabels={setGraphLabels}
+            graphPrices={graphPrices}
+            setGraphPrices={setGraphPrices}
+            alertText = {alertText}
+            setAlertText={setAlertText}
+          />
+        </div>
       </div> : <></>}  
 
     {showDeleteStockForm ? 
@@ -506,6 +529,7 @@ export default function(props) {
             graphPrices={graphPrices}
             setGraphPrices={setGraphPrices}
             setShowDeleteStockForm={setShowDeleteStockForm}
+			setShowRemoveConfirmForm={setShowRemoveConfirmForm}
             alertText = {alertText}
             setAlertText={setAlertText}
             validTicker={validTicker}

@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import {FormTitle, FormWrapper, Button, Arrow} from './Modals';
+import {FormWrapper, Button} from './Modals';
+
 
 export default function(props) {
-  
-  const deleteStock = (e) => {
-    e.preventDefault();
+	const deleteStock = () => {
+    //e.preventDefault();
     let removeIndex = -1;
     props.graphTickers.forEach((tickerName, i) => {
       if(tickerName === props.ticker) {
@@ -28,31 +28,28 @@ export default function(props) {
       window.localStorage.setItem("graphLabels", JSON.stringify([]));
       props.setGraphLabels([]);
     }
-    props.setShowDeleteStockForm(false)
+    props.setShowRemoveConfirmForm(false)
   }
-
+	
   return (
-    <form id="addStock-form" /*onSubmit={deleteStock}*/>
-      <div className="selectWrapper2">
-        <FormTitle width={100}>Remove stock</FormTitle>
-        <i className="fa fa-times closeIcon" onClick={()=>{
-          props.setShowDeleteStockForm(false)
-          props.setAlertText("");
-        }}></i>
-      </div>
+    <form id="addStock-form" onSubmit={(e)=>{e.preventDefault()}}>
       <FormWrapper>
-        <div className="fields">
-          <input type="text" placeholder="Ticker" onChange={(e) => {
-            props.setTicker(e.target.value);
-          }}
-            style={{borderColor: props.validTicker ? 'green':'red'}}  
-          />
+        <div className="selectWrapper2">
+          <p className ="deleteConTitle"> Do you want to remove ticker {props.ticker}?</p>
         </div>
-        <Button onClick={()=>{props.resetLogoutTimer()
-		  props.setShowRemoveConfirmForm(true)
-		  props.setShowDeleteStockForm(false)}}>
-          remove stock
-          <Arrow className="arrow"></Arrow>
+        <Button style={{margin:20 }} onClick={()=>{          
+          props.resetLogoutTimer()
+		  deleteStock()
+          //props.removeStocks(props.ticker);
+          //props.fetchStockData('RemoveStock', props.ticker,props.startDate,props.endDate);
+        }}>
+          Remove Stock
+        </Button>
+        <Button style={{margin:20 }} onClick={()=>{
+          props.setShowRemoveConfirmForm(false);
+		  props.setAlertText("");
+          props.resetLogoutTimer()}}>
+          CANCEL
         </Button>
       </FormWrapper>
       <div className="alertWrapper">

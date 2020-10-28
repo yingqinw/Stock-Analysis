@@ -7,7 +7,7 @@ export default function(props) {
   return (
     <form id="addStockToGraph-form" onSubmit={props.handleAddToGraph}>
       <div className="selectWrapper2">
-        <FormTitle>Add stock</FormTitle>
+        <FormTitle>View stock</FormTitle>
         <i className="fa fa-times closeIcon" onClick={()=>{
           props.setShowAddStockGraph(false)
         }}></i>
@@ -22,8 +22,13 @@ export default function(props) {
           
         </div>
         <Button onClick={()=>{props.resetLogoutTimer()}}>
-          add stock to graph
+          VIEW STOCK
           <Arrow className="arrow"></Arrow>
+        </Button>
+		<Button style={{margin:20 }} onClick={()=>{
+          props.setShowAddStockGraph(false);
+          props.resetLogoutTimer()}}>
+          CANCEL
         </Button>
       </FormWrapper>
       <div className="alertWrapper">
