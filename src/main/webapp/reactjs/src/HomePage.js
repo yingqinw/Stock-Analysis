@@ -12,7 +12,7 @@ import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
 //import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
-//import {deleteStock} from './DeleteStockForm';
+import UploadFileForm from './UploadFileForm';
 
 export const jsonToArray = (data) => {
   let result = []
@@ -62,6 +62,7 @@ export default function(props) {
   const [showDeleteConfirmForm, setShowDeleteConfirmForm] = useState(false);
   const [showRemoveConfirmForm, setShowRemoveConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
+  const [showUploadFileForm, setShowUploadFileForm] = useState(false);
   const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
   const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
   const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
@@ -321,6 +322,12 @@ export default function(props) {
         <Navbar.Toggle className="justify-content-end" aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
           <Navbar.Text>
+            <Button className="my-auto" onClick={()=>{
+              setShowUploadFileForm(true);
+              console.log(showUploadFileForm)
+            }}>
+              Upload file
+            </Button>
               <Button className="my-auto" onClick={()=>{
                 props.setLoggedIn(false);
                 setGraphLabels([]);
@@ -513,6 +520,18 @@ export default function(props) {
               handleAddToGraph={handleAddToGraph}
               validStart={validStart}
               validEnd={validEnd}
+              resetLogoutTimer={props.resetLogoutTimer}
+            />
+          </div>
+        </div> : <></>
+      }
+
+      {
+        showUploadFileForm ? 
+        <div className="addFormBackground">
+          <div className="addFormWrapper px-3">
+            <UploadFileForm
+              setShowUploadFileForm={setShowUploadFileForm}
               resetLogoutTimer={props.resetLogoutTimer}
             />
           </div>
