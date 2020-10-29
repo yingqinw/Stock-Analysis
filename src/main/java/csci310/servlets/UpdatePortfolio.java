@@ -27,14 +27,6 @@ import csci310.Portfolio;
 @WebServlet("/UpdatePortfolio")
 public class UpdatePortfolio extends HttpServlet{
 	
-	
-	public class AddStockData{
-		private JSONArray price = new JSONArray();
-		public AddStockData(JSONArray prices) {
-			prices = price;
-		}
-	}
-	
 	private Gson gson = new Gson();
 	
 	@Override
@@ -73,6 +65,7 @@ public class UpdatePortfolio extends HttpServlet{
 				for(String ticker1 : tickers) {
 					ps2=conn.prepareStatement("SELECT * FROM stocks WHERE userID=? AND ticker=?");
 					ps2.setInt(1, userID);
+					ps2.setString(2, ticker1);
 					rs2=ps2.executeQuery();
 					while(rs2.next()) {
 						String ticker =rs2.getString("ticker");
@@ -89,11 +82,10 @@ public class UpdatePortfolio extends HttpServlet{
 				price.put(p.portfolioValue[i]);
 			}
 
-			AddStockData asd = new AddStockData(price);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
-		    out.print(this.gson.toJson(asd));
-		    System.out.println(this.gson.toJson(asd).toString());
+		    out.print(price);
+		    System.out.println(price);
 		    out.flush(); 
 			 
 			
@@ -110,11 +102,6 @@ public class UpdatePortfolio extends HttpServlet{
 		}catch(SQLException sqle) {
 			System.out.println("sqle closing stuff: "+sqle.getMessage());
 		}
-	}
-
-        
-        
-        
-        
+	}      
        
 }
