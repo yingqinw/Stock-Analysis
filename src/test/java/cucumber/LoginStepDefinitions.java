@@ -94,6 +94,20 @@ public class LoginStepDefinitions {
 	public void i_should_see_the_login_button() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).getText(), "LOGIN");
 	}
+	
+	@Then("I should be able to click the clickable login letter button")
+	public void i_should_be_able_to_click_the_clickable_login_letter_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")));
+		element.click();
+	}
+
+	@Then("I should be able to click the clickable login button")
+	public void i_should_be_able_to_click_the_clickable_login_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"login-form\"]/div[2]/button")));
+		element.click();
+	}
 
 	@When("I typed in {string} in the Username field")
 	public void i_typed_in_in_the_Username_field(String string) {
