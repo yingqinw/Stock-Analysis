@@ -48,14 +48,14 @@ public class GraphAddStockStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
 	
-	@When("I click add stock to graph button ga")
-	public void i_click_add_stock_to_graph_button_ga() {
+	@When("I click the view stock button ga")
+	public void i_click_the_view_stock_button_ga() {
 		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).click();
 	}
 
 	@Then("I get the pop up window to add stock ga")
 	public void i_get_the_pop_up_window_to_add_stock_ga() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[1]/div")).getText(), "ADD STOCK");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[1]/div")).getText(), "VIEW STOCK");
 	}
 
 	@Then("I should see the ticker block ga")
@@ -63,14 +63,19 @@ public class GraphAddStockStepDefinitions {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).getAttribute("placeholder"), "Ticker");
 	}
 
-	@Then("I should see the add stock button to graph ga")
-	public void i_should_see_the_add_stock_button_to_graph_ga() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button")).getText(), "ADD STOCK TO GRAPH");
+	@Then("I should see the view stock button ga")
+	public void i_should_see_the_view_stock_button_ga() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "VIEW STOCK");
 	}
 
-	@Then("I should see the add stock to graph button ga")
-	public void i_should_see_the_add_stock_to_graph_button_ga() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "ADD STOCK TO GRAPH");
+	@Then("I should see the view stock button in view stock ga")
+	public void i_should_see_the_view_stock_button_in_view_stock_ga() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[1]")).getText(), "VIEW STOCK");
+	}
+	
+	@Then("I should see the cancel button in view stock ga")
+	public void i_should_see_the_cancel_button_in_view_stock_ga() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[2]")).getText(), "CANCEL");
 	}
 	
 	@Given("in Homepage and in add stock to graph pop up window")
