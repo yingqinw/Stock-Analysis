@@ -61,12 +61,17 @@ export default function(props) {
 					}
 				}
 			}]
-		}
+		},
+
+		rangeSelector: {
+      selected: 1
+    },
 	}
 		
 	return (
 		<div>
 			<HighchartsReact
+				constructorType={"stockChart"}
 				highcharts={Highcharts}
 				options={options}
 			/>
