@@ -72,11 +72,11 @@ public class GetForm extends HttpServlet {
   response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
         response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
-        String username = "trojan";
+        String username = "t";
         String APIKey = "btjeu1f48v6tfmo5erv0";
         PrintWriter out = response.getWriter();
-        String startDate = "07/31/2020";
-        String endDate = "10/30/2020";
+        String startDate = "s";
+        String endDate = "e";
         
         //comment this out to run
         /*
@@ -95,13 +95,23 @@ public class GetForm extends HttpServlet {
                  // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
                  String fieldName = item.getFieldName();
                  String fieldValue = item.getString();
+                 //System.out.println(fieldName + " is " + fieldValue);
+                 if(fieldName.equals("username")) {
+                	 username = fieldValue;
+                 }else if(fieldName.equals("startDate")) {
+                	 startDate = fieldValue;
+                 }else if(fieldName.equals("endDate")) {
+                	 endDate = fieldValue;
+                 }
                  // ... (do your job here)
              } else {
                  // Process form file field (input type="file").
                  String fieldName = item.getFieldName();
+                 //System.out.println(fieldName);
                  String fileName = FilenameUtils.getName(item.getName());
                  InputStream fileContent = item.getInputStream();
-                 System.out.println(fileName);
+                 //System.out.println(fileName);
+                 System.out.println("adding stocks");
                  try (BufferedReader br = new BufferedReader(new InputStreamReader(
                          fileContent, StandardCharsets.UTF_8));) {
 
@@ -217,7 +227,9 @@ public class GetForm extends HttpServlet {
            			}
            			
            			//start of portfolio update
+           			System.out.println(username + startDate + endDate);
            			Portfolio p = new Portfolio(username, startDate, endDate);
+           			System.out.println("portfolio starting");
           	        if(!username.equals("fakeusername")) {
         		  		try {
         		  			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
@@ -246,9 +258,8 @@ public class GetForm extends HttpServlet {
         		  			AddStockData asd = new AddStockData(date,price,updatedPrices);
         		  		    response.setContentType("application/json");
         		  		    response.setCharacterEncoding("UTF-8");
-        		  		    
         		  		    out.print(this.gson.toJson(asd));
-        		  		    //System.out.print(this.gson.toJson(asd).toString());
+        		  		    System.out.print(this.gson.toJson(asd).toString());
         		  		    out.flush(); 
         		  			
         		  		}catch(SQLException sqle) {
