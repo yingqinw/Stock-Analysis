@@ -533,6 +533,18 @@ export default function(props) {
             <UploadFileForm
               setShowUploadFileForm={setShowUploadFileForm}
               resetLogoutTimer={props.resetLogoutTimer}
+			  username={props.username}
+			  startDate={startDate}
+			  setStartDate={setStartDate}
+			  setEndDate={setEndDate}
+			  endDate={endDate}
+			  graphPrices={graphPrices}
+			  graphTickers={graphTickers}
+			  setStocks={props.setStocks}
+			  setGraphTickers={setGraphTickers}
+			  setGraphPrices={setGraphPrices}
+			  setGraphLabels={setGraphLabels}
+			  setShowUploadFileForm={setShowUploadFileForm}
             />
           </div>
         </div> : <></>
