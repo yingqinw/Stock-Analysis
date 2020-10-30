@@ -35,7 +35,8 @@ export default function(props) {
 		legend: {
 			layout: 'vertical',
 			align: 'right',
-			verticalAlign: 'middle'
+			verticalAlign: 'middle',
+			enabled: true,
 		},
 
 		plotOptions: {
@@ -44,6 +45,37 @@ export default function(props) {
 					connectorAllowed: false
 				},
 			}
+		},
+		
+		rangeSelector: {
+			allButtonsEnabled: true,
+			buttons: [{
+				type: 'month',
+				count: 1,
+				text: '1m'
+			}, {
+					type: 'month',
+					count: 3,
+					text: '3m'
+			}, {
+					type: 'month',
+					count: 6,
+					text: '6m'
+			}, {
+					type: 'ytd',
+					text: 'YTD'
+			}, {
+					type: 'year',
+					count: 1,
+					text: '1y'
+			}, {
+					type: 'all',
+					text: 'All'
+			}],
+			buttonTheme: {
+					width: 60
+			},
+			selected: 5,
 		},
 
 		series: data,
@@ -58,14 +90,13 @@ export default function(props) {
 						layout: 'horizontal',
 						align: 'center',
 						verticalAlign: 'bottom'
+					},
+					rangeSelector: {
+						inputEnabled: false
 					}
 				}
 			}]
 		},
-
-		rangeSelector: {
-      selected: 1
-    },
 	}
 		
 	return (
