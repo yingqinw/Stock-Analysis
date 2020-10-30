@@ -27,7 +27,7 @@ import java.util.Map;
  * Step definitions for Cucumber tests.
 */
 public class AddstockMobileStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 
 	public WebDriver driver;
 	

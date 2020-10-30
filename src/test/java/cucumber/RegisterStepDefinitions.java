@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  * Step definitions for Cucumber tests.
  */
 public class RegisterStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 	
 	private final WebDriver driver = new ChromeDriver();
 	private final WebDriverWait wait = new WebDriverWait(driver, 10);
