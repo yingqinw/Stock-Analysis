@@ -23,7 +23,17 @@ Feature: User login
   	Given I am on the index page i
   	When I am on the login page5
   	Then I should see the login button
-  
+  	
+  Scenario: Login letter clickable
+  	Given I am on the index page i
+  	When I am on the login page1
+  	Then I should be able to click the clickable login letter button
+  	
+  Scenario: Login button clickable
+  	Given I am on the index page i
+  	When I am on the login page1
+  	Then I should be able to click the clickable login button
+  	
   Scenario: User types in invalid username
     Given I am on the index page i
     When I typed in 'he' in the Username field
