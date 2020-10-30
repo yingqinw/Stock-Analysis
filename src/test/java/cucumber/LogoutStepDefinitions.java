@@ -58,6 +58,17 @@ public class LogoutStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).click();
 	}
+	
+	@When("I am waiting for more than {int} min")
+	public void i_am_waiting_for_more_than_min(Integer int1) {
+		 try {
+			Thread.sleep(125*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Then("I should see the login page")
 	public void i_should_see_the_login_page() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);

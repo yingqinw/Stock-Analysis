@@ -29,6 +29,16 @@ Feature: New User register
   	When I am on the signup page6
   	Then I should see the create user button 
   	
+  Scenario: Signup letter clickable
+  	Given I am on the index page of signup
+  	When I am on the signup page1
+  	Then I should click the clickable Signup letter button 
+  	
+  Scenario: Create user button clickable
+  	Given I am on the index page of signup
+  	When I am on the signup page1
+  	Then I should click the clickable create user button 
+  	
   Scenario: User types in invalid username in registration
     Given I am on the index page of signup
     When I typed in 'he' in the Username field in registration form

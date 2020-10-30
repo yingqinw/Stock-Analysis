@@ -69,6 +69,15 @@ public class RemovestockStepDefinitions {
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 	
+	@Then("I should be able to click the clickable delete button")
+	public void I_should_be_able_to_click_the_clickable_delete_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div")));
+		element.click();
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+	    
+	}
+	
 	@Given("in mainpage, logged in, and add a stock")
 	public void in_mainpage_logged_in_and_add_a_stock() {
 		new DropUserTable();
@@ -100,15 +109,34 @@ public class RemovestockStepDefinitions {
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 	
-	@Then("I should the yes button")
-	public void i_should_the_yes_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).getText(), "YES");
+	@Then("I should the delete stock button")
+	public void i_should_the_delete_stock_button() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).getText(), "DELETE STOCK");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 
-	@Then("I should the no button")
+	@Then("I should the cancel button")
 	public void i_should_the_no_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[2]")).getText(), "NO");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[2]")).getText(), "CANCEL");
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+	}
+	
+	@Then("I should be able to click the clickable delete stock button")
+	public void i_should_be_able_to_click_the_clickable_delete_stock_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")));
+		element.click();
+	}
+	
+	@Then("I should be able to click the clickable cancel button")
+	public void i_should_be_able_to_click_the_clickable_cancel_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[2]")));
+		element.click();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		driver.findElement(title).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 	

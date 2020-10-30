@@ -4,20 +4,35 @@ Feature: User delete stocks
 	When I add a stock
 	Then I should see the delete button
 	
+  Scenario: Delete letter button clickable
+  	Given in mainpage and logged in
+  	When I add a stock
+  	Then I should be able to click the clickable delete button
+  	
   Scenario: Confirm pop up window for delete 
 	Given in mainpage, logged in, and add a stock
 	When I click the delete button
 	Then I should see the text Do you want to delete ticker AMZN ?
 	
-  Scenario: Yes button 
+  Scenario: Delete stock button 
 	Given in mainpage, logged in, and add a stock
 	When I click the delete button
-	Then I should the yes button
+	Then I should the delete stock button
 
-  Scenario: No button 
+  Scenario: Cancel button 
 	Given in mainpage, logged in, and add a stock
 	When I click the delete button
-	Then I should the no button
+	Then I should the cancel button
+
+  Scenario: Delete stock button clickable
+  	Given in mainpage, logged in, and add a stock
+	When I click the delete button
+  	Then I should be able to click the clickable delete stock button
+  	
+  Scenario: Cancel button clickable
+  	Given in mainpage, logged in, and add a stock
+	When I click the delete button
+  	Then I should be able to click the clickable cancel button		
 	
   Scenario: Do not delete the stock
 	Given in mainpage, logged in, and add a stock
