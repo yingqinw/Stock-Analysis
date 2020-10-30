@@ -15,7 +15,7 @@ export default function(props) {
 			})
 		})
 		setData(newData);
-	}, [props.graphTickers, props.graphPrices, data])
+	}, [props.graphTickers, props.graphPrices])
 
 	const options = {
 		title: {
