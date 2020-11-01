@@ -14,11 +14,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -117,16 +119,76 @@ public class GetForm extends HttpServlet {
 
                      String line;
                      //get all lines
-                     //ArrayList<String> lines = new ArrayList<String>();
+                     ArrayList<String> lines = new ArrayList<String>();
+                     ArrayList<Integer> errorLines = new ArrayList<Integer>();
                      //int i = 0;
-                     //while ((line = br.readLine()) != null) {
-                    	//lines.add(line)
-                     //}
-                     
                      while ((line = br.readLine()) != null) {
+                    	lines.add(line);
+                     }
+                     
+                     for(int i=0;i<lines.size();i++) {
+                    	String[] values = lines.get(i).split(",");
+                    	if(values.length != 4) {
+                    		errorLines.add(i);
+                    		continue;
+                    	}
+                     	String ticker = values[0];
+                  		int quantity = Integer.parseInt(values[1]);
+                  		String dayPurchase = values[2];
+                  		String daySold = values[3];
+                  		if(ticker.length()<=0 || ticker.length()>=5) {
+                  			errorLines.add(i);
+                    		continue;
+                  		}
+                  		if(quantity<=0) {
+                  			errorLines.add(i);
+                    		continue;
+                  		}
+                  		SimpleDateFormat sdformat = new SimpleDateFormat("MM/dd/yyyy");
+                  		
+                  		
+                        
+						try {
+							Date d1 = sdformat.parse(dayPurchase);
+							Date d2 = sdformat.parse(daySold);
+							if(d2.compareTo(d1) < 0) {
+								errorLines.add(i);
+								continue;
+							}
+							
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							//e.printStackTrace();
+							errorLines.add(i);
+							continue;
+						}
+                        
+                  		
+                  		
+                     }
+                     
+                     if(errorLines.size() > 0) {
+                    	String errorMessage = "There are errors on the following line(s):";
+                    	for(int i=0;i<errorLines.size();i++) {
+                    		errorMessage += " ";
+                    		errorMessage += errorLines.get(i)+1;
+                    	}
+                    	
+                    	
+                    	AddStockError ase = new AddStockError(errorMessage);
+               	        response.setContentType("application/json");
+               	        response.setCharacterEncoding("UTF-8");
+               	        out.print(this.gson.toJson(ase));
+               	        out.flush();
+               	        return;
+                     }
+                     
+                     
+                     for(int i=0;i<lines.size();i++) {
+                     //while ((line = br.readLine()) != null) {
                          
                          //System.out.println(line);
-                    	 String[] values = line.split(",");
+                    	String[] values = lines.get(i).split(",");
 
                          
                     	String ticker = values[0];
