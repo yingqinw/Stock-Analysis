@@ -186,7 +186,7 @@ public class AddStock extends HttpServlet {
 		  		    response.setCharacterEncoding("UTF-8");
 		  		    
 		  		    out.print(this.gson.toJson(asd));
-		  		    //System.out.print(this.gson.toJson(asd).toString());
+		  		    //System.out.println(this.gson.toJson(asd).toString());
 		  		    out.flush(); 
 		  			
 		  		}catch(SQLException sqle) {

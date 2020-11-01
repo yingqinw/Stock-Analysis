@@ -148,6 +148,7 @@ export default function(props) {
        		})
        			// replace with new array
        		newGraphPrices[removeIndex] = data.price.myArrayList;
+			setGraphPrices(newGraphPrices);
      		}
      		else {
        			// push portfolio values to end of graph array
@@ -156,6 +157,9 @@ export default function(props) {
        			setGraphPrices(newGraphPrices);
      		}
      		setGraphLabels(data.date.myArrayList);
+			
+			//console.log(data);
+			//console.log(graphPrices);
           
         }
       }))
@@ -324,7 +328,7 @@ export default function(props) {
           <Navbar.Text>
             <Button className="my-auto" onClick={()=>{
               setShowUploadFileForm(true);
-              console.log(showUploadFileForm)
+              //console.log(showUploadFileForm)
             }}>
               Upload file
             </Button>
@@ -544,7 +548,6 @@ export default function(props) {
 			  setGraphTickers={setGraphTickers}
 			  setGraphPrices={setGraphPrices}
 			  setGraphLabels={setGraphLabels}
-			  setShowUploadFileForm={setShowUploadFileForm}
             />
           </div>
         </div> : <></>
