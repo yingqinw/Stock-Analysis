@@ -116,6 +116,12 @@ public class GetForm extends HttpServlet {
                          fileContent, StandardCharsets.UTF_8));) {
 
                      String line;
+                     //get all lines
+                     //ArrayList<String> lines = new ArrayList<String>();
+                     //int i = 0;
+                     //while ((line = br.readLine()) != null) {
+                    	//lines.add(line)
+                     //}
                      
                      while ((line = br.readLine()) != null) {
                          
@@ -218,13 +224,14 @@ public class GetForm extends HttpServlet {
            			// end of updated prices
            			
            			//output error when invalid ticker
+           			/*
            			if(errorExists) {
            				AddStockError ase = new AddStockError("Some info in the file is wrong");
            	  	        response.setContentType("application/json");
            	  	        response.setCharacterEncoding("UTF-8");
            	  	        out.print(this.gson.toJson(ase));
            	  	        out.flush(); 
-           			}
+           			}*/
            			
            			//start of portfolio update
            			System.out.println(username + startDate + endDate);
@@ -259,7 +266,7 @@ public class GetForm extends HttpServlet {
         		  		    response.setContentType("application/json");
         		  		    response.setCharacterEncoding("UTF-8");
         		  		    out.print(this.gson.toJson(asd));
-        		  		    System.out.print(this.gson.toJson(asd).toString());
+        		  		    System.out.println(this.gson.toJson(asd).toString());
         		  		    out.flush(); 
         		  			
         		  		}catch(SQLException sqle) {
