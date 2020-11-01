@@ -229,7 +229,8 @@ export default function(props) {
        			// push portfolio values to end of graph array
        			setGraphTickers(newGraphTickers.concat('portfolio'));
        			newGraphPrices.push(data.price.myArrayList)
-       			setGraphPrices(newGraphPrices);
+             setGraphPrices(newGraphPrices);
+             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
      		}
      		setGraphLabels(data.date.myArrayList);
           
@@ -260,6 +261,7 @@ export default function(props) {
               setGraphLabels(labelsGraph);
               var tempArray = [pricesGraph];
               setGraphPrices(graphPrices.concat(tempArray));
+              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             }
           }
           else {
@@ -276,6 +278,7 @@ export default function(props) {
             setGraphLabels(data.date.myArrayList);
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             setShowSelectDatesForm(false);
           }
         }
@@ -392,9 +395,6 @@ export default function(props) {
   }
   
   const updatePortfolioWithStocks = (portfolioTickers, startDateGraph, endDateGraph) => {
-    console.log(portfolioTickers)
-    console.log(startDateGraph)
-    console.log(endDateGraph)
     fetch(`http://localhost:8080/UpdatePortfolio?username=${props.username}&tickers_graph=${portfolioTickers}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
       method: 'POST'
     })
@@ -409,6 +409,7 @@ export default function(props) {
         }
       })
       setGraphPrices(newGraphPrices);
+      window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -529,9 +530,6 @@ export default function(props) {
           </div>
           <div className="col-md-9 market-pairs2">
             <StockGraph 
-              graphTickers={graphTickers}
-              graphLabels={graphLabels}
-              graphPrices={graphPrices}
               options={options}
             />
             <div className="graphButton">
