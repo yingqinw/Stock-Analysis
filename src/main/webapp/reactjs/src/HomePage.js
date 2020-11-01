@@ -404,16 +404,24 @@ export default function(props) {
       let newGraphPrices = graphPrices;
       graphTickers.forEach((name, k) => {
         if(name === 'portfolio') {
-          console.log('change here')
           newGraphPrices[k] = data;
         }
       })
       setGraphPrices(newGraphPrices);
-      window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+      console.log(graphPrices)
+      // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
     .catch((error) => {
       console.error('Error:', error);
     });
+  }
+
+  const tickerArrayConverter = (stocks) => {
+    let newPortfolioTickers = stocks;
+    newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
+    const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
+    const tickerString = "[" + tickerArray + "]";
+    return tickerString;
   }
   
   const toggleStock = (selectedTicker, removeTicker) => {
@@ -433,10 +441,7 @@ export default function(props) {
     props.setUnSelectedTickers(newRemovedTickers);
     // filter new stocks based on unselected tickers
     newStocks = newStocks.filter(ticker => !newRemovedTickers.includes(ticker));
-    let newPortfolioTickers = newStocks;
-    newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
-    const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
-    const tickerString = "[" + tickerArray + "]";
+    const tickerString = tickerArrayConverter(newStocks);
     if(startDate.length === 0 && endDate.length === 0) {
       let sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
@@ -447,6 +452,26 @@ export default function(props) {
     else {
       updatePortfolioWithStocks(tickerString, dateConverter(startDate), dateConverter(endDate));
     }
+  }
+
+  const selectAllStocks = () => {
+    let newStocks = [];
+    props.stocks.forEach(item => {
+      newStocks.push(item.ticker);
+    })
+    props.setUnSelectedTickers([]);
+    const [startDateGraph, endDateGraph] = getDefaultDates();
+    updatePortfolioWithStocks(tickerArrayConverter(newStocks), startDateGraph, endDateGraph);
+  }
+
+  const unSelectAllStocks = () => {
+    let newStocks = [];
+    props.stocks.forEach(item => {
+      newStocks.push(item.ticker);
+    })
+    props.setUnSelectedTickers(newStocks);
+    const [startDateGraph, endDateGraph] = getDefaultDates();
+    updatePortfolioWithStocks(tickerArrayConverter([]), startDateGraph, endDateGraph);
   }
 
   return (
@@ -514,7 +539,7 @@ export default function(props) {
                                 className='custom-control-input'
                                 id={stock.ticker}
                                 readOnly
-                                defaultChecked
+                                checked={!props.unSelectedTickers.includes(stock.ticker)}
                                 onChange={e => toggleStock(stock.ticker, !e.target.checked)}
                               />
                               <label className='custom-control-label' htmlFor={stock.ticker} />
@@ -526,6 +551,10 @@ export default function(props) {
                   </table>
                 </div>
               </div>
+            </div>
+            <div>
+              <Button onClick={selectAllStocks}>Select All</Button>
+              <Button onClick={unSelectAllStocks}>Unselect All</Button>
             </div>
           </div>
           <div className="col-md-9 market-pairs2">
