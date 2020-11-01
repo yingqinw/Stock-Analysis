@@ -72,6 +72,65 @@ export default function(props) {
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
 
+  let options = {
+    title: {
+      text: 'USC CS310 Stock Management Chart'
+    },
+
+    yAxis: {
+      title: {
+        text: 'Ticker prices in dollar'
+      }
+    },
+
+    xAxis: {
+      categories: graphLabels,
+    },
+
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'middle',
+      enabled: true,
+    },
+
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false
+        },
+      }
+    },
+    
+    rangeSelector: {
+      allButtonsEnabled: true,
+    },
+
+    series: graphTickers.map((ticker,i) => {
+      return {
+        name: ticker,
+        data: graphPrices[i]
+      }
+    }),
+
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          },
+          rangeSelector: {
+            inputEnabled: false
+          }
+        }
+      }]
+    },
+  };
 /*  function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
@@ -350,7 +409,6 @@ export default function(props) {
         }
       })
       setGraphPrices(newGraphPrices);
-      console.log(newGraphPrices)
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -474,6 +532,7 @@ export default function(props) {
               graphTickers={graphTickers}
               graphLabels={graphLabels}
               graphPrices={graphPrices}
+              options={options}
             />
             <div className="graphButton">
               <Button onClick={()=>{
