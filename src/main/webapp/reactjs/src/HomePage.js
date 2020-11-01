@@ -167,11 +167,11 @@ export default function(props) {
 
   const getDefaultDates = () => {
     if(startDate.length === 0 && endDate.length === 0) {
-      let sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
-      setStartDate(jsDateConverter(sevenDaysAgo))
+      let threeMonthsAgo = new Date();
+      threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+      setStartDate(jsDateConverter(threeMonthsAgo))
       setEndDate(jsDateConverter(new Date()))
-      return [jsDateConverter(sevenDaysAgo), jsDateConverter(new Date())];
+      return [jsDateConverter(threeMonthsAgo), jsDateConverter(new Date())];
     }
     else {
       return [dateConverter(startDate), dateConverter(endDate)];
@@ -345,10 +345,10 @@ export default function(props) {
       const tickerArray = realGraphTickers.map(ticker => `"${ticker}"`).join(',');
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
-        let sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
-        fetchGraphData(route, tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
-        setStartDate(jsDateConverter(sevenDaysAgo))
+        let threeMonthsAgo = new Date();
+        threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+        fetchGraphData(route, tickerString, jsDateConverter(threeMonthsAgo), jsDateConverter(new Date()));
+        setStartDate(jsDateConverter(threeMonthsAgo))
         setEndDate(jsDateConverter(new Date()))
       }
       else {
@@ -447,10 +447,10 @@ export default function(props) {
     newStocks = newStocks.filter(ticker => !newRemovedTickers.includes(ticker));
     const tickerString = tickerArrayConverter(newStocks);
     if(startDate.length === 0 && endDate.length === 0) {
-      let sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
-      updatePortfolioWithStocks(tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
-      setStartDate(jsDateConverter(sevenDaysAgo))
+      let threeMonthsAgo = new Date();
+      threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+      updatePortfolioWithStocks(tickerString, jsDateConverter(threeMonthsAgo), jsDateConverter(new Date()));
+      setStartDate(jsDateConverter(threeMonthsAgo))
       setEndDate(jsDateConverter(new Date()))
     }
     else {
