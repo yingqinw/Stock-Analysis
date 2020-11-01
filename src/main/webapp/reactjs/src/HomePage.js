@@ -315,6 +315,38 @@ export default function(props) {
     props.setStocks(newStocks)
   }
 
+  const updatePortfolioWithStocks = (portfolioTickers, startDateGraph, endDateGraph) => {
+    console.log(portfolioTickers)
+    console.log(startDateGraph)
+    console.log(endDateGraph)
+    
+  }
+
+  const toggleStock = (selectedTicker, removeTicker) => {
+    let newStocks = [];
+    props.stocks.forEach(item => {
+      newStocks.push(item.ticker);
+    })
+    if(removeTicker) {
+      newStocks = newStocks.filter(stock => stock !== selectedTicker);
+    }
+    console.log(newStocks);
+    let newPortfolioTickers = newStocks;
+    newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
+    const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
+    const tickerString = "[" + tickerArray + "]";
+    if(startDate.length === 0 && endDate.length === 0) {
+      let sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
+      updatePortfolioWithStocks(tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
+      setStartDate(jsDateConverter(sevenDaysAgo))
+      setEndDate(jsDateConverter(new Date()))
+    }
+    else {
+      updatePortfolioWithStocks(tickerString, startDate, endDate);
+    }
+  }
+
   return (
     <div className="homepageWrapper">
       <Navbar expand="lg" className="text-uppercase mb-3">
@@ -380,6 +412,7 @@ export default function(props) {
                                 id={stock.ticker}
                                 readOnly
                                 defaultChecked
+                                onChange={e => toggleStock(stock.ticker, !e.target.checked)}
                               />
                               <label className='custom-control-label' htmlFor={stock.ticker} />
                             </div></td>
