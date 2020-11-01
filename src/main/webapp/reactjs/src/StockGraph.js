@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 
 export default function(props) {
 	const [data, setData] = useState([]);
+
 	useEffect(()=> {
 		setData([]);
 		const newData = [];
@@ -16,7 +17,7 @@ export default function(props) {
 		})
 		setData(newData);
 	}, [props.graphTickers, props.graphPrices])
-
+	
 	const options = {
 		title: {
 			text: 'USC CS310 Stock Management Chart'
@@ -105,6 +106,7 @@ export default function(props) {
 				constructorType={"stockChart"}
 				highcharts={Highcharts}
 				options={options}
+				updateArgs = { [true, true, true] }
 			/>
 		</div>
 	)

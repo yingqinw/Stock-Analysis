@@ -106,10 +106,27 @@ export default function(props) {
     return month + '/' + day + '/' + year;
   }
 
+  const getDefaultDates = () => {
+    if(startDate.length === 0 && endDate.length === 0) {
+      let sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
+      setStartDate(jsDateConverter(sevenDaysAgo))
+      setEndDate(jsDateConverter(new Date()))
+      return [jsDateConverter(sevenDaysAgo), jsDateConverter(new Date())];
+    }
+    else {
+      return [dateConverter(startDate), dateConverter(endDate)];
+    }
+  }
+
   const fetchStockData = (route, removedTicker = null, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
-      const realStartDateGraph = startDateGraph.indexOf('-') > -1? dateConverter(startDateGraph) : startDateGraph;
-      const realEndDateGraph = endDateGraph.indexOf('-') > -1? dateConverter(endDateGraph) : endDateGraph;
+      
+      let realStartDateGraph = startDateGraph;
+      let realEndDateGraph = endDateGraph;
+      if(startDateGraph.length === 0 && endDateGraph.length === 0) {
+        [realStartDateGraph, realEndDateGraph] = getDefaultDates();
+      }
       fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(buyDate)}&enddate=${dateConverter(sellDate)}&startdate_graph=${realStartDateGraph}&enddate_graph=${realEndDateGraph}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
@@ -319,18 +336,42 @@ export default function(props) {
     console.log(portfolioTickers)
     console.log(startDateGraph)
     console.log(endDateGraph)
-    
+    fetch(`http://localhost:8080/UpdatePortfolio?username=${props.username}&tickers_graph=${portfolioTickers}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
+      method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      let newGraphPrices = graphPrices;
+      graphLabels.forEach((name, k) => {
+        if(name === 'portfolio') {
+          newGraphPrices[k] = data;
+        }
+      })
+      setGraphPrices(newGraphPrices);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   }
-
+  
   const toggleStock = (selectedTicker, removeTicker) => {
     let newStocks = [];
+    let newRemovedTickers = props.unSelectedTickers;
     props.stocks.forEach(item => {
       newStocks.push(item.ticker);
     })
     if(removeTicker) {
-      newStocks = newStocks.filter(stock => stock !== selectedTicker);
+      // add new ticker to unselected tickers
+      newRemovedTickers.push(selectedTicker);
     }
-    console.log(newStocks);
+    else {
+      // remove the selected ticker from unselected tickers
+      newRemovedTickers = newRemovedTickers.filter(stock => stock !== selectedTicker);
+    }
+    props.setUnSelectedTickers(newRemovedTickers);
+    // filter new stocks based on unselected tickers
+    newStocks = newStocks.filter(ticker => !newRemovedTickers.includes(ticker));
     let newPortfolioTickers = newStocks;
     newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
     const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
@@ -343,7 +384,7 @@ export default function(props) {
       setEndDate(jsDateConverter(new Date()))
     }
     else {
-      updatePortfolioWithStocks(tickerString, startDate, endDate);
+      updatePortfolioWithStocks(tickerString, dateConverter(startDate), dateConverter(endDate));
     }
   }
 
@@ -366,6 +407,7 @@ export default function(props) {
                 setGraphTickers([]);
                 setGraphPrices([]);
                 window.localStorage.clear();
+                props.setUnSelectedTickers([]);
               }}>
                 log out
               <Arrow className="arrow"></Arrow>

@@ -48,6 +48,7 @@ export default function() {
   const [validUserName, setValidUserName] = useState(false);
   const [timer, setTimer] = useState(0);
   const [stocks, setStocks] = useState([]);
+  const [unSelectedTickers, setUnSelectedTickers] = useLocalStorage([], "unSelectedTickers");
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
@@ -139,6 +140,8 @@ export default function() {
               resetLogoutTimer={resetLogoutTimer}
               stocks={stocks}
               setStocks={setStocks}
+              unSelectedTickers={unSelectedTickers}
+              setUnSelectedTickers={setUnSelectedTickers}
             /> :
             <Wrapper>
               {selectLogin ? 
