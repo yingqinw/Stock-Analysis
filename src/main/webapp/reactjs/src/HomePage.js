@@ -326,12 +326,12 @@ export default function(props) {
       }
     }
   }
-  
+  // window.localStorage.clear()
   const removeStocks = (removed) => {
     const newStocks = props.stocks.filter(stock => stock.ticker !== removed);
     props.setStocks(newStocks)
   }
-
+  
   const updatePortfolioWithStocks = (portfolioTickers, startDateGraph, endDateGraph) => {
     console.log(portfolioTickers)
     console.log(startDateGraph)
@@ -343,12 +343,14 @@ export default function(props) {
     .then(data => {
       console.log('Success:', data);
       let newGraphPrices = graphPrices;
-      graphLabels.forEach((name, k) => {
+      graphTickers.forEach((name, k) => {
         if(name === 'portfolio') {
+          console.log('change here')
           newGraphPrices[k] = data;
         }
       })
       setGraphPrices(newGraphPrices);
+      console.log(newGraphPrices)
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -608,18 +610,18 @@ export default function(props) {
             <UploadFileForm
               setShowUploadFileForm={setShowUploadFileForm}
               resetLogoutTimer={props.resetLogoutTimer}
-			  username={props.username}
-			  startDate={startDate}
-			  setStartDate={setStartDate}
-			  setEndDate={setEndDate}
-			  endDate={endDate}
-			  graphPrices={graphPrices}
-			  graphTickers={graphTickers}
-			  setStocks={props.setStocks}
-			  setGraphTickers={setGraphTickers}
-			  setGraphPrices={setGraphPrices}
-			  setGraphLabels={setGraphLabels}
-			  setShowUploadFileForm={setShowUploadFileForm}
+              username={props.username}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              endDate={endDate}
+              graphPrices={graphPrices}
+              graphTickers={graphTickers}
+              setStocks={props.setStocks}
+              setGraphTickers={setGraphTickers}
+              setGraphPrices={setGraphPrices}
+              setGraphLabels={setGraphLabels}
+              setShowUploadFileForm={setShowUploadFileForm}
             />
           </div>
         </div> : <></>
