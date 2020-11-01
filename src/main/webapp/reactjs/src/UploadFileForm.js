@@ -106,7 +106,8 @@ export default function(props) {
         		}
        		})
        			// replace with new array
-       		newGraphPrices[removeIndex] = data.price.myArrayList;
+           newGraphPrices[removeIndex] = data.price.myArrayList;
+           props.setGraphPrices(newGraphPrices);
      		}
      		else {
        			// push portfolio values to end of graph array

@@ -223,7 +223,8 @@ export default function(props) {
         		}
        		})
        			// replace with new array
-       		newGraphPrices[removeIndex] = data.price.myArrayList;
+           newGraphPrices[removeIndex] = data.price.myArrayList;
+           setGraphPrices(newGraphPrices);
      		}
      		else {
        			// push portfolio values to end of graph array
@@ -707,7 +708,6 @@ export default function(props) {
               setGraphTickers={setGraphTickers}
               setGraphPrices={setGraphPrices}
               setGraphLabels={setGraphLabels}
-              setShowUploadFileForm={setShowUploadFileForm}
             />
           </div>
         </div> : <></>
