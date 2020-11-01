@@ -234,6 +234,9 @@ export default function(props) {
              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
      		}
      		setGraphLabels(data.date.myArrayList);
+			
+			//console.log(data);
+			//console.log(graphPrices);
           
         }
       }))
@@ -484,7 +487,7 @@ export default function(props) {
           <Navbar.Text>
             <Button className="my-auto" onClick={()=>{
               setShowUploadFileForm(true);
-              console.log(showUploadFileForm)
+              //console.log(showUploadFileForm)
             }}>
               Upload file
             </Button>
