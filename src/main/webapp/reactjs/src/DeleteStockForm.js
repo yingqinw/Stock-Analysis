@@ -3,8 +3,6 @@ import './App.css';
 import {FormTitle, FormWrapper, Button, Arrow} from './Modals';
 
 export default function(props) {
-  
-
 
   return (
     <form id="addStock-form" /*onSubmit={deleteStock}*/>

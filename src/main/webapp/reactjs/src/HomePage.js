@@ -72,6 +72,65 @@ export default function(props) {
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
 
+  let options = {
+    title: {
+      text: 'USC CS310 Stock Management Chart'
+    },
+
+    yAxis: {
+      title: {
+        text: 'Ticker prices in dollar'
+      }
+    },
+
+    xAxis: {
+      categories: graphLabels,
+    },
+
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'middle',
+      enabled: true,
+    },
+
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false
+        },
+      }
+    },
+    
+    rangeSelector: {
+      allButtonsEnabled: true,
+    },
+
+    series: graphTickers.map((ticker,i) => {
+      return {
+        name: ticker,
+        data: graphPrices[i]
+      }
+    }),
+
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          },
+          rangeSelector: {
+            inputEnabled: false
+          }
+        }
+      }]
+    },
+  };
 /*  function useIdle(options){
 	const [isIdle, setIsIdle] = React.useState(false)
 	React.useEffect( () => {
@@ -106,10 +165,27 @@ export default function(props) {
     return month + '/' + day + '/' + year;
   }
 
+  const getDefaultDates = () => {
+    if(startDate.length === 0 && endDate.length === 0) {
+      let sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
+      setStartDate(jsDateConverter(sevenDaysAgo))
+      setEndDate(jsDateConverter(new Date()))
+      return [jsDateConverter(sevenDaysAgo), jsDateConverter(new Date())];
+    }
+    else {
+      return [dateConverter(startDate), dateConverter(endDate)];
+    }
+  }
+
   const fetchStockData = (route, removedTicker = null, startDateGraph=startDate.indexOf('-') > -1? dateConverter(startDate): startDate, endDateGraph=endDate.indexOf('-') > -1? dateConverter(endDate): endDate) => {
     if(props.loggedIn) {
-      const realStartDateGraph = startDateGraph.indexOf('-') > -1? dateConverter(startDateGraph) : startDateGraph;
-      const realEndDateGraph = endDateGraph.indexOf('-') > -1? dateConverter(endDateGraph) : endDateGraph;
+      
+      let realStartDateGraph = startDateGraph;
+      let realEndDateGraph = endDateGraph;
+      if(startDateGraph.length === 0 && endDateGraph.length === 0) {
+        [realStartDateGraph, realEndDateGraph] = getDefaultDates();
+      }
       fetch(`http://localhost:8080/${route}?username=${props.username}&ticker=${removedTicker??ticker}&quantity=${quantity}&startdate=${dateConverter(buyDate)}&enddate=${dateConverter(sellDate)}&startdate_graph=${realStartDateGraph}&enddate_graph=${realEndDateGraph}`, {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
@@ -147,14 +223,15 @@ export default function(props) {
         		}
        		})
        			// replace with new array
-       		newGraphPrices[removeIndex] = data.price.myArrayList;
-			setGraphPrices(newGraphPrices);
+           newGraphPrices[removeIndex] = data.price.myArrayList;
+           setGraphPrices(newGraphPrices);
      		}
      		else {
        			// push portfolio values to end of graph array
        			setGraphTickers(newGraphTickers.concat('portfolio'));
        			newGraphPrices.push(data.price.myArrayList)
-       			setGraphPrices(newGraphPrices);
+             setGraphPrices(newGraphPrices);
+             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
      		}
      		setGraphLabels(data.date.myArrayList);
 			
@@ -188,6 +265,7 @@ export default function(props) {
               setGraphLabels(labelsGraph);
               var tempArray = [pricesGraph];
               setGraphPrices(graphPrices.concat(tempArray));
+              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             }
           }
           else {
@@ -204,6 +282,7 @@ export default function(props) {
             setGraphLabels(data.date.myArrayList);
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             setShowSelectDatesForm(false);
           }
         }
@@ -313,10 +392,90 @@ export default function(props) {
       }
     }
   }
-  
+  // window.localStorage.clear()
   const removeStocks = (removed) => {
     const newStocks = props.stocks.filter(stock => stock.ticker !== removed);
     props.setStocks(newStocks)
+  }
+  
+  const updatePortfolioWithStocks = (portfolioTickers, startDateGraph, endDateGraph) => {
+    fetch(`http://localhost:8080/UpdatePortfolio?username=${props.username}&tickers_graph=${portfolioTickers}&startdate_graph=${startDateGraph}&enddate_graph=${endDateGraph}`, {
+      method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      let newGraphPrices = graphPrices;
+      graphTickers.forEach((name, k) => {
+        if(name === 'portfolio') {
+          newGraphPrices[k] = data;
+        }
+      })
+      setGraphPrices(newGraphPrices);
+      console.log(graphPrices)
+      // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
+  const tickerArrayConverter = (stocks) => {
+    let newPortfolioTickers = stocks;
+    newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
+    const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
+    const tickerString = "[" + tickerArray + "]";
+    return tickerString;
+  }
+  
+  const toggleStock = (selectedTicker, removeTicker) => {
+    let newStocks = [];
+    let newRemovedTickers = props.unSelectedTickers;
+    props.stocks.forEach(item => {
+      newStocks.push(item.ticker);
+    })
+    if(removeTicker) {
+      // add new ticker to unselected tickers
+      newRemovedTickers.push(selectedTicker);
+    }
+    else {
+      // remove the selected ticker from unselected tickers
+      newRemovedTickers = newRemovedTickers.filter(stock => stock !== selectedTicker);
+    }
+    props.setUnSelectedTickers(newRemovedTickers);
+    // filter new stocks based on unselected tickers
+    newStocks = newStocks.filter(ticker => !newRemovedTickers.includes(ticker));
+    const tickerString = tickerArrayConverter(newStocks);
+    if(startDate.length === 0 && endDate.length === 0) {
+      let sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
+      updatePortfolioWithStocks(tickerString, jsDateConverter(sevenDaysAgo), jsDateConverter(new Date()));
+      setStartDate(jsDateConverter(sevenDaysAgo))
+      setEndDate(jsDateConverter(new Date()))
+    }
+    else {
+      updatePortfolioWithStocks(tickerString, dateConverter(startDate), dateConverter(endDate));
+    }
+  }
+
+  const selectAllStocks = () => {
+    let newStocks = [];
+    props.stocks.forEach(item => {
+      newStocks.push(item.ticker);
+    })
+    props.setUnSelectedTickers([]);
+    const [startDateGraph, endDateGraph] = getDefaultDates();
+    updatePortfolioWithStocks(tickerArrayConverter(newStocks), startDateGraph, endDateGraph);
+  }
+
+  const unSelectAllStocks = () => {
+    let newStocks = [];
+    props.stocks.forEach(item => {
+      newStocks.push(item.ticker);
+    })
+    props.setUnSelectedTickers(newStocks);
+    const [startDateGraph, endDateGraph] = getDefaultDates();
+    updatePortfolioWithStocks(tickerArrayConverter([]), startDateGraph, endDateGraph);
   }
 
   return (
@@ -338,6 +497,7 @@ export default function(props) {
                 setGraphTickers([]);
                 setGraphPrices([]);
                 window.localStorage.clear();
+                props.setUnSelectedTickers([]);
               }}>
                 log out
               <Arrow className="arrow"></Arrow>
@@ -383,7 +543,8 @@ export default function(props) {
                                 className='custom-control-input'
                                 id={stock.ticker}
                                 readOnly
-                                defaultChecked
+                                checked={!props.unSelectedTickers.includes(stock.ticker)}
+                                onChange={e => toggleStock(stock.ticker, !e.target.checked)}
                               />
                               <label className='custom-control-label' htmlFor={stock.ticker} />
                             </div></td>
@@ -395,12 +556,14 @@ export default function(props) {
                 </div>
               </div>
             </div>
+            <div>
+              <Button onClick={selectAllStocks}>Select All</Button>
+              <Button onClick={unSelectAllStocks}>Unselect All</Button>
+            </div>
           </div>
           <div className="col-md-9 market-pairs2">
             <StockGraph 
-              graphTickers={graphTickers}
-              graphLabels={graphLabels}
-              graphPrices={graphPrices}
+              options={options}
             />
             <div className="graphButton">
               <Button onClick={()=>{
@@ -537,17 +700,17 @@ export default function(props) {
             <UploadFileForm
               setShowUploadFileForm={setShowUploadFileForm}
               resetLogoutTimer={props.resetLogoutTimer}
-			  username={props.username}
-			  startDate={startDate}
-			  setStartDate={setStartDate}
-			  setEndDate={setEndDate}
-			  endDate={endDate}
-			  graphPrices={graphPrices}
-			  graphTickers={graphTickers}
-			  setStocks={props.setStocks}
-			  setGraphTickers={setGraphTickers}
-			  setGraphPrices={setGraphPrices}
-			  setGraphLabels={setGraphLabels}
+              username={props.username}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              endDate={endDate}
+              graphPrices={graphPrices}
+              graphTickers={graphTickers}
+              setStocks={props.setStocks}
+              setGraphTickers={setGraphTickers}
+              setGraphPrices={setGraphPrices}
+              setGraphLabels={setGraphLabels}
             />
           </div>
         </div> : <></>
