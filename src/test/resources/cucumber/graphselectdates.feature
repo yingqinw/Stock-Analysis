@@ -29,5 +29,19 @@ Feature: User logout
 	When I write the wrong end date 
 	Then I should see the error message for end date gd
 	
+  Scenario: I add the stock 
+    Given in Homepage and in view stock to graph pop up window 
+	When I add a stock on the graph to view gsd
+	Then I should see the 3 months dates as default
+	
+  Scenario: I specify the dates
+    Given in Homepage and in view stock to graph pop up window 
+	When I add a stock on the graph to view gsd
+	And I click the select dates button gsd
+	And I specify the dates from 9/10/2020 to 10/10/2020
+	Then I should see the graph for 1 month
+	
+	
+	
 		
 	

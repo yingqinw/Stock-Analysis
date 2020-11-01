@@ -33,5 +33,15 @@ Feature: User logout
     Given in Homepage and in add stock to graph pop up window
     When I write the invalid ticker
     Then I should see the error message for invalid ticker
+    
+  Scenario: Not add the stock
+  	Given in Homepage and in add stock to graph pop up window
+    When I write the valid stock and click the cancel button
+    Then I should not see the stock on the graph 
+    
+  Scenario: Add a stock on the graph
+  	Given in Homepage and in add stock to graph pop up window
+    When I write the valid stock and click view stock button
+    Then I should see the stock on the graph
 		
 	
