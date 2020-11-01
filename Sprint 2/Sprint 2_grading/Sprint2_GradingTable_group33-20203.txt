@@ -10,12 +10,12 @@
 |                          |                     | Scrum 5:                                                                 |
 | Retrospective            | 6.0/6               | Excellent job with your process, keep up the good work!                  |
 | TDD                      | 10/10               |                                                                          |
-| Sustainable Pace         | 9/10                |                                                                          |
-| GitFlow                  | 8.5/10              |                                                                          |
+| Sustainable Pace         | 10/10               |                                                                          |
+| GitFlow                  | 10/10               |                                                                          |
 | Continuous Integration   | 10/10               |                                                                          |
 | Refactor                 | 9.7/10              |                                                                          |
 | Coverage                 | 9.8/10              |                                                                          |
 | ------------------------ | ------------------- |                                                                          |
-| Total                    | 95.0                |                                                                          |
+| Total                    | 97.5                |                                                                          |
 | ------------------------ | ------------------- |                                                                          |
 | Implementation Score     | 28/250              |                                                                          |
