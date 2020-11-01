@@ -116,6 +116,36 @@ public class GraphAddStockStepDefinitions {
 		assertEquals(driver.findElement(title).getText(), "Invalid ticker!");
 	}
 	
+	@When("I write the valid stock and click the cancel button")
+	public void i_write_the_valid_stock_and_click_the_cancel_button() {
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).sendKeys("AAPL");
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[2]")).click();
+	}
+
+	@Then("I should not see the stock on the graph")
+	public void i_should_not_see_the_stock_on_the_graph() {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > text.highcharts-title > tspan");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "USC CS310 Stock Management Chart");
+	}
+	
+	@When("I write the valid stock and click view stock button")
+	public void i_write_the_valid_stock_and_click_view_stock_button() {
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).sendKeys("AAPL");
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[1]")).click();
+	}
+	
+	@Then("I should see the stock on the graph")
+	public void i_should_see_the_stock_on_the_graph() {
+		driver.get(ROOT_URL);
+		driver.navigate().refresh();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "AAPL");
+	}
+	
 	@After()
 	public void after() {
 		try {
@@ -125,4 +155,6 @@ public class GraphAddStockStepDefinitions {
 		}
 		driver.quit();
 	}
+	
+	
 }
