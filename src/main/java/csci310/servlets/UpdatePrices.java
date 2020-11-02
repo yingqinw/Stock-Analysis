@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 import csci310.Portfolio;
+import csci310.SQL;
+import csci310.servlets.RemoveStock.AddStockData;
 
 @WebServlet("/UpdatePrices")
 public class UpdatePrices extends HttpServlet{
@@ -44,6 +46,7 @@ public class UpdatePrices extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 		String username = request.getParameter("username");
 		String startDate = request.getParameter("startdate_graph");
         String endDate = request.getParameter("enddate_graph");
@@ -51,8 +54,7 @@ public class UpdatePrices extends HttpServlet{
 		response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
         response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
-		
-		Connection conn = null;
+        Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
 		ResultSet rs=null;
@@ -72,55 +74,43 @@ public class UpdatePrices extends HttpServlet{
 				ps2.setInt(1, userID);
 				rs2=ps2.executeQuery();
 				while(rs2.next()) {
-					String ticker =rs2.getString("ticker");
-					tickers.add(ticker);
+					String ticker1 =rs2.getString("ticker");
+					tickers.add(ticker1);
 				}
 			}
 			
 		}catch(SQLException sqle) {
 			System.out.println("sqle: "+sqle.getMessage());
 		}
-		try {
-			if(rs!=null) {rs.close();}
-			if(rs2!=null) {rs2.close();}
-			if(ps!=null) {ps.close();}
-			if(ps2!=null) {ps2.close();}
-			if(conn!=null) {conn.close(); }
-			if(username.equals("fakeusername")) {
-				conn = DriverManager.getConnection("exception trigger test");
-			}
-		}catch(SQLException sqle) {
-			System.out.println("sqle closing stuff: "+sqle.getMessage());
-		}
 		Iterator<String> i = tickers.iterator();
 		JSONObject updatedPrices = new JSONObject();
 		while (i.hasNext()) {
-			String ticker = i.next();
+			String ticker2 = i.next();
 			//connect to API
-	        String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker 
+	        String website1 = "https://finnhub.io/api/v1/quote?symbol="+ ticker2 
 	        		+"&token=" + APIKey;
-	        URL url = new URL(website);
-	  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-	  		con.setRequestMethod("GET");
-	  		con.connect(); 
+	        URL url1 = new URL(website1);
+	  		HttpURLConnection con1 = (HttpURLConnection) url1.openConnection();
+	  		con1.setRequestMethod("GET");
+	  		con1.connect(); 
 			
 			//read json
-	  		Scanner sc = new Scanner(url.openStream());
-	  		String result = "";
-	  		while(sc.hasNext()) result += sc.nextLine();
-	  		sc.close();
+	  		Scanner sc1 = new Scanner(url1.openStream());
+	  		String result1 = "";
+	  		while(sc1.hasNext()) result1 += sc1.nextLine();
+	  		sc1.close();
 	  		//System.out.println(result);
-	  		JSONObject obj = new JSONObject(result);
+	  		JSONObject obj = new JSONObject(result1);
   			double currentPrice = obj.getDouble("c");
-  			//System.out.println(ticker +" "+ currentPrice);
-  			updatedPrices.put(ticker,currentPrice);
+  			//System.out.println(ticker2 +" "+ currentPrice);
+  			updatedPrices.put(ticker2,currentPrice);
 		}
 		PrintWriter out = response.getWriter();
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        out.print(updatedPrices);
-//        out.flush(); 
-		Portfolio p = new Portfolio(username, startDate, endDate);
+        //response.setContentType("application/json");
+        //response.setCharacterEncoding("UTF-8");
+        //out.print(updatedPrices);
+	    //out.flush(); 
+	    Portfolio p = new Portfolio(username, startDate, endDate);
         if(!username.equals("fakeusername")) {
   		try {
   			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
@@ -170,7 +160,6 @@ public class UpdatePrices extends HttpServlet{
 		}catch(SQLException sqle) {
 			System.out.println("sqle closing stuff: "+sqle.getMessage());
 		}
-
 	}
 
 }
