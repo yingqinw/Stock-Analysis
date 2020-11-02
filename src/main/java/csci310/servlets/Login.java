@@ -65,13 +65,15 @@ public class Login extends HttpServlet {
 		
 		else {
 			count++;
+			//System.out.println("Login attempt: "+ count);
 			if(count == 3) {
 				LoginError le = new LoginError("Incorrect username or password entered 3 times, user locked.");
 				PrintWriter out = response.getWriter();
 		        response.setContentType("application/json");
 		        response.setCharacterEncoding("UTF-8");
 		        out.print(this.gson.toJson(le));
-		        out.flush();   
+		        out.flush(); 
+		        count = 0;
 		        return;
 			}
 			LoginError le = new LoginError("Incorrect username or password. Please try again! :)");
