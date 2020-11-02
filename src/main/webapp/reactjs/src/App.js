@@ -23,6 +23,7 @@ const Wrapper = styled.div`
 `;
 
 var logoutinterval;
+var lockoutinterval;
 
 export const useLocalStorage = (defaultValue, key) => {
   const [value, setValue] = React.useState(() => {
@@ -51,6 +52,8 @@ export default function() {
   const [unSelectedTickers, setUnSelectedTickers] = useLocalStorage([], "unSelectedTickers");
   const [portfolioDates, setPortfolioDates] = useState([]);
   const [portfolioPrices, setPortfolioPrices] = useState([]);
+  const [loginLock, setLoginLock] = useState(false);
+  const [loginLockTimer, setLoginLockTimer] = useState(0);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
@@ -89,8 +92,23 @@ export default function() {
 	//console.log(timer);
   }, [timer, setLoggedIn]);
 
+  useEffect(() => {
+    if(loginLockTimer<0){
+      setLoginLock(false);
+	  clearInterval(lockoutinterval);
+      setLoginLockTimer(300);
+    }
+	console.log(loginLockTimer);
+  }, [loginLockTimer, setLoginLock]);
+
+
+
   const timerProgress = () => {
 	  setTimer(prevTimer => prevTimer - 1);
+  }
+
+  const lockTimerProgress = () =>{
+	setLoginLockTimer(prevLoginLockTimer => prevLoginLockTimer - 1);
   }
   
   const resetLogoutTimer = () =>{
@@ -100,6 +118,9 @@ export default function() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const alertMessage = [];
+	if(loginLock){
+	  alertMessage.push("You are locked out due to 3 failed attempts, please wait " + loginLockTimer + " more seconds");
+	}
     if(!validUserName) {
       alertMessage.push("Username can only contain alphanumeric characters and longer than 5 characters. ");
     }
@@ -121,12 +142,18 @@ export default function() {
           setAlertText("");
           setAlertText(error);
           setLoggedIn(false);
+		  if(error.includes("locked")){
+			setLoginLock(true);
+			setLoginLockTimer(180);
+			clearInterval(lockoutinterval);
+            lockoutinterval = setInterval(lockTimerProgress,1000);
+		  }
         }
         else {
           setLoggedIn(true);
 		  resetLogoutTimer();
           //setTimer(300);
-		      clearInterval(logoutinterval);
+		  clearInterval(logoutinterval);
           logoutinterval = setInterval(timerProgress,1000);
           fetchStockData(true);
         }
