@@ -44,6 +44,15 @@ export const jsonToArray2 = (data) => {
   return result;
 }
 
+export const jsDateConverter = (date) => {
+  const year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+  let day = date.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
+  return month + '/' + day + '/' + year;
+}
+
 export const isEmpty = (data) => {
   return Object.keys(data).length === 0 && data.constructor === Object;
 }
@@ -154,15 +163,6 @@ export default function(props) {
     else {
       return date;
     }
-  }
-
-  const jsDateConverter = (date) => {
-    const year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    return month + '/' + day + '/' + year;
   }
 
   const getDefaultDates = () => {

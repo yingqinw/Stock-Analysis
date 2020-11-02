@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {jsonToArray} from './HomePage';
+import {jsonToArray, jsDateConverter} from './HomePage';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -52,13 +52,16 @@ export default function() {
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
-      fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
+      let threeMonthsAgo = new Date();
+      threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+      console.log(`http://localhost:8080/UpdatePrices?username=${username}&startdate_graph=${jsDateConverter(threeMonthsAgo)}&enddate_graph=${jsDateConverter(new Date())}`)
+      fetch(`http://localhost:8080/UpdatePrices?username=${username}&startdate_graph=${jsDateConverter(threeMonthsAgo)}&enddate_graph=${jsDateConverter(new Date())}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
-		//console.log(data);
-		//console.log(jsonToArray(data));
-        setStocks(jsonToArray(data));
+        console.log(data);
+        //console.log(jsonToArray(data));
+        // setStocks(jsonToArray(data));
       }))
     }
   }
