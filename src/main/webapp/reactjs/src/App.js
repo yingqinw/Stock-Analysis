@@ -56,13 +56,12 @@ export default function() {
     if(loggedIn || execute) {
       let threeMonthsAgo = new Date();
       threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
-      console.log(`http://localhost:8080/UpdatePrices?username=${username}&startdate_graph=${jsDateConverter(threeMonthsAgo)}&enddate_graph=${jsDateConverter(new Date())}`)
       fetch(`http://localhost:8080/UpdatePrices?username=${username}&startdate_graph=${jsDateConverter(threeMonthsAgo)}&enddate_graph=${jsDateConverter(new Date())}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
-        let dates = [data.date.myArrayList];
-        let prices = [data.price.myArrayList];
+        let dates = data.date.myArrayList;
+        let prices = data.price.myArrayList;
         setPortfolioDates(dates);
         setPortfolioPrices(prices);
         setStocks(jsonToArray(data.update.map));
