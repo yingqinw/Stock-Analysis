@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {jsonToArray} from './HomePage';
+import {jsonToArray, jsDateConverter} from './HomePage';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -49,16 +49,22 @@ export default function() {
   const [timer, setTimer] = useState(0);
   const [stocks, setStocks] = useState([]);
   const [unSelectedTickers, setUnSelectedTickers] = useLocalStorage([], "unSelectedTickers");
+  const [portfolioDates, setPortfolioDates] = useState([]);
+  const [portfolioPrices, setPortfolioPrices] = useState([]);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
-      fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
+      let threeMonthsAgo = new Date();
+      threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+      fetch(`http://localhost:8080/UpdatePrices?username=${username}&startdate_graph=${jsDateConverter(threeMonthsAgo)}&enddate_graph=${jsDateConverter(new Date())}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
-		//console.log(data);
-		//console.log(jsonToArray(data));
-        setStocks(jsonToArray(data));
+        let dates = data.date.myArrayList;
+        let prices = data.price.myArrayList;
+        setPortfolioDates(dates);
+        setPortfolioPrices(prices);
+        setStocks(jsonToArray(data.update.map));
       }))
     }
   }
@@ -142,6 +148,8 @@ export default function() {
               setStocks={setStocks}
               unSelectedTickers={unSelectedTickers}
               setUnSelectedTickers={setUnSelectedTickers}
+              portfolioDates={portfolioDates}
+              portfolioPrices={portfolioPrices}
             /> :
             <Wrapper>
               {selectLogin ? 

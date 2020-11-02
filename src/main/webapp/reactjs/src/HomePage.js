@@ -44,9 +44,19 @@ export const jsonToArray2 = (data) => {
   return result;
 }
 
+export const jsDateConverter = (date) => {
+  const year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+  let day = date.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
+  return month + '/' + day + '/' + year;
+}
+
 export const isEmpty = (data) => {
   return Object.keys(data).length === 0 && data.constructor === Object;
 }
+
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -63,9 +73,9 @@ export default function(props) {
   const [showRemoveConfirmForm, setShowRemoveConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
-  const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
-  const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
-  const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
+  const [graphTickers, setGraphTickers] = useLocalStorage(['portfolio'], "graphTickers");
+  const [graphLabels, setGraphLabels] = useLocalStorage([props.portfolioDates], "graphLabels");
+  const [graphPrices, setGraphPrices] = useLocalStorage([props.portfolioPrices], "graphPrices");
   const [showSelectDatesForm, setShowSelectDatesForm] = useState(false);
   const [validBuy, setValidBuy] = useState(false);
   const [validSell, setValidSell] = useState(false);
@@ -146,6 +156,34 @@ export default function(props) {
 */
 //  useIdle({timeToIdle: 1000})
 
+  useEffect(() => {
+    if(props.portfolioDates.length === 0 || props.portfolioPrices === 0) {
+      return;
+    }
+    let portfolioIndex = -1;
+    graphTickers.forEach((item, i) => {
+      if(item === "portfolio") {
+        portfolioIndex = i;
+      }
+    });
+    let newGraphTickers = graphTickers;
+    let newGraphPrices = graphPrices;
+    let newGraphLabels = graphLabels;
+    if(portfolioIndex === -1) {
+      if(newGraphLabels.length === 0) {
+        newGraphLabels.push(props.portfolioDates);
+      }
+      newGraphPrices.push(props.portfolioPrices);
+      newGraphTickers.push('portfolio');
+    }
+    else {
+      newGraphPrices[portfolioIndex] = props.portfolioPrices;
+    }
+    setGraphLabels(newGraphLabels)
+    setGraphPrices(newGraphPrices)
+    setGraphTickers(newGraphTickers)
+  })
+
   const dateConverter = (date) => {
     if(date.indexOf('-') > -1) {
       const dateArr = date.split('-');
@@ -154,15 +192,6 @@ export default function(props) {
     else {
       return date;
     }
-  }
-
-  const jsDateConverter = (date) => {
-    const year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    return month + '/' + day + '/' + year;
   }
 
   const getDefaultDates = () => {
@@ -190,8 +219,6 @@ export default function(props) {
         method: route === 'UpdatePrices'? 'POST': 'GET'
       })
       .then(response =>  response.json().then(data => {
-		//console.log("here")
-		//console.log(data)
         const error = data.AddStockerr;
         if(error) {
           setAlertText("");
@@ -204,34 +231,31 @@ export default function(props) {
           if(route === 'RemoveStock') {
             setShowDeleteConfirmForm(false);
           }
-		  //console.log(data);
-		  //console.log(jsonToArray2(data.update.map));
-		  if(!isEmpty(data.update)){
-			props.setStocks(jsonToArray2(data.update.map));
-		  }else{
-			console.log("empty")
-		  }
-		  
-		   let removeIndex = -1;
-  	       let newGraphPrices = graphPrices;
-  	       let newGraphTickers = graphTickers;
-  	       if(newGraphTickers.includes('portfolio')) {
-      	   // find the removal index
-       		newGraphTickers.forEach((item,i) => {
-         		if(item === 'portfolio') {
-           			removeIndex = i;
-        		}
-       		})
-       			// replace with new array
-           newGraphPrices[removeIndex] = data.price.myArrayList;
-           setGraphPrices(newGraphPrices);
+          if(!isEmpty(data.update)){
+            props.setStocks(jsonToArray2(data.update.map));
+          }else{
+            console.log("empty")
+          }
+          let removeIndex = -1;
+          let newGraphPrices = graphPrices;
+          let newGraphTickers = graphTickers;
+          if(newGraphTickers.includes('portfolio')) {
+            // find the removal index
+            newGraphTickers.forEach((item,i) => {
+              if(item === 'portfolio') {
+                  removeIndex = i;
+              }
+            })
+       		  // replace with new array
+          newGraphPrices[removeIndex] = data.price.myArrayList;
+          setGraphPrices(newGraphPrices);
      		}
      		else {
-       			// push portfolio values to end of graph array
-       			setGraphTickers(newGraphTickers.concat('portfolio'));
-       			newGraphPrices.push(data.price.myArrayList)
-             setGraphPrices(newGraphPrices);
-             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+          // push portfolio values to end of graph array
+          setGraphTickers(newGraphTickers.concat('portfolio'));
+          newGraphPrices.push(data.price.myArrayList)
+          setGraphPrices(newGraphPrices);
+          window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
      		}
      		setGraphLabels(data.date.myArrayList);
 			
