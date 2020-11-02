@@ -49,6 +49,8 @@ export default function() {
   const [timer, setTimer] = useState(0);
   const [stocks, setStocks] = useState([]);
   const [unSelectedTickers, setUnSelectedTickers] = useLocalStorage([], "unSelectedTickers");
+  const [portfolioDates, setPortfolioDates] = useState([]);
+  const [portfolioPrices, setPortfolioPrices] = useState([]);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
@@ -59,9 +61,11 @@ export default function() {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
-        console.log(data);
-        //console.log(jsonToArray(data));
-        // setStocks(jsonToArray(data));
+        let dates = [data.date.myArrayList];
+        let prices = [data.price.myArrayList];
+        setPortfolioDates(dates);
+        setPortfolioPrices(prices);
+        setStocks(jsonToArray(data.update.map));
       }))
     }
   }
@@ -145,6 +149,8 @@ export default function() {
               setStocks={setStocks}
               unSelectedTickers={unSelectedTickers}
               setUnSelectedTickers={setUnSelectedTickers}
+              portfolioDates={portfolioDates}
+              portfolioPrices={portfolioPrices}
             /> :
             <Wrapper>
               {selectLogin ? 

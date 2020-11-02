@@ -72,9 +72,9 @@ export default function(props) {
   const [showRemoveConfirmForm, setShowRemoveConfirmForm] = useState(false);
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
-  const [graphTickers, setGraphTickers] = useLocalStorage([], "graphTickers");
-  const [graphLabels, setGraphLabels] = useLocalStorage([], "graphLabels");
-  const [graphPrices, setGraphPrices] = useLocalStorage([], "graphPrices");
+  const [graphTickers, setGraphTickers] = useLocalStorage(["portfolio"], "graphTickers");
+  const [graphLabels, setGraphLabels] = useLocalStorage(props.portfolioDates, "graphLabels");
+  const [graphPrices, setGraphPrices] = useLocalStorage(props.portfolioPrices, "graphPrices");
   const [showSelectDatesForm, setShowSelectDatesForm] = useState(false);
   const [validBuy, setValidBuy] = useState(false);
   const [validSell, setValidSell] = useState(false);
