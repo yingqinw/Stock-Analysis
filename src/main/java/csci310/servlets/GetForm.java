@@ -113,7 +113,7 @@ public class GetForm extends HttpServlet {
                  String fileName = FilenameUtils.getName(item.getName());
                  InputStream fileContent = item.getInputStream();
                  //System.out.println(fileName);
-                 System.out.println("adding stocks");
+                 //System.out.println("adding stocks");
                  try (BufferedReader br = new BufferedReader(new InputStreamReader(
                          fileContent, StandardCharsets.UTF_8));) {
 
@@ -123,6 +123,7 @@ public class GetForm extends HttpServlet {
                      ArrayList<Integer> errorLines = new ArrayList<Integer>();
                      //int i = 0;
                      while ((line = br.readLine()) != null) {
+                    	 //System.out.println(line); 
                     	lines.add(line);
                      }
                      

@@ -48,6 +48,8 @@ public class LoginTest extends Mockito {
         
         assertTrue(stringWriter.toString().contains("Welcome, " + "hyunjae"));
         
+        
+        
         HttpServletRequest request2 = mock(HttpServletRequest.class);       
         HttpServletResponse response2 = mock(HttpServletResponse.class);
         
@@ -61,6 +63,14 @@ public class LoginTest extends Mockito {
         new Login().doPost(request2, response2);
         
         assertTrue(stringWriter2.toString().contains("Incorrect username or password. Please try again! :)"));
+        
+        
+        //trigger lock out
+        Login lg = new Login();
+        lg.doPost(request2, response2);
+        lg.doPost(request2, response2);
+        lg.doPost(request2, response2);
+        assertTrue(stringWriter2.toString().contains("user locked"));
 		
 	}
 
