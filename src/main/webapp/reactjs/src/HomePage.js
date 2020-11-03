@@ -214,7 +214,6 @@ export default function(props) {
       setGraphTickers(newGraphTickers)
     }
     else {
-      console.log('hrere')
       newGraphPrices[portfolioIndex] = props.portfolioPrices;
     }
     setGraphPrices(newGraphPrices)
