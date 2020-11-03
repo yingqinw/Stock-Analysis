@@ -124,10 +124,6 @@ export default function(props) {
         type: 'day',
         count: 1,
         text: 'day',
-        dataGrouping: {
-          forced: true,
-          units: [['day', [1]]]
-        }
       },
       {
         type: 'week',
@@ -152,10 +148,15 @@ export default function(props) {
       return {
         name: ticker,
         data: graphPrices[i].map((price, j) => {
-          return [
-            dateToTimeConverter(graphLabels[j]),
-            price,
-          ]
+          if(graphLabels[i] !== undefined) {
+            return [
+              dateToTimeConverter(graphLabels[j]),
+              price,
+            ]
+          }
+          else {
+            return [price]
+          }
         })
       }
     }),
