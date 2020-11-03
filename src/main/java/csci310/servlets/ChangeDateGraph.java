@@ -49,6 +49,7 @@ public class ChangeDateGraph extends HttpServlet{
 		
 		Type listType = new TypeToken<ArrayList<String>>(){}.getType();
 		ArrayList<String> tickers = this.gson.fromJson(tickers_string, listType);
+		tickers.add("SPY");
 
 		String APIKey = "btjeu1f48v6tfmo5erv0";
 		String username = request.getParameter("username");

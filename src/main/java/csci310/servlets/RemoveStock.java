@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.google.gson.Gson;
 import csci310.Portfolio;
 import csci310.SQL;
 
+@WebServlet("/RemoveStock")
 public class RemoveStock extends HttpServlet  {
 	
 	public class AddStockData{
