@@ -19,7 +19,7 @@ public class Portfolio {
 	Vector<PriceArray> stocks;
 	String PFstartDate;
 	String PFendDate;
-	
+	Double currentPortfolio;
 	long PFstartDateEpoch;
 	long PFendDateEpoch;
 	public Double[] portfolioValue;
@@ -136,5 +136,6 @@ public class Portfolio {
 			}
 			portfolioValue[i] = dayPFvalue;
 		}
+		currentPortfolio = portfolioValue[portfolioValue.length-1];
 	}
 }
