@@ -81,14 +81,13 @@ export default function(props) {
   const [validSell, setValidSell] = useState(false);
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
+
   const dateToTimeConverter = (date) => {
-    // console.log(date)
     const dates = date.split('/');
-    // console.log(dates)
     const dateObj = new Date(parseInt(dates[2]), parseInt(dates[0])-1, parseInt(dates[1]),0,0,0,0)
-    // console.log(dateObj)
     return dateObj.getTime();
   }
+
   let options = {
     title: {
       text: 'USC CS310 Stock Management Chart'
@@ -101,7 +100,7 @@ export default function(props) {
     },
 
     xAxis: {
-      categories: graphLabels,
+      type: 'datetime'
     },
 
     legend: {
@@ -122,18 +121,22 @@ export default function(props) {
     rangeSelector: {
       allButtonsEnabled: true,
       buttons: [{
-          type: 'day',
-          count: 1,
-          text: 'day'
+        type: 'day',
+        count: 1,
+        text: 'day',
+        dataGrouping: {
+          forced: true,
+          units: [['day', [1]]]
+        }
       },
       {
-          type: 'week',
-          count: 1,
-          text: 'week'
+        type: 'week',
+        count: 1,
+        text: 'week',
       },{
         type: 'month',
         count: 1,
-        text: '1m'
+        text: '1m',
       },{
           type: 'month',
           count: 3,
