@@ -164,7 +164,7 @@ export default function(props) {
     responsive: {
       rules: [{
         condition: {
-          maxWidth: 500
+          maxWidth: 1000
         },
         chartOptions: {
           legend: {
