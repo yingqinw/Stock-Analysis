@@ -1,4 +1,4 @@
-Feature: User logout
+Feature: Homepage mobile
   Scenario: Homepage Title
   	Given I am on index page h hpm
 	When I login and am on the Hompage h hpm
