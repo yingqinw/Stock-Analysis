@@ -148,15 +148,10 @@ export default function(props) {
       return {
         name: ticker,
         data: graphPrices[i].map((price, j) => {
-          if(graphLabels[i] !== undefined) {
-            return [
-              dateToTimeConverter(graphLabels[j]),
-              price,
-            ]
-          }
-          else {
-            return [price]
-          }
+          return [
+            dateToTimeConverter(graphLabels[j]),
+            price,
+          ]
         })
       }
     }),
@@ -164,7 +159,7 @@ export default function(props) {
     responsive: {
       rules: [{
         condition: {
-          maxWidth: 1000
+          maxWidth: 500
         },
         chartOptions: {
           legend: {
@@ -220,6 +215,7 @@ export default function(props) {
     setGraphLabels(newGraphLabels)
     setGraphPrices(newGraphPrices)
     setGraphTickers(newGraphTickers)
+    window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
   })
 
   const dateConverter = (date) => {
@@ -287,14 +283,14 @@ export default function(props) {
               // replace with new array
             newGraphPrices[removeIndex] = data.price.myArrayList;
             setGraphPrices(newGraphPrices);
-            window.localStorage.setItem("graphPrices", JSON.stringify(newGraphPrices));
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           else {
             // push portfolio values to end of graph array
             setGraphTickers(newGraphTickers.concat('portfolio'));
             newGraphPrices.push(data.price.myArrayList)
             setGraphPrices(newGraphPrices);
-            window.localStorage.setItem("graphPrices", JSON.stringify(newGraphPrices));
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           setGraphLabels(data.date.myArrayList);
 			
@@ -328,7 +324,7 @@ export default function(props) {
               setGraphLabels(labelsGraph);
               var tempArray = [pricesGraph];
               setGraphPrices(graphPrices.concat(tempArray));
-              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices.concat(tempArray)));
+              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             }
           }
           else {
@@ -345,7 +341,7 @@ export default function(props) {
             setGraphLabels(data.date.myArrayList);
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
-            window.localStorage.setItem("graphPrices", JSON.stringify(priceArray));
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             setShowSelectDatesForm(false);
           }
         }
