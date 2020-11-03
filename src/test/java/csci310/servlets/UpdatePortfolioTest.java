@@ -56,6 +56,26 @@ public class UpdatePortfolioTest extends Mockito{
 	        new UpdatePortfolio().doPost(request, response);
 	        
 	        writer.flush();
+	        assertTrue(stringWriter.toString().contains("3488"));
+	        
+	        
+	        //trigger exceptions
+	        HttpServletRequest request1 = mock(HttpServletRequest.class);       
+	        HttpServletResponse response1 = mock(HttpServletResponse.class);
+	        
+	        StringWriter stringWriter1 = new StringWriter();
+	        PrintWriter writer1 = new PrintWriter(stringWriter1);
+	        when(response1.getWriter()).thenReturn(writer1);
+	        
+	        
+		  when(request1.getParameter("username")).thenReturn("anusernamethatisobviouslyfake");
+	        when(request1.getParameter("tickers_graph")).thenReturn("[ \"AAPL\", \"AMZN\", \"QQQ\" ]");
+	        when(request1.getParameter("startdate_graph")).thenReturn("10/05/2020");
+	        when(request1.getParameter("enddate_graph")).thenReturn("10/13/2020");
+	        
+	        new UpdatePortfolio().doPost(request1, response1);
+	        
+	        writer1.flush();
 	        assertTrue(true);
 		}
 }
