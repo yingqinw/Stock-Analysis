@@ -122,21 +122,27 @@ export default function(props) {
     rangeSelector: {
       allButtonsEnabled: true,
       buttons: [{
-          type: 'month',
+          type: 'day',
           count: 1,
-          text: '1m'
-      }, {
+          text: 'day'
+      },
+      {
+          type: 'week',
+          count: 1,
+          text: 'week'
+      },{
+        type: 'month',
+        count: 1,
+        text: '1m'
+      },{
           type: 'month',
           count: 3,
           text: '3m'
-      }, {
-          type: 'month',
-          count: 6,
-          text: '6m'
-      }, {
+      },{
           type: 'all',
           text: 'All'
-      }]
+      }],
+      selected: 3
     },
 
     series: graphTickers.map((ticker,i) => {
