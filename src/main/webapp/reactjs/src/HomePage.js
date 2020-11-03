@@ -74,14 +74,21 @@ export default function(props) {
   const [showDeleteStockForm, setShowDeleteStockForm] = useState(false);
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
   const [graphTickers, setGraphTickers] = useLocalStorage(['portfolio'], "graphTickers");
-  const [graphLabels, setGraphLabels] = useLocalStorage([props.portfolioDates], "graphLabels");
+  const [graphLabels, setGraphLabels] = useLocalStorage(props.portfolioDates, "graphLabels");
   const [graphPrices, setGraphPrices] = useLocalStorage([props.portfolioPrices], "graphPrices");
   const [showSelectDatesForm, setShowSelectDatesForm] = useState(false);
   const [validBuy, setValidBuy] = useState(false);
   const [validSell, setValidSell] = useState(false);
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
-
+  const dateToTimeConverter = (date) => {
+    // console.log(date)
+    const dates = date.split('/');
+    // console.log(dates)
+    const dateObj = new Date(parseInt(dates[2]), parseInt(dates[0])-1, parseInt(dates[1]),0,0,0,0)
+    // console.log(dateObj)
+    return dateObj.getTime();
+  }
   let options = {
     title: {
       text: 'USC CS310 Stock Management Chart'
@@ -114,12 +121,33 @@ export default function(props) {
     
     rangeSelector: {
       allButtonsEnabled: true,
+      buttons: [{
+          type: 'month',
+          count: 1,
+          text: '1m'
+      }, {
+          type: 'month',
+          count: 3,
+          text: '3m'
+      }, {
+          type: 'month',
+          count: 6,
+          text: '6m'
+      }, {
+          type: 'all',
+          text: 'All'
+      }]
     },
 
     series: graphTickers.map((ticker,i) => {
       return {
         name: ticker,
-        data: graphPrices[i]
+        data: graphPrices[i].map((price, j) => {
+          return [
+            dateToTimeConverter(graphLabels[j]),
+            price,
+          ]
+        })
       }
     }),
 
@@ -171,7 +199,7 @@ export default function(props) {
     let newGraphLabels = graphLabels;
     if(portfolioIndex === -1) {
       if(newGraphLabels.length === 0) {
-        newGraphLabels.push(props.portfolioDates);
+        newGraphLabels = props.portfolioDates;
       }
       newGraphPrices.push(props.portfolioPrices);
       newGraphTickers.push('portfolio');
@@ -240,24 +268,25 @@ export default function(props) {
           let newGraphPrices = graphPrices;
           let newGraphTickers = graphTickers;
           if(newGraphTickers.includes('portfolio')) {
-            // find the removal index
-            newGraphTickers.forEach((item,i) => {
-              if(item === 'portfolio') {
-                  removeIndex = i;
-              }
-            })
-       		  // replace with new array
-          newGraphPrices[removeIndex] = data.price.myArrayList;
-          setGraphPrices(newGraphPrices);
-     		}
-     		else {
-          // push portfolio values to end of graph array
-          setGraphTickers(newGraphTickers.concat('portfolio'));
-          newGraphPrices.push(data.price.myArrayList)
-          setGraphPrices(newGraphPrices);
-          window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
-     		}
-     		setGraphLabels(data.date.myArrayList);
+              // find the removal index
+              newGraphTickers.forEach((item,i) => {
+                if(item === 'portfolio') {
+                    removeIndex = i;
+                }
+              })
+              // replace with new array
+            newGraphPrices[removeIndex] = data.price.myArrayList;
+            setGraphPrices(newGraphPrices);
+            window.localStorage.setItem("graphPrices", JSON.stringify(newGraphPrices));
+          }
+          else {
+            // push portfolio values to end of graph array
+            setGraphTickers(newGraphTickers.concat('portfolio'));
+            newGraphPrices.push(data.price.myArrayList)
+            setGraphPrices(newGraphPrices);
+            window.localStorage.setItem("graphPrices", JSON.stringify(newGraphPrices));
+          }
+          setGraphLabels(data.date.myArrayList);
 			
 			//console.log(data);
 			//console.log(graphPrices);
@@ -289,7 +318,7 @@ export default function(props) {
               setGraphLabels(labelsGraph);
               var tempArray = [pricesGraph];
               setGraphPrices(graphPrices.concat(tempArray));
-              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices.concat(tempArray)));
             }
           }
           else {
@@ -306,7 +335,7 @@ export default function(props) {
             setGraphLabels(data.date.myArrayList);
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
-            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+            window.localStorage.setItem("graphPrices", JSON.stringify(priceArray));
             setShowSelectDatesForm(false);
           }
         }
