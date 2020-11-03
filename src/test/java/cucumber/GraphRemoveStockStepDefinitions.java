@@ -55,7 +55,10 @@ public class GraphRemoveStockStepDefinitions {
 	
 	@Then("I should see the remove stock from graph button gr")
 	public void i_should_see_the_remove_stock_from_graph_button_gr() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[2]")).getText(), "REMOVE STOCK FROM GRAPH");
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+		By title2 = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[2]");
+		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+		assertEquals(driver.findElement(title2).getText(), "REMOVE STOCK FROM GRAPH");
 	}
 
 	@Then("I get the pop up window for remove stock gr")
@@ -191,8 +194,6 @@ public class GraphRemoveStockStepDefinitions {
 
 	@Then("I should not see the stock on the graph gms")
 	public void i_should_not_see_the_stock_on_the_graph_gms() {
-		driver.get(ROOT_URL);
-		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.cssSelector("[id^='highcharts-'] > svg > text.highcharts-title > tspan");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
