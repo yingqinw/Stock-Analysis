@@ -35,10 +35,12 @@ public class UpdatePrices extends HttpServlet{
 		private JSONArray date = new JSONArray();
 		private JSONArray price = new JSONArray();
 		private JSONObject update = new JSONObject();
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates) {
+		private JSONArray SPV = new JSONArray();
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, JSONArray SPVP) {
 			date = labels;
 			price = prices;
 			update = updates;
+			SPV = SPVP;
 		}
 	}
 	
@@ -78,7 +80,6 @@ public class UpdatePrices extends HttpServlet{
 					tickers.add(ticker1);
 				}
 			}
-			
 		}catch(SQLException sqle) {
 			System.out.println("sqle: "+sqle.getMessage());
 		}
@@ -102,7 +103,7 @@ public class UpdatePrices extends HttpServlet{
 	  		//System.out.println(result);
 	  		JSONObject obj = new JSONObject(result1);
   			double currentPrice = obj.getDouble("c");
-  			//System.out.println(ticker2 +" "+ currentPrice);
+  			System.out.println(ticker2 +" "+ currentPrice);
   			updatedPrices.put(ticker2,currentPrice);
 		}
 		PrintWriter out = response.getWriter();
@@ -136,7 +137,43 @@ public class UpdatePrices extends HttpServlet{
   				price.put(p.portfolioValue[j]);
   				date.put(p.tradingDate[j]);
   			}
-  			AddStockData asd = new AddStockData(date,price,updatedPrices);
+  			
+  			long startDateEpoch = 0;
+  	        long endDateEpoch = 0;
+  	        try {
+  	        	//currTime = System.currentTimeMillis()/1000;
+  	        	startDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(startDate+" 22:00:00").getTime() / 1000;
+  	        	endDateEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(endDate+" 22:00:00").getTime() / 1000;
+  			} catch (ParseException e) {
+  				//e.printStackTrace();
+  			}
+  	        JSONObject prices = new JSONObject();
+
+  			String website = "https://finnhub.io/api/v1/stock/candle?symbol=SPY&resolution=D&from=" + (long)(startDateEpoch-86400) + 
+	        		"&to=" + endDateEpoch + "&token=" + APIKey;
+	        URL url = new URL(website);
+	  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	  		con.setRequestMethod("GET");
+	  		con.connect();
+			
+	  		//read json
+	  		Scanner sc = new Scanner(url.openStream());
+	  		String result = "";
+	  		while(sc.hasNext()) result += sc.nextLine();
+	  		sc.close();
+	  		//System.out.println(result);
+	  	
+			JSONObject obj = new JSONObject(result);
+			JSONArray c = obj.getJSONArray("c");
+			JSONArray t = obj.getJSONArray("t");
+			int length = c.length();
+			JSONArray price1 = new JSONArray();
+	
+			for(int j=0; j<length; j++) {
+				price1.put(c.getDouble(j));
+			}
+
+  			AddStockData asd = new AddStockData(date,price,updatedPrices,price1);
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    

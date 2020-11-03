@@ -31,9 +31,11 @@ public class AddStockGraph extends HttpServlet {
 	public class AddStockData{
 		private JSONArray date = new JSONArray();
 		private JSONArray price = new JSONArray();
-		public AddStockData(JSONArray labels, JSONArray prices) {
+		private JSONArray SPV = new JSONArray();
+		public AddStockData(JSONArray labels, JSONArray prices, JSONArray SPVP) {
 			date = labels;
 			price = prices;
+			SPV = SPVP;
 		}
 	}
 	
@@ -104,8 +106,29 @@ public class AddStockGraph extends HttpServlet {
 			date.put(time[i]);
 			//pricesAndDate.put(time[i],c.getDouble(i));
 		}
+		
+		String website1 = "https://finnhub.io/api/v1/stock/candle?symbol=SPY&resolution=D&from=" + (long)(startDateEpoch-86400) + 
+        		"&to=" + endDateEpoch + "&token=" + APIKey;
+        URL url1 = new URL(website1);
+  		HttpURLConnection con1 = (HttpURLConnection) url1.openConnection();
+  		con1.setRequestMethod("GET");
+  		con1.connect(); 
+		
+		//read json
+  		Scanner sc1 = new Scanner(url1.openStream());
+  		String result1 = "";
+  		while(sc1.hasNext()) result1 += sc1.nextLine();
+  		sc1.close();
+  		//System.out.println(result);
+  		JSONObject obj1 = new JSONObject(result1);
+  		JSONArray c1 = obj.getJSONArray("c");
+		int length1 = c1.length();
+		JSONArray price1 = new JSONArray();
+		for(int i=0; i<length1; i++) {
+			price1.put(c1.getDouble(i));
+		}
         
-        AddStockData asd = new AddStockData(date,price);
+        AddStockData asd = new AddStockData(date,price,price1);
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    out.print(this.gson.toJson(asd));

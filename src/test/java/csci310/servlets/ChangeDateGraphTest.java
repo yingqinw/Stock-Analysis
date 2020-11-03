@@ -50,6 +50,7 @@ public class ChangeDateGraphTest extends Mockito{
         
         writer.flush();
         assertTrue(stringWriter.toString().contains("AAPL"));
+       // System.out.println(stringWriter.toString());
         
         //trigger exception
         HttpServletRequest request1 = mock(HttpServletRequest.class);       
