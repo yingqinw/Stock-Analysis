@@ -1,4 +1,4 @@
-Feature: User logout	
+Feature: Graph remove stock	
   Scenario: Remove stock from graph button
     Given I am on index page gr
 	When I login and am on the Hompage gr
