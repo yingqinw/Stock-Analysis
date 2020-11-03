@@ -1,4 +1,4 @@
-Feature: User logout	
+Feature: Graph add stock mobile	
   Scenario: View stock button 
     Given I am on index page ga gam
 	When I login and am on the Hompage ga gam

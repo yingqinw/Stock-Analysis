@@ -1,4 +1,4 @@
-Feature: User logout	
+Feature: Graph select dates	
   Scenario: Select Dates button
     Given I am on index page gd
 	When I login and am on the Hompage gd

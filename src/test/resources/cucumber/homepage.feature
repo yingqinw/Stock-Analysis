@@ -1,4 +1,4 @@
-Feature: User logout
+Feature: Homepage
   Scenario: Refresh homepage
   	Given I am on index page h
 	When I login and am on the Hompage h 
