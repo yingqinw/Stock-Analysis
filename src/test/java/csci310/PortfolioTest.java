@@ -113,6 +113,20 @@ public class PortfolioTest {
 		assertTrue(check);
 	}
 	
+	@Test
+	public void testPopulatePortfolioValue6() throws ParseException, IOException {
+		Portfolio p6 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p6.populatePortfolioValue();
+		//p6.printPortfolio();
+		
+		p6.addStock("IBM", 1, "9/01/2020", "10/30/2020");
+		p6.populatePortfolioValue();
+		p6.printPortfolio();
+		boolean check = false;
+		if (p6.currentPortfolio == 127.79000091553) check = true;
+		
+		assertTrue(check);
+	}
 }
 
 
