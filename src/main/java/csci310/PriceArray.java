@@ -18,7 +18,7 @@ public class PriceArray {
 	public int syncIndex;
 	public String[] tradingDate;
 	public Double[] stockPrice;
-	private String APIKey = "btjeu1f48v6tfmo5erv0";
+	private String APIKey = "buh2tjf48v6s9c138o00";
 	public boolean isEmpty;
 	public PriceArray(String ticker, int quantity, String startDate, String endDate) throws ParseException {
 		this.ticker = ticker;
