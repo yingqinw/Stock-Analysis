@@ -83,6 +83,9 @@ export default function(props) {
   const [sellDate, setSellDate] = useState("");
 
   const dateToTimeConverter = (date) => {
+    if(date === undefined) {
+      return new Date().getTime();
+    }
     const dates = date.split('/');
     const dateObj = new Date(parseInt(dates[2]), parseInt(dates[0])-1, parseInt(dates[1]),0,0,0,0)
     return dateObj.getTime();
@@ -124,10 +127,6 @@ export default function(props) {
         type: 'day',
         count: 1,
         text: 'day',
-        dataGrouping: {
-          forced: true,
-          units: [['day', [1]]]
-        }
       },
       {
         type: 'week',
@@ -192,9 +191,8 @@ export default function(props) {
   }
 */
 //  useIdle({timeToIdle: 1000})
-
   useEffect(() => {
-    if(props.portfolioDates.length === 0 || props.portfolioPrices === 0) {
+    if(props.portfolioDates.length === 0 || props.portfolioPrices.length === 0) {
       return;
     }
     let portfolioIndex = -1;
@@ -206,20 +204,20 @@ export default function(props) {
     let newGraphTickers = graphTickers;
     let newGraphPrices = graphPrices;
     let newGraphLabels = graphLabels;
+    if(newGraphLabels.length === 0) {
+      newGraphLabels = props.portfolioDates;
+      setGraphLabels(newGraphLabels)
+    }
     if(portfolioIndex === -1) {
-      if(newGraphLabels.length === 0) {
-        newGraphLabels = props.portfolioDates;
-      }
       newGraphPrices.push(props.portfolioPrices);
       newGraphTickers.push('portfolio');
+      setGraphTickers(newGraphTickers)
     }
     else {
       newGraphPrices[portfolioIndex] = props.portfolioPrices;
     }
-    setGraphLabels(newGraphLabels)
     setGraphPrices(newGraphPrices)
-    setGraphTickers(newGraphTickers)
-  })
+  }, [props.portfolioDates, props.portfolioPrices])
 
   const dateConverter = (date) => {
     if(date.indexOf('-') > -1) {
@@ -286,14 +284,14 @@ export default function(props) {
               // replace with new array
             newGraphPrices[removeIndex] = data.price.myArrayList;
             setGraphPrices(newGraphPrices);
-            window.localStorage.setItem("graphPrices", JSON.stringify(newGraphPrices));
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           else {
             // push portfolio values to end of graph array
             setGraphTickers(newGraphTickers.concat('portfolio'));
             newGraphPrices.push(data.price.myArrayList)
             setGraphPrices(newGraphPrices);
-            window.localStorage.setItem("graphPrices", JSON.stringify(newGraphPrices));
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           setGraphLabels(data.date.myArrayList);
 			
@@ -327,7 +325,7 @@ export default function(props) {
               setGraphLabels(labelsGraph);
               var tempArray = [pricesGraph];
               setGraphPrices(graphPrices.concat(tempArray));
-              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices.concat(tempArray)));
+              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             }
           }
           else {
@@ -344,7 +342,7 @@ export default function(props) {
             setGraphLabels(data.date.myArrayList);
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
-            window.localStorage.setItem("graphPrices", JSON.stringify(priceArray));
+            window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             setShowSelectDatesForm(false);
           }
         }
