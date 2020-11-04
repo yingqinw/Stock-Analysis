@@ -8,7 +8,7 @@ import java.text.ParseException;
 import org.junit.Test;
 
 public class PortfolioTest {
-	s
+	
 	@Test
 	public void testAddStock() throws ParseException {
 		Portfolio p = new Portfolio("ken", "10/05/2020", "10/09/2020");
