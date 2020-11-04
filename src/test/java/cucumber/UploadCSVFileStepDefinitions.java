@@ -171,6 +171,20 @@ public class UploadCSVFileStepDefinitions {
 		driver.findElement(title3).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
+	
+	@When("I upload a file with unvalid info")
+	public void i_upload_a_file_with_unvalid_info() {
+		WebElement uploadElement = driver.findElement(By.className("highInput"));
+		uploadElement.sendKeys("/Users/hyunjaecho/git/project-20203-group33-20203/testError.csv");
+	}
+
+	@Then("I should see the error messages containing the error lines")
+	public void i_should_see_the_error_messages_containing_the_error_lines() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		By title = By.xpath("//*[@id=\"addStock-form\"]/div[3]/p");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "There are errors on the following line(s): 3 4 5 6 7");
+	}
 
 	@After()
 	public void after() {

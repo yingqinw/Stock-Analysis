@@ -68,7 +68,10 @@ Feature: Upload csv file
 	And I upload a file 
 	And I click the upload file button in upload file 
     Then I should see the stocks on the portfolio 
-		
-  
-		
-	
+    
+  Scenario: Upload a file with unvaild info and click the upload file button
+  	Given I am on index page ucf
+	When I login and am on the Hompage ucf and click the upload file button
+	And I upload a file with unvalid info
+	And I click the upload file button in upload file 
+    Then I should see the error messages containing the error lines
