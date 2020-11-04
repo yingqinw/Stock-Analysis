@@ -118,6 +118,24 @@ public class LoginStepDefinitions {
 	public void i_click_the_login_button() {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
+	
+	@When("I click the login button 3 times")
+	public void i_click_the_login_button_3_times() {
+	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	}
+	@When("I should be able to access after {int} mins")
+	public void i_should_be_able_to_access_after_mins(Integer int1) {
+		 try {
+				Thread.sleep(185*1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 driver.get(ROOT_URL);
+		 driver.navigate().refresh();
+	}
 
 	@Then("I should see the border color of Username is red")
 	public void i_should_see_the_border_color_of_Username_is_red() {
@@ -149,6 +167,8 @@ public class LoginStepDefinitions {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "USC CS310 STOCK PORTFOLIO MANAGEMENT");
 	}
+	
+	
 	@After()
 	public void after() {
 		try {
