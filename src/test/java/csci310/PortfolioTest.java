@@ -132,6 +132,7 @@ public class PortfolioTest {
 	public void testGetCurrStockPrice() throws ParseException, IOException {
 		Portfolio p7 = new Portfolio("ken", "10/04/2020", "10/09/2020");
 		p7.getCurrStockPrice("AAPL");
+		assertTrue(true);
 	}
 	
 	@Test
