@@ -29,6 +29,15 @@ public class UpdatePortfolio extends HttpServlet{
 	
 	private Gson gson = new Gson();
 	
+	public class AddStockData{
+		private JSONArray updatePortfolio = new JSONArray();
+		private double currentPortfolioValue;
+		public AddStockData(JSONArray price, double value) {
+			updatePortfolio = price;
+			currentPortfolioValue = value;
+		}
+	}
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String tickers_string = request.getParameter("tickers_graph");
@@ -81,13 +90,13 @@ public class UpdatePortfolio extends HttpServlet{
 			for(int i =0;i<p.tradingDate.length;i++) {
 				price.put(p.portfolioValue[i]);
 			}
-
+			
+			AddStockData asd = new AddStockData(price,p.getCurrPortfolioValue());
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
-		    out.print(price);
-		    System.out.println(price);
-		    out.flush(); 
-			 
+		    out.print(this.gson.toJson(asd));
+		    //System.out.println(this.gson.toJson(asd).toString());
+		    out.flush();
 			
 		}catch(SQLException sqle) {
 			System.out.println("sqle: "+sqle.getMessage());
