@@ -5,12 +5,15 @@ package csci310;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.Date;
 
 import csci310.PriceArray;
 
@@ -138,10 +141,14 @@ public class Portfolio {
 		}
 		currentPortfolio = portfolioValue[portfolioValue.length-1];
 	}
-	public double getCurrPortfolioValue() throws IOException {
+	public double getCurrPortfolioValue() throws IOException, ParseException {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    Date date = new Date();
+	    long currentEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(dateFormat.format(date)).getTime() / 1000;
 		currentPortfolio = 0.0;
 		for(int i=0; i<stocks.size(); i++) {
-			currentPortfolio += getCurrStockPrice(stocks.get(i).ticker);
+			if(stocks.get(i).endDateEpoch > currentEpoch) currentPortfolio += getCurrStockPrice(stocks.get(i).ticker);
 		}
 		return currentPortfolio;
 	}

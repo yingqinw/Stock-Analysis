@@ -139,7 +139,7 @@ public class PortfolioTest {
 	public void testGetCurrPortfolioValue() throws ParseException, IOException {
 		Portfolio p8 = new Portfolio("ken", "10/04/2020", "10/09/2020");
 		p8.addStock("IBM", 1, "10/09/2020", "10/16/2020");
-		p8.addStock("RACE", 1, "10/01/2020", "10/06/2020");
+		p8.addStock("RACE", 1, "10/01/2020", "10/16/2020");
 		double result = p8.getCurrPortfolioValue();
 		double test = p8.getCurrStockPrice("IBM") + p8.getCurrStockPrice("RACE");
 		boolean check = false;
