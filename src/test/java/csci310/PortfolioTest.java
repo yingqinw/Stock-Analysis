@@ -8,7 +8,7 @@ import java.text.ParseException;
 import org.junit.Test;
 
 public class PortfolioTest {
-	
+	s
 	@Test
 	public void testAddStock() throws ParseException {
 		Portfolio p = new Portfolio("ken", "10/05/2020", "10/09/2020");
@@ -125,6 +125,24 @@ public class PortfolioTest {
 		boolean check = false;
 		if (p6.currentPortfolio == 127.79000091553) check = true;
 		
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetCurrStockPrice() throws ParseException, IOException {
+		Portfolio p7 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p7.getCurrStockPrice("AAPL");
+	}
+	
+	@Test
+	public void testGetCurrPortfolioValue() throws ParseException, IOException {
+		Portfolio p8 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p8.addStock("IBM", 1, "10/09/2020", "10/16/2020");
+		p8.addStock("RACE", 1, "10/01/2020", "10/06/2020");
+		double result = p8.getCurrPortfolioValue();
+		double test = p8.getCurrStockPrice("IBM") + p8.getCurrStockPrice("RACE");
+		boolean check = false;
+		if(result == test) check = true;
 		assertTrue(check);
 	}
 }

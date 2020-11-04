@@ -138,4 +138,34 @@ public class Portfolio {
 		}
 		currentPortfolio = portfolioValue[portfolioValue.length-1];
 	}
+	public double getCurrPortfolioValue() throws IOException {
+		currentPortfolio = 0.0;
+		for(int i=0; i<stocks.size(); i++) {
+			currentPortfolio += getCurrStockPrice(stocks.get(i).ticker);
+		}
+		return currentPortfolio;
+	}
+	public double getCurrStockPrice(String ticker) throws IOException {
+		Double stockPrice = -1.0;
+		String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker +
+        		"&token=" + APIKey;
+        URL url = new URL(website);
+  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+  		con.setRequestMethod("GET");
+  		con.connect();
+		
+		//read json
+  		Scanner sc = new Scanner(url.openStream());
+  		String result = "";
+  		while(sc.hasNext()) {
+  			result += sc.nextLine();
+  		}
+  		sc.close();
+  		System.out.println(result);
+  		
+		//parse json 
+		JSONObject obj = new JSONObject(result);
+		stockPrice= (Double) obj.get("c");
+		return stockPrice;
+	}
 }
