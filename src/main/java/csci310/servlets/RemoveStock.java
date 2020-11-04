@@ -34,10 +34,12 @@ public class RemoveStock extends HttpServlet  {
 		private JSONArray date = new JSONArray();
 		private JSONArray price = new JSONArray();
 		private JSONObject update = new JSONObject();
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates) {
+		private double currentPortfolioValue;
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value) {
 			date = labels;
 			price = prices;
 			update = updates;
+			currentPortfolioValue = value;
 		}
 	}
 	
@@ -136,7 +138,7 @@ public class RemoveStock extends HttpServlet  {
   				price.put(p.portfolioValue[j]);
   				date.put(p.tradingDate[j]);
   			}
-  			AddStockData asd = new AddStockData(date,price,updatedPrices);
+  			AddStockData asd = new AddStockData(date,price,updatedPrices, p.getCurrPortfolioValue());
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    
