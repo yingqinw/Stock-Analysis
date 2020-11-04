@@ -53,3 +53,16 @@ Feature: User login
     And I typed in '12345Qa' in the Password field
     And I click the login button
     Then I should see the homepage
+
+  Scenario: Lock the login page for 3 min after 3 fails
+  	Given I am on the index page with existing account
+  	When I typed in 'trojan' in the Username field
+    And I typed in '1234Qa' in the Password field
+    And I click the login button 3 times
+    And I should see error message 'Incorrect username or password entered 3 times, user locked.'
+    And I should be able to access after 3 mins
+    And I typed in 'trojan' in the Username field
+    And I typed in '12345Qa' in the Password field
+    And I click the login button
+    Then I should see the homepage
+    
