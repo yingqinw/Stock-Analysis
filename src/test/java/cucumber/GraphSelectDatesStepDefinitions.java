@@ -139,8 +139,6 @@ public class GraphSelectDatesStepDefinitions {
 		String b = driver.findElement(title2).getText();
 		String str1 = a.substring(3);
 		String str2 = b.substring(4);
-		System.out.print("HY1"+str1);
-		System.out.print("HY2"+str2);
 		if(str1 == "Jan") { m1 =1;}
 		else if(str1 == "Feb") {m1 =2;}
 		else if(str1 == "Mar") {m1 =3;}
@@ -166,10 +164,6 @@ public class GraphSelectDatesStepDefinitions {
 		else if(str2 == "Oct") {m2 =10;}
 		else if(str2 == "Nov") {m2 =11;}
 		else if(str2 == "Dec") {m2 =12;}
-		
-		System.out.print("HYK1"+m1);
-		System.out.print("HYK2"+m2);
-
 
 		int range = m1-m2;
 		assertTrue(range==0);
@@ -214,8 +208,6 @@ public class GraphSelectDatesStepDefinitions {
 		String b = driver.findElement(title2).getText();
 		String str1 = a.substring(3);
 		String str2 = b.substring(4);
-		System.out.print("HY3"+str1);
-		System.out.print("HY4"+str2);
 		
 		if(str1 == "Jan") { m1 =1;}
 		else if(str1 == "Feb") {m1 =2;}
@@ -242,9 +234,6 @@ public class GraphSelectDatesStepDefinitions {
 		else if(str2 == "Oct") {m2 =10;}
 		else if(str2 == "Nov") {m2 =11;}
 		else if(str2 == "Dec") {m2 =12;}
-		
-		System.out.print("HYK3"+m1);
-		System.out.print("HYK4"+m2);
 
 		int range = m1-m2;
 		assertTrue(range==0);
