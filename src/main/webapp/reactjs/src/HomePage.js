@@ -361,15 +361,23 @@ export default function(props) {
         else {
           if(route === 'AddStockGraph') {
             setShowAddStockGraph(false);
-            if(!graphTickers.includes(ticker)){
-              setGraphTickers(graphTickers.concat(ticker));
-              var labelsGraph = (jsonToArray(data.date))[0].price; //I have no idea why the json is structured like this
-              var pricesGraph = (jsonToArray(data.price))[0].price;
-              setGraphLabels(labelsGraph);
-              var tempArray = [pricesGraph];
-              setGraphPrices(graphPrices.concat(tempArray));
-              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+            console.log(data);
+            let spIndex = graphTickers.findIndex((name) => name === 'S&P 500');
+            let tickerIndex = graphTickers.findIndex((name) => name === ticker);
+            // replace sp index array
+            let newGraphPrices = graphPrices;
+            let newGraphTickers = graphTickers;
+            newGraphPrices[spIndex] = data.SPV.myArrayList;
+            if(!graphTickers.includes(ticker) && tickerIndex === -1){
+              newGraphPrices.push(data.price.myArrayList);
+              newGraphTickers.push(ticker);
+              setGraphTickers(newGraphTickers);
             }
+            else {
+              newGraphPrices[tickerIndex] = data.price.myArrayList;
+            }
+            setGraphLabels(data.date.myArrayList);
+            setGraphPrices(newGraphPrices);
           }
           else {
             let tickerArray = [];
