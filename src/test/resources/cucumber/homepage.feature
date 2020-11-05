@@ -138,3 +138,8 @@ Feature: Homepage
     Given I am on index page h
 	When I login and am on the Hompage h
 	Then I should be able to click the clickable logout button
+
+  Scenario: Default S&P graph 
+    Given I am on index page h
+	When I login and am on the Hompage h
+	Then I should be able to see the S&P 500 on the graph

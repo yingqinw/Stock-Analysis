@@ -10,6 +10,7 @@ import RemoveConfirmForm from './RemoveConfirmForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
+import styled from 'styled-components';
 //import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
 import UploadFileForm from './UploadFileForm';
@@ -57,6 +58,26 @@ export const isEmpty = (data) => {
   return Object.keys(data).length === 0 && data.constructor === Object;
 }
 
+const numberFormatter = (number) => {
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formatter.format(parseFloat(number));
+}
+
+const Number = styled.div`
+  font-size: 35px;
+  display: inline-block;
+`
+const SideNumber = styled(Number)`
+  display: block;
+  font-size: 12px;
+  margin-left: 2px;
+`
+
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -81,6 +102,7 @@ export default function(props) {
   const [validSell, setValidSell] = useState(false);
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
+  const [currentPortfolioValue, setCurrentPortfolioValue] = useLocalStorage(props.portfolioValue, "currentPortfolioValue");
 
   const dateToTimeConverter = (date) => {
     if(date === undefined) {
@@ -191,6 +213,11 @@ export default function(props) {
   }
 */
 //  useIdle({timeToIdle: 1000})
+
+  useEffect(() => {
+    setCurrentPortfolioValue(props.portfolioValue);
+  }, [props.portfolioValue])
+
   useEffect(() => {
     if(props.portfolioDates.length === 0 || props.portfolioPrices.length === 0) {
       return;
@@ -216,8 +243,23 @@ export default function(props) {
     else {
       newGraphPrices[portfolioIndex] = props.portfolioPrices;
     }
-    setGraphPrices(newGraphPrices)
-  }, [props.portfolioDates, props.portfolioPrices])
+    setGraphPrices(newGraphPrices);
+    let spyIndex = -1;
+    graphTickers.forEach((item, i) => {
+      if(item === 'S&P 500') {
+        spyIndex = i;
+      }
+    });
+    if(spyIndex === -1) {
+      newGraphPrices.push(props.spyPrices);
+      newGraphTickers.push('S&P 500');
+      setGraphTickers(newGraphTickers)
+    }
+    else {
+      newGraphPrices[spyIndex] = props.spyPrices;
+    }
+    setGraphPrices(newGraphPrices);
+  }, [props.portfolioDates, props.portfolioPrices, props.spyPrices])
 
   const dateConverter = (date) => {
     if(date.indexOf('-') > -1) {
@@ -294,6 +336,7 @@ export default function(props) {
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           setGraphLabels(data.date.myArrayList);
+          setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
 			
 			//console.log(data);
 			//console.log(graphPrices);
@@ -318,24 +361,33 @@ export default function(props) {
         else {
           if(route === 'AddStockGraph') {
             setShowAddStockGraph(false);
-            if(!graphTickers.includes(ticker)){
-              setGraphTickers(graphTickers.concat(ticker));
-              var labelsGraph = (jsonToArray(data.date))[0].price; //I have no idea why the json is structured like this
-              var pricesGraph = (jsonToArray(data.price))[0].price;
-              setGraphLabels(labelsGraph);
-              var tempArray = [pricesGraph];
-              setGraphPrices(graphPrices.concat(tempArray));
-              window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+            console.log(data);
+            let spIndex = graphTickers.findIndex((name) => name === 'S&P 500');
+            let tickerIndex = graphTickers.findIndex((name) => name === ticker);
+            // replace sp index array
+            let newGraphPrices = graphPrices;
+            let newGraphTickers = graphTickers;
+            newGraphPrices[spIndex] = data.SPV.myArrayList;
+            if(!graphTickers.includes(ticker) && tickerIndex === -1){
+              newGraphPrices.push(data.price.myArrayList);
+              newGraphTickers.push(ticker);
+              setGraphTickers(newGraphTickers);
             }
+            else {
+              newGraphPrices[tickerIndex] = data.price.myArrayList;
+            }
+            setGraphLabels(data.date.myArrayList);
+            setGraphPrices(newGraphPrices);
           }
           else {
             let tickerArray = [];
             let priceArray = [];
+            console.log(data);
             const tickerValues = data.prices.map;
             for (let tickerName in tickerValues) {
               if (tickerValues.hasOwnProperty(tickerName)) {
                 var pricesJson = tickerValues[tickerName];
-                tickerArray.push(tickerName);
+                tickerArray.push(tickerName === 'SPY'? 'S&P 500': tickerName);
                 priceArray.push(pricesJson.myArrayList);
               }
             }
@@ -343,6 +395,7 @@ export default function(props) {
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+            setCurrentPortfolioValue(data.currentPortfolioValue);
             setShowSelectDatesForm(false);
           }
         }
@@ -401,7 +454,7 @@ export default function(props) {
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
       let realGraphTickers = graphTickers;
-      realGraphTickers = realGraphTickers.filter(ticker => ticker !== "portfolio");
+      realGraphTickers = realGraphTickers.filter(ticker => (ticker !== "portfolio" && ticker !== "S&P 500"));
       const tickerArray = realGraphTickers.map(ticker => `"${ticker}"`).join(',');
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
@@ -468,11 +521,11 @@ export default function(props) {
       let newGraphPrices = graphPrices;
       graphTickers.forEach((name, k) => {
         if(name === 'portfolio') {
-          newGraphPrices[k] = data;
+          newGraphPrices[k] = data.updatePortfolio.myArrayList;
         }
       })
       setGraphPrices(newGraphPrices);
-      console.log(graphPrices)
+      setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
       // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
     .catch((error) => {
@@ -482,7 +535,7 @@ export default function(props) {
 
   const tickerArrayConverter = (stocks) => {
     let newPortfolioTickers = stocks;
-    newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
+    newPortfolioTickers = newPortfolioTickers.filter(ticker => (ticker !== "portfolio" && ticker !== "S&P 500"));
     const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
     const tickerString = "[" + tickerArray + "]";
     return tickerString;
@@ -570,9 +623,18 @@ export default function(props) {
           <div className="col-md-3">
             <div className="market-pairs">
               <div className="header-wrap">
+                <Number>
+                  { numberFormatter(currentPortfolioValue) }
+                  <Number>
+                    <SideNumber>Increase</SideNumber>
+                    <SideNumber>&#9650; 0.0%</SideNumber>
+                  </Number>
+                </Number>
+              </div>
+              <div className="header-wrap">
                 <Button className="my-auto" onClick={()=>{
                   setShowAddStockForm(true)
-				  props.resetLogoutTimer();
+				          props.resetLogoutTimer();
                 }}>Add stock</Button>
               </div>
               <div className="tab-content"> 
@@ -603,7 +665,11 @@ export default function(props) {
                                 className='custom-control-input'
                                 id={stock.ticker}
                                 readOnly
-                                checked={!props.unSelectedTickers.includes(stock.ticker)}
+                                checked={
+                                  props.unSelectedTickers.length === 0? 
+                                    true
+                                    :!props.unSelectedTickers.includes(stock.ticker)
+                                }
                                 onChange={e => toggleStock(stock.ticker, !e.target.checked)}
                               />
                               <label className='custom-control-label' htmlFor={stock.ticker} />

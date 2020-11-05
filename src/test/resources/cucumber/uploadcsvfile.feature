@@ -49,6 +49,12 @@ Feature: Upload csv file
 	When I login and am on the Hompage ucf and click the upload file button
     Then I should be able to click the clickable cross button in upload file
     
+   Scenario: Upload no file 
+  	Given I am on index page ucf
+	When I login and am on the Hompage ucf and click the upload file button
+	And I do not upload a file 
+    Then I should be able to see the error message 
+     
    Scenario: Upload a file 
   	Given I am on index page ucf
 	When I login and am on the Hompage ucf and click the upload file button

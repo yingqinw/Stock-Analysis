@@ -73,7 +73,7 @@ public class GetForm extends HttpServlet {
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   request.setCharacterEncoding("UTF-8");
-  System.out.println("post here");
+  //System.out.println("post here");
   boolean errorExists = false;
   response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
@@ -84,14 +84,13 @@ public class GetForm extends HttpServlet {
         String startDate = "s";
         String endDate = "e";
         
-        //comment this out to run
-        /*
-            String bypass = request.getParameter("bypassTest");
-            if(bypass.equals("true")) {
-            	System.out.println("bypassed2");
-            	return;
-            }
-        */
+        
+        String bypass = request.getParameter("bypassTest");
+        if(bypass.equals("true")) {
+        	System.out.println("getForm called");
+        	return;
+        }
+        
         //comment this out to run
         
   try {
@@ -301,9 +300,9 @@ public class GetForm extends HttpServlet {
            			}*/
            			
            			//start of portfolio update
-           			System.out.println(username + startDate + endDate);
+           			//System.out.println(username + startDate + endDate);
            			Portfolio p = new Portfolio(username, startDate, endDate);
-           			System.out.println("portfolio starting");
+           			//System.out.println("portfolio starting");
           	        if(!username.equals("fakeusername")) {
         		  		try {
         		  			ps = conn.prepareStatement("SELECT * FROM users WHERE username=?");
@@ -333,7 +332,7 @@ public class GetForm extends HttpServlet {
         		  		    response.setContentType("application/json");
         		  		    response.setCharacterEncoding("UTF-8");
         		  		    out.print(this.gson.toJson(asd));
-        		  		    System.out.println(this.gson.toJson(asd).toString());
+        		  		    //System.out.println(this.gson.toJson(asd).toString());
         		  		    out.flush(); 
         		  			
         		  		}catch(SQLException sqle) {

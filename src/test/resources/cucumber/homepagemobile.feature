@@ -133,5 +133,8 @@ Feature: Homepage mobile
 	When I login and am on the Hompage h hpm
 	Then I should be able to click the clickable logout button hpm
 
-		
+  Scenario: Default S&P graph 
+    Given I am on index page h hpm
+	When I login and am on the Hompage h hpm
+	Then I should be able to see the S&P 500 on the grap hpm	
 	
