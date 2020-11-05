@@ -50,13 +50,13 @@ public class LogoutStepDefinitions {
 	
 	@Then("I should see the logout button")
 	public void i_should_see_the_logout_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).getText(), "LOG OUT");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button[2]")).getText(), "LOG OUT");
 	}
 	
 	@When("I click the logout button")
 	public void i_click_the_logout_button() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).click();
+		driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button[2]")).click();
 	}
 	
 	@When("I am waiting for more than {int} min")
