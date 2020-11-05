@@ -113,6 +113,39 @@ public class PortfolioTest {
 		assertTrue(check);
 	}
 	
+	@Test
+	public void testPopulatePortfolioValue6() throws ParseException, IOException {
+		Portfolio p6 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p6.populatePortfolioValue();
+		//p6.printPortfolio();
+		
+		p6.addStock("IBM", 1, "9/01/2020", "10/30/2020");
+		p6.populatePortfolioValue();
+		p6.printPortfolio();
+		boolean check = false;
+		if (p6.currentPortfolio == 127.79000091553) check = true;
+		
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetCurrStockPrice() throws ParseException, IOException {
+		Portfolio p7 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p7.getCurrStockPrice("AAPL");
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testGetCurrPortfolioValue() throws ParseException, IOException {
+		Portfolio p8 = new Portfolio("ken", "10/04/2020", "10/09/2020");
+		p8.addStock("IBM", 1, "10/09/2020", "10/16/2020");
+		p8.addStock("RACE", 1, "10/01/2020", "10/16/2020");
+		double result = p8.getCurrPortfolioValue();
+		double test = p8.getCurrStockPrice("IBM") + p8.getCurrStockPrice("RACE");
+		boolean check = false;
+		if(result == test) check = true;
+		assertTrue(check);
+	}
 }
 
 

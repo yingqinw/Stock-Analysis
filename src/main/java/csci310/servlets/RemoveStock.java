@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,16 +27,19 @@ import com.google.gson.Gson;
 import csci310.Portfolio;
 import csci310.SQL;
 
+@WebServlet("/RemoveStock")
 public class RemoveStock extends HttpServlet  {
 	
 	public class AddStockData{
 		private JSONArray date = new JSONArray();
 		private JSONArray price = new JSONArray();
 		private JSONObject update = new JSONObject();
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates) {
+		private double currentPortfolioValue;
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value) {
 			date = labels;
 			price = prices;
 			update = updates;
+			currentPortfolioValue = value;
 		}
 	}
 	
@@ -134,7 +138,7 @@ public class RemoveStock extends HttpServlet  {
   				price.put(p.portfolioValue[j]);
   				date.put(p.tradingDate[j]);
   			}
-  			AddStockData asd = new AddStockData(date,price,updatedPrices);
+  			AddStockData asd = new AddStockData(date,price,updatedPrices, p.getCurrPortfolioValue());
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    
