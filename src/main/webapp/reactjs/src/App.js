@@ -89,6 +89,7 @@ export default function() {
   const [portfolioPrices, setPortfolioPrices] = useState([]);
   const [loginLock, setLoginLock] = useState(false);
   const [loginLockTimer, setLoginLockTimer] = useState(0);
+  const [portfolioValue, setPortfolioValue] = useState(0);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
@@ -103,6 +104,7 @@ export default function() {
         setPortfolioDates(dates);
         setPortfolioPrices(prices);
         setStocks(jsonToArray(data.update.map));
+        setPortfolioValue(parseFloat(data.currentPortfolioValue));
       }))
     }
   }
@@ -208,6 +210,7 @@ export default function() {
               resetLogoutTimer={resetLogoutTimer}
               stocks={stocks}
               setStocks={setStocks}
+              portfolioValue={portfolioValue}
               unSelectedTickers={unSelectedTickers}
               setUnSelectedTickers={setUnSelectedTickers}
               portfolioDates={portfolioDates}

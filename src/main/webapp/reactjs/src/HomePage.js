@@ -10,6 +10,7 @@ import RemoveConfirmForm from './RemoveConfirmForm';
 import {useEffect, useState} from 'react';
 import { Navbar } from 'react-bootstrap';
 import {Button, Arrow} from './Modals';
+import styled from 'styled-components';
 //import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
 import UploadFileForm from './UploadFileForm';
@@ -57,6 +58,26 @@ export const isEmpty = (data) => {
   return Object.keys(data).length === 0 && data.constructor === Object;
 }
 
+const numberFormatter = (number) => {
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formatter.format(parseFloat(number));
+}
+
+const Number = styled.div`
+  font-size: 35px;
+  display: inline-block;
+`
+const SideNumber = styled(Number)`
+  display: block;
+  font-size: 12px;
+  margin-left: 2px;
+`
+
 export default function(props) {
   const [alertText, setAlertText] = useState("");	
   const [validTicker, setValidTicker] = useState(false);
@@ -81,6 +102,7 @@ export default function(props) {
   const [validSell, setValidSell] = useState(false);
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
+  const [currentPortfolioValue, setCurrentPortfolioValue] = useLocalStorage(props.portfolioValue, "currentPortfolioValue");
 
   const dateToTimeConverter = (date) => {
     if(date === undefined) {
@@ -191,6 +213,11 @@ export default function(props) {
   }
 */
 //  useIdle({timeToIdle: 1000})
+
+  useEffect(() => {
+    setCurrentPortfolioValue(props.portfolioValue);
+  }, [props.portfolioValue])
+
   useEffect(() => {
     if(props.portfolioDates.length === 0 || props.portfolioPrices.length === 0) {
       return;
@@ -570,9 +597,18 @@ export default function(props) {
           <div className="col-md-3">
             <div className="market-pairs">
               <div className="header-wrap">
+                <Number>
+                  { numberFormatter(currentPortfolioValue) }
+                  <Number>
+                    <SideNumber>Increase</SideNumber>
+                    <SideNumber>&#9650; 0.0%</SideNumber>
+                  </Number>
+                </Number>
+              </div>
+              <div className="header-wrap">
                 <Button className="my-auto" onClick={()=>{
                   setShowAddStockForm(true)
-				  props.resetLogoutTimer();
+				          props.resetLogoutTimer();
                 }}>Add stock</Button>
               </div>
               <div className="tab-content"> 
