@@ -243,8 +243,23 @@ export default function(props) {
     else {
       newGraphPrices[portfolioIndex] = props.portfolioPrices;
     }
-    setGraphPrices(newGraphPrices)
-  }, [props.portfolioDates, props.portfolioPrices])
+    setGraphPrices(newGraphPrices);
+    let spyIndex = -1;
+    graphTickers.forEach((item, i) => {
+      if(item === 'S&P 500') {
+        spyIndex = i;
+      }
+    });
+    if(spyIndex === -1) {
+      newGraphPrices.push(props.spyPrices);
+      newGraphTickers.push('S&P 500');
+      setGraphTickers(newGraphTickers)
+    }
+    else {
+      newGraphPrices[spyIndex] = props.spyPrices;
+    }
+    setGraphPrices(newGraphPrices);
+  }, [props.portfolioDates, props.portfolioPrices, props.spyPrices])
 
   const dateConverter = (date) => {
     if(date.indexOf('-') > -1) {
@@ -429,7 +444,7 @@ export default function(props) {
     setAlertText(alertMessage);
     if(alertMessage.length === 0) {
       let realGraphTickers = graphTickers;
-      realGraphTickers = realGraphTickers.filter(ticker => ticker !== "portfolio");
+      realGraphTickers = realGraphTickers.filter(ticker => (ticker !== "portfolio" && ticker !== "S&P 500"));
       const tickerArray = realGraphTickers.map(ticker => `"${ticker}"`).join(',');
       const tickerString = route === 'AddStockGraph' ? ticker : "[" + tickerArray + "]";
       if(startDate.length === 0 && endDate.length === 0) {
@@ -496,12 +511,11 @@ export default function(props) {
       let newGraphPrices = graphPrices;
       graphTickers.forEach((name, k) => {
         if(name === 'portfolio') {
-          newGraphPrices[k] = data;
+          newGraphPrices[k] = data.updatePortfolio.myArrayList;
         }
       })
       setGraphPrices(newGraphPrices);
       setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
-      console.log(graphPrices)
       // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
     .catch((error) => {
@@ -511,7 +525,7 @@ export default function(props) {
 
   const tickerArrayConverter = (stocks) => {
     let newPortfolioTickers = stocks;
-    newPortfolioTickers = newPortfolioTickers.filter(ticker => ticker !== "portfolio");
+    newPortfolioTickers = newPortfolioTickers.filter(ticker => (ticker !== "portfolio" && ticker !== "S&P 500"));
     const tickerArray = newPortfolioTickers.map(ticker => `"${ticker}"`).join(',');
     const tickerString = "[" + tickerArray + "]";
     return tickerString;
@@ -641,7 +655,11 @@ export default function(props) {
                                 className='custom-control-input'
                                 id={stock.ticker}
                                 readOnly
-                                checked={!props.unSelectedTickers.includes(stock.ticker)}
+                                checked={
+                                  props.unSelectedTickers.length === 0? 
+                                    true
+                                    :!props.unSelectedTickers.includes(stock.ticker)
+                                }
                                 onChange={e => toggleStock(stock.ticker, !e.target.checked)}
                               />
                               <label className='custom-control-label' htmlFor={stock.ticker} />
