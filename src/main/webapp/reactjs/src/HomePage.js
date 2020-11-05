@@ -321,6 +321,7 @@ export default function(props) {
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           setGraphLabels(data.date.myArrayList);
+          setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
 			
 			//console.log(data);
 			//console.log(graphPrices);
@@ -499,6 +500,7 @@ export default function(props) {
         }
       })
       setGraphPrices(newGraphPrices);
+      setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
       console.log(graphPrices)
       // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
