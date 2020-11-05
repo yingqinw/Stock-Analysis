@@ -25,10 +25,20 @@ import static org.junit.Assert.assertTrue;
 public class HomepageMobileStepDefinitions {
 	private static final String ROOT_URL = "https://localhost:3000/";
 
-	private final WebDriver driver = new ChromeDriver();
+	public WebDriver driver;
 	
 	@Before()
 	public void before() {
+		Map<String, Object> deviceMetrics = new HashMap<>();
+		deviceMetrics.put("width", 414);
+		deviceMetrics.put("height", 896);
+		deviceMetrics.put("pixelRatio", 3.0);
+		Map<String, Object> mobileEmulation = new HashMap<>();
+		mobileEmulation.put("deviceMetrics", deviceMetrics);
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+		driver = new ChromeDriver(chromeOptions);
+	
 		new DropUserTable();
 	}
 	
