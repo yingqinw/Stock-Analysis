@@ -79,7 +79,7 @@ public class GetForm extends HttpServlet {
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
         response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
         String username = "t";
-        String APIKey = "btjeu1f48v6tfmo5erv0";
+        String APIKey = "buhnb0f48v6pkjomnafg";
         PrintWriter out = response.getWriter();
         String startDate = "s";
         String endDate = "e";

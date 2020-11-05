@@ -65,7 +65,7 @@ public class AddStock extends HttpServlet {
 		String startDate = request.getParameter("startdate_graph");
         String endDate = request.getParameter("enddate_graph");
 		String username = request.getParameter("username");
-		String APIKey = "btjeu1f48v6tfmo5erv0";
+		String APIKey = "buhnb0f48v6pkjomnafg";
 		
 		response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
