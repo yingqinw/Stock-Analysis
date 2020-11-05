@@ -64,7 +64,7 @@ public class AddstockMobileStepDefinitions {
 	
 	@Then("I should see the add stock button adm")
 	public void i_should_see_the_add_stock_button_adm() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).getText(), "ADD STOCK");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).getText(), "ADD STOCK");
 	}
 	
 	@Given("in mainpage and logged in a adm")
@@ -80,7 +80,7 @@ public class AddstockMobileStepDefinitions {
 	
 	@When("I click add stock botton adm")
 	public void i_click_add_stock_botton_adm() {
-	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	}
 
 	@Then("I get the pop up window to add stock adm")
@@ -125,7 +125,7 @@ public class AddstockMobileStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys("trojan");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
-	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	}
 
 	@When("I fill in a wrong ticker adm")
@@ -206,7 +206,7 @@ public class AddstockMobileStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys("trojan");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
-	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	}
 	
 	@When("I fill in a correct ticker, purchase date, end date, and quantity adm")

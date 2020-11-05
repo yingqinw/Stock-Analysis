@@ -203,13 +203,13 @@ public class HomepageStepDefinitions {
 	@Then("I should be able to click the clickable add stock button")
 	public void i_should_be_able_to_click_the_clickable_add_stock_button() {
 		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
-		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")));
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")));
 		element.click();
 	}
 
 	@When("I click the add stock button")
 	public void i_click_the_add_stock_button() {
-		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	}
 
 	@Then("I should be able to click the clickable add stock button in add stock")
@@ -231,6 +231,14 @@ public class HomepageStepDefinitions {
 		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
 		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")));
 		element.click();
+	}
+	
+	@Then("I should be able to see the S&P {int} on the graph")
+	public void i_should_be_able_to_see_the_S_P_on_the_graph(Integer int1) {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g > g > g.highcharts-legend-item.highcharts-line-series.highcharts-color-1.highcharts-series-1 > text > tspan");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "S&P 500");
 	}
 	
 	@After()

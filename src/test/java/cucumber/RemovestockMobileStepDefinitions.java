@@ -62,7 +62,7 @@ public class RemovestockMobileStepDefinitions {
 	@When("I add a stock rmsm")
 	public void i_add_a_stock_rmsm() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button");
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		driver.findElement(title).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AMZN");
@@ -100,7 +100,7 @@ public class RemovestockMobileStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys("trojan");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
-	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	    driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AMZN");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[2]")).sendKeys("11");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[3]")).sendKeys("12102019");

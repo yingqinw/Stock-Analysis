@@ -185,6 +185,19 @@ public class UploadCSVFileStepDefinitions {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "There are errors on the following line(s): 3 4 5 6 7");
 	}
+	
+	@When("I do not upload a file")
+	public void i_do_not_upload_a_file() {
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/button[1]")).click();
+	}
+
+	@Then("I should be able to see the error message")
+	public void i_should_be_able_to_see_the_error_message() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		By title = By.xpath("//*[@id=\"addStock-form\"]/div[3]/p");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "Please select a file to upload");
+	}
 
 	@After()
 	public void after() {
