@@ -52,7 +52,7 @@ public class ToggleStepDefinitions {
 	}
 	@When("I add a stock for portfolio")
 	public void i_add_a_stock_for_portfolio() {
-		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[1]/button")).click();
+		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AAPL");	
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[2]")).sendKeys("1");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[3]")).sendKeys("09202020");
@@ -128,7 +128,7 @@ public class ToggleStepDefinitions {
 	@When("I add a stock for portfolio2")
 	public void i_add_a_stock_for_portfolio2() {
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[1]/button");
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		driver.findElement(title).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("IBM");	
@@ -145,13 +145,36 @@ public class ToggleStepDefinitions {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		driver.findElement(title).click();
 	}
-
+	
 	@Then("there should be the graph for only one stock")
 	public void there_should_be_the_graph_for_only_one_stock() {
 		WebDriverWait wait = new WebDriverWait(driver, 20);
 		By title = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(24) > text:nth-child(3)");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "200");
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebDriverWait wait2 = new WebDriverWait(driver, 20);
+		By title2 = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr[1]/td[3]/div");
+		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+		driver.findElement(title2).click();
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebDriverWait wait3 = new WebDriverWait(driver, 20);
+		By title3 = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div");
+		wait3.until(ExpectedConditions.visibilityOfElementLocated(title3));
+		driver.findElement(title3).click();
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+			
 	}
 
 	@When("I click the unselect all button")
@@ -189,7 +212,7 @@ public class ToggleStepDefinitions {
 		WebDriverWait wait = new WebDriverWait(driver, 20);
 		By title = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(24) > text:nth-child(3)");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertEquals(driver.findElement(title).getText(), "100");
+		assertEquals(driver.findElement(title).getText(), "200");
 	}
 	
 	@After()
