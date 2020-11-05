@@ -58,8 +58,8 @@ public class GetForm extends HttpServlet {
 		private JSONArray price = new JSONArray();
 		private JSONObject update = new JSONObject();
 		private double currentPortfolioValue;
-		private double prevPortfolioValue;
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value, double value2) {
+		private int prevPortfolioValue;
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value, int value2) {
 			date = labels;
 			price = prices;
 			update = updates;
@@ -329,7 +329,7 @@ public class GetForm extends HttpServlet {
         		  				price.put(p.portfolioValue[j]);
         		  				date.put(p.tradingDate[j]);
         		  			}
-        		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue(),p.getPrevPortfolioValue());
+        		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue(),(int)(p.getCurrPortfolioValue()/p.getPrevPortfolioValue())-100);
         		  		    response.setContentType("application/json");
         		  		    response.setCharacterEncoding("UTF-8");
         		  		    out.print(this.gson.toJson(asd));

@@ -32,8 +32,8 @@ public class UpdatePortfolio extends HttpServlet{
 	public class AddStockData{
 		private JSONArray updatePortfolio = new JSONArray();
 		private double currentPortfolioValue;
-		private double prevPortfolioValue;
-		public AddStockData(JSONArray price, double value, double value2) {
+		private int prevPortfolioValue;
+		public AddStockData(JSONArray price, double value, int value2) {
 			updatePortfolio = price;
 			currentPortfolioValue = value;
 			prevPortfolioValue = value2;
@@ -93,7 +93,7 @@ public class UpdatePortfolio extends HttpServlet{
 				price.put(p.portfolioValue[i]);
 			}
 			
-			AddStockData asd = new AddStockData(price,p.getCurrPortfolioValue(), p.getPrevPortfolioValue());
+			AddStockData asd = new AddStockData(price,p.getCurrPortfolioValue(), (int)(p.getCurrPortfolioValue()/p.getPrevPortfolioValue())-100);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    out.print(this.gson.toJson(asd));
