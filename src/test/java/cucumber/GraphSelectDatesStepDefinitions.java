@@ -26,7 +26,8 @@ public class GraphSelectDatesStepDefinitions {
 	private static final String ROOT_URL = "https://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
-	
+	int m1;
+	int m2;
 	@Before()
 	public void before() {
 		new DropUserTable();
@@ -122,28 +123,59 @@ public class GraphSelectDatesStepDefinitions {
 	}
 	@Then("I should see the {int} months dates as default")
 	public void i_should_see_the_months_dates_as_default(Integer int1) {
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-		By title2 = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
-		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
-		assertEquals(driver.findElement(title2).getText(), "AAPL");
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		By title = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(25) > text:nth-child(10)");
+		try {
+			Thread.sleep(5*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(23) > text:nth-child(7) > tspan");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		String a = driver.findElement(By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(25) > text:nth-child(10)")).getText();
-		String b = driver.findElement(By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(25) > text:nth-child(32)")).getText();
-		String str1[] = a.split("/");
-		String str2[] = b.split("/");
-		int m1 = Integer.parseInt(str1[1]);
-		int m2 = Integer.parseInt(str2[1]);
-		int range = m2-m1+1;
-		assertTrue(range==int1);
+		String a = driver.findElement(title).getText();
+		WebDriverWait wait2 = new WebDriverWait(driver, 10);
+		By title2 = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(23) > text:nth-child(1) > tspan");
+		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+		String b = driver.findElement(title2).getText();
+		String str1 = a.substring(3);
+		String str2 = b.substring(4);
+		if(str1 == "Jan") { m1 =1;}
+		else if(str1 == "Feb") {m1 =2;}
+		else if(str1 == "Mar") {m1 =3;}
+		else if(str1 == "Apr") {m1 =4;}
+		else if(str1 == "May") {m1 =5;}
+		else if(str1 == "Jun") {m1 =6;}
+		else if(str1 == "Jul") {m1 =7;}
+		else if(str1 == "Aug") {m1 =8;}
+		else if(str1 == "Sep") {m1 =9;}
+		else if(str1 == "Oct") {m1 =10;}
+		else if(str1 == "Nov") {m1 =11;}
+		else if(str1 == "Dec") {m1 =12;}
+		
+		if(str2 == "Jan") { m2 =1;}
+		else if(str2 == "Feb") {m2 =2;}
+		else if(str2 == "Mar") {m2 =3;}
+		else if(str2 == "Apr") {m2 =4;}
+		else if(str2 == "May") {m2 =5;}
+		else if(str2 == "Jun") {m2 =6;}
+		else if(str2 == "Jul") {m2 =7;}
+		else if(str2 == "Aug") {m2 =8;}
+		else if(str2 == "Sep") {m2 =9;}
+		else if(str2 == "Oct") {m2 =10;}
+		else if(str2 == "Nov") {m2 =11;}
+		else if(str2 == "Dec") {m2 =12;}
+
+		int range = m1-m2;
+		assertTrue(range==0);
 	}
 	@When("I click the select dates button gsd")
 	public void i_click_the_select_dates_button_gsd() {
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-		By title2 = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
-		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
-		assertEquals(driver.findElement(title2).getText(), "AAPL");
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[3]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
@@ -160,21 +192,51 @@ public class GraphSelectDatesStepDefinitions {
 
 	@Then("I should see the graph for {int} month")
 	public void i_should_see_the_graph_for_month(Integer int1) {
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-		By title2 = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
-		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
-		assertEquals(driver.findElement(title2).getText(), "AAPL");
+		try {
+			Thread.sleep(5*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		By title = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(25) > text:nth-child(4)");
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(23) > text:nth-child(7) > tspan");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		String a = driver.findElement(By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(25) > text:nth-child(4)")).getText();
-		String b = driver.findElement(By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(25) > text:nth-child(19)")).getText();
-		String str1[] = a.split("/");
-		String str2[] = b.split("/");
-		int m1 = Integer.parseInt(str1[0]);
-		int m2 = Integer.parseInt(str2[0]);
-		int range = m2-m1;
-		assertTrue(range==int1);
+		String a = driver.findElement(title).getText();
+		WebDriverWait wait2 = new WebDriverWait(driver, 20);
+		By title2 = By.cssSelector("[id^='highcharts-'] > svg > g:nth-child(23) > text:nth-child(1) > tspan");
+		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+		String b = driver.findElement(title2).getText();
+		String str1 = a.substring(3);
+		String str2 = b.substring(4);
+		
+		if(str1 == "Jan") { m1 =1;}
+		else if(str1 == "Feb") {m1 =2;}
+		else if(str1 == "Mar") {m1 =3;}
+		else if(str1 == "Apr") {m1 =4;}
+		else if(str1 == "May") {m1 =5;}
+		else if(str1 == "Jun") {m1 =6;}
+		else if(str1 == "Jul") {m1 =7;}
+		else if(str1 == "Aug") {m1 =8;}
+		else if(str1 == "Sep") {m1 =9;}
+		else if(str1 == "Oct") {m1 =10;}
+		else if(str1 == "Nov") {m1 =11;}
+		else if(str1 == "Dec") {m1 =12;}
+		
+		if(str2 == "Jan") { m2 =1;}
+		else if(str2 == "Feb") {m2 =2;}
+		else if(str2 == "Mar") {m2 =3;}
+		else if(str2 == "Apr") {m2 =4;}
+		else if(str2 == "May") {m2 =5;}
+		else if(str2 == "Jun") {m2 =6;}
+		else if(str2 == "Jul") {m2 =7;}
+		else if(str2 == "Aug") {m2 =8;}
+		else if(str2 == "Sep") {m2 =9;}
+		else if(str2 == "Oct") {m2 =10;}
+		else if(str2 == "Nov") {m2 =11;}
+		else if(str2 == "Dec") {m2 =12;}
+
+		int range = m1-m2;
+		assertTrue(range==0);
 	}
 
 	@After()

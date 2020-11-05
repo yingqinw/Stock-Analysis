@@ -117,10 +117,12 @@ public class GraphRemoveStockMobileStepDefinitions {
 	
 	@When("I click the remove stock from graph button grmsm")
 	public void i_click_the_remove_stock_from_graph_button_grmsm() {
-		WebDriverWait wait2 = new WebDriverWait(driver, 10);
-		By title2 = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
-		wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
-		assertEquals(driver.findElement(title2).getText(), "AAPL");
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[2]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
@@ -195,7 +197,7 @@ public class GraphRemoveStockMobileStepDefinitions {
 	@Then("I should see the stock on the graph gms grmsm")
 	public void i_should_see_the_stock_on_the_graph_gms_grmsm() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g > g > g.highcharts-legend-item.highcharts-line-series.highcharts-color-2.highcharts-series-2 > text > tspan");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "AAPL");
 	}
