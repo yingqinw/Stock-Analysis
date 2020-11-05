@@ -83,22 +83,30 @@ public class GetForm extends HttpServlet {
         String endDate = "e";
         
         
-        String bypass = request.getParameter("bypassTest");
-        if(bypass.equals("true")) {
-        	System.out.println("getForm called");
-        	return;
-        }
-        
+        String bypass = "false";
+////        if(request.getParameter("bypassTest")!=null) {
+////        	bypass=request.getParameter("bypassTest");
+////        }
+//        		
+//        if(bypass.equals("true")) {
+//        	System.out.println("getForm called");
+//        	return;
+//        }
+        //System.out.println("starting read input");
         //comment this out to run
         
   try {
          List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+         System.out.println(items.size());
          for (FileItem item : items) {
+        	 //System.out.println("One Item");
              if (item.isFormField()) {
                  // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
                  String fieldName = item.getFieldName();
                  String fieldValue = item.getString();
-                 //System.out.println(fieldName + " is " + fieldValue);
+                 System.out.println(fieldName + " is " + fieldValue);
+                 
+                 
                  if(fieldName.equals("username")) {
                 	 username = fieldValue;
                  }else if(fieldName.equals("startDate")) {
@@ -124,7 +132,7 @@ public class GetForm extends HttpServlet {
                      ArrayList<Integer> errorLines = new ArrayList<Integer>();
                      //int i = 0;
                      while ((line = br.readLine()) != null) {
-                    	 //System.out.println(line); 
+                    	 System.out.println(line); 
                     	lines.add(line);
                      }
                      
