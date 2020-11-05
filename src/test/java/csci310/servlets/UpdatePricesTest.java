@@ -53,7 +53,7 @@ public class UpdatePricesTest extends Mockito{
         new UpdatePrices().doPost(request, response);
         
         writer.flush();
-		assertTrue(true); // can be refactored
+		assertTrue(stringWriter.toString().contains("IBM")); // can be refactored
 		
 		//test wrong username
 		HttpServletRequest request1 = mock(HttpServletRequest.class);       

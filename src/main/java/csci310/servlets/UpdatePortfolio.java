@@ -45,7 +45,7 @@ public class UpdatePortfolio extends HttpServlet{
 		Type listType = new TypeToken<ArrayList<String>>(){}.getType();
 		ArrayList<String> tickers = this.gson.fromJson(tickers_string, listType);
 
-		String APIKey = "btjeu1f48v6tfmo5erv0";
+		String APIKey = "buhnb0f48v6pkjomnafg";
 		String username = request.getParameter("username");
         String startDate = request.getParameter("startdate_graph");
         String endDate = request.getParameter("enddate_graph");
