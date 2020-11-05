@@ -82,14 +82,13 @@ public class GetForm extends HttpServlet {
         String startDate = "s";
         String endDate = "e";
         
-        //comment this out to run
-        /*
-            String bypass = request.getParameter("bypassTest");
-            if(bypass.equals("true")) {
-            	System.out.println("bypassed2");
-            	return;
-            }
-        */
+        
+        String bypass = request.getParameter("bypassTest");
+        if(bypass.equals("true")) {
+        	System.out.println("getForm called");
+        	return;
+        }
+        
         //comment this out to run
         
   try {
