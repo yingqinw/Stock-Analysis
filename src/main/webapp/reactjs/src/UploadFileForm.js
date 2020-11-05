@@ -36,35 +36,42 @@ export default function(props) {
   const onFileUpdate = (e) => {
 	
     e.preventDefault();
-	//set default date
-	let sDate = props.startDate;
-	let eDate = props.endDate;
-	if(sDate.indexOf('-') <= -1){
-		console.log("date empty");
-		let sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
-		sDate = jsDateConverter(sevenDaysAgo);
-		eDate = jsDateConverter(new Date());
-        props.setStartDate(jsDateConverter(sevenDaysAgo))
-        props.setEndDate(jsDateConverter(new Date()))
-	}
+    // prevent null file
+    if(selectedFile === null) {
+      setAlertText("");
+      setAlertText("Please select a file to upload");
+      return;
+    }
+
+    //set default date
+    let sDate = props.startDate;
+    let eDate = props.endDate;
+    if(sDate.indexOf('-') <= -1){
+      console.log("date empty");
+      let sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 90);
+      sDate = jsDateConverter(sevenDaysAgo);
+      eDate = jsDateConverter(new Date());
+      props.setStartDate(jsDateConverter(sevenDaysAgo))
+      props.setEndDate(jsDateConverter(new Date()))
+    }
 
     // Create an object of formData 
     const formData = new FormData(); 
     // Update the formData object 
-	formData.append(
-		"username",
-		props.username
-	)
-	formData.append(
-		"startDate",
-		dateConverter(sDate)
-	)
-	formData.append(
-		"endDate",
-		dateConverter(eDate)
-	)
-		
+    formData.append(
+      "username",
+      props.username
+    )
+    formData.append(
+      "startDate",
+      dateConverter(sDate)
+    )
+    formData.append(
+      "endDate",
+      dateConverter(eDate)
+    )
+
     formData.append( 
       "portfolioFile", 
       selectedFile, 

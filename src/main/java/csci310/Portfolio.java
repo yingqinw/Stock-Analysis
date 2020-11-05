@@ -27,7 +27,7 @@ public class Portfolio {
 	long PFendDateEpoch;
 	public Double[] portfolioValue;
 	public String[] tradingDate;
-	private String APIKey = "buh2tjf48v6s9c138o00";
+	private String APIKey = "buhnb0f48v6pkjomnafg";
 	boolean isEmpty;
 	public Portfolio(String username, String startDate, String endDate) {
 		this.username = username;
