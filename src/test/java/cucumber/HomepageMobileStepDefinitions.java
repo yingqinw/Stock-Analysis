@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Step definitions for Cucumber tests.
 */
-public class HomepageStepDefinitions {
+public class HomepageMobileStepDefinitions {
 	private static final String ROOT_URL = "https://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
