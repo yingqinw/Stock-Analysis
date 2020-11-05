@@ -36,10 +36,12 @@ public class ChangeDateGraph extends HttpServlet{
 		private JSONArray date = new JSONArray();
 		private JSONObject prices = new JSONObject();
 		private double currentPortfolioValue;
-		public AddStockData(JSONArray labels, JSONObject price, double value) {
+		private double prevPortfolioValue;
+		public AddStockData(JSONArray labels, JSONObject price, double value, double value2) {
 			date = labels;
 			prices = price;
 			currentPortfolioValue = value;
+			prevPortfolioValue = value2;
 		}
 	}
 	
@@ -152,7 +154,7 @@ public class ChangeDateGraph extends HttpServlet{
 				setdate = true;
 			}
 			
-			AddStockData asd = new AddStockData(date,prices,p.getCurrPortfolioValue());
+			AddStockData asd = new AddStockData(date,prices,p.getCurrPortfolioValue(),p.getPrevPortfolioValue());
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    out.print(this.gson.toJson(asd));
