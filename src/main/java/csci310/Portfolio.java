@@ -152,6 +152,19 @@ public class Portfolio {
 		}
 		return currentPortfolio;
 	}
+	public double getPrevPortfolioValue() throws IOException, ParseException {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    Date date = new Date();
+	    long currentEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(dateFormat.format(date)).getTime() / 1000;
+	    currentEpoch -= 86400;
+		double prevPortfolio = 0.0;
+		for(int i=0; i<stocks.size(); i++) {
+			if(stocks.get(i).endDateEpoch > currentEpoch) prevPortfolio += getPrevStockPrice(stocks.get(i).ticker);
+		}
+		return prevPortfolio;
+	}
+	
 	public double getCurrStockPrice(String ticker) throws IOException {
 		Double stockPrice = -1.0;
 		String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker +
@@ -173,6 +186,29 @@ public class Portfolio {
 		//parse json 
 		JSONObject obj = new JSONObject(result);
 		stockPrice= (Double) obj.get("c");
+		return stockPrice;
+	}
+	public double getPrevStockPrice(String ticker) throws IOException {
+		Double stockPrice = -1.0;
+		String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker +
+        		"&token=" + APIKey;
+        URL url = new URL(website);
+  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+  		con.setRequestMethod("GET");
+  		con.connect();
+		
+		//read json
+  		Scanner sc = new Scanner(url.openStream());
+  		String result = "";
+  		while(sc.hasNext()) {
+  			result += sc.nextLine();
+  		}
+  		sc.close();
+  		System.out.println(result);
+  		
+		//parse json 
+		JSONObject obj = new JSONObject(result);
+		stockPrice= (Double) obj.get("pc");
 		return stockPrice;
 	}
 }

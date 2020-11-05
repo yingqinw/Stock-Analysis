@@ -37,12 +37,14 @@ public class UpdatePrices extends HttpServlet{
 		private JSONObject update = new JSONObject();
 		private JSONArray SPV = new JSONArray();
 		private double currentPortfolioValue;
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, JSONArray SPVP, double value) {
+		private int prevPortfolioValue;
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, JSONArray SPVP, double value, int value2) {
 			date = labels;
 			price = prices;
 			update = updates;
 			SPV = SPVP;
 			currentPortfolioValue = value;
+			prevPortfolioValue = value2;
 		}
 	}
 	
@@ -175,7 +177,7 @@ public class UpdatePrices extends HttpServlet{
 				price1.put(c.getDouble(j));
 			}
 
-  			AddStockData asd = new AddStockData(date,price,updatedPrices,price1, p.getCurrPortfolioValue());
+  			AddStockData asd = new AddStockData(date,price,updatedPrices,price1, p.getCurrPortfolioValue(), (int)(p.getCurrPortfolioValue()/p.getPrevPortfolioValue())-100);
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    

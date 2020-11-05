@@ -43,11 +43,13 @@ public class AddStock extends HttpServlet {
 		private JSONArray price = new JSONArray();
 		private JSONObject update = new JSONObject();
 		private double currentPortfolioValue;
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value) {
+		private int prevPortfolioValue;
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value, int value2) {
 			date = labels;
 			price = prices;
 			update = updates;
 			currentPortfolioValue = value;
+			prevPortfolioValue = value2;
 		}
 	}
 	
@@ -84,8 +86,26 @@ public class AddStock extends HttpServlet {
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
   		//System.out.println(result);
+  		String website2 = "https://finnhub.io/api/v1/profile2?symbol="+ ticker 
+        		+"&token=" + APIKey;
+        URL url2 = new URL(website2);
+  		HttpURLConnection con2 = (HttpURLConnection) url2.openConnection();
+  		con2.setRequestMethod("GET");
+  		con2.connect(); 
+		//read json
+  		Scanner sc2 = new Scanner(url2.openStream());
+  		String result2 = "";
+  		while(sc2.hasNext()) result2 += sc2.nextLine();
+  		sc2.close();
   		if(result.contains(":0}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
+  	        response.setContentType("application/json");
+  	        response.setCharacterEncoding("UTF-8");
+  	        out.print(this.gson.toJson(ase));
+  	        out.flush(); 
+  		}
+  		else if(!result2.contains("NASDAQ")&&!result2.contains("NYSE")) {
+  			AddStockError ase = new AddStockError("Ticker not listed in NASDAQ or NYSE!");
   	        response.setContentType("application/json");
   	        response.setCharacterEncoding("UTF-8");
   	        out.print(this.gson.toJson(ase));
@@ -183,7 +203,7 @@ public class AddStock extends HttpServlet {
 		  				price.put(p.portfolioValue[j]);
 		  				date.put(p.tradingDate[j]);
 		  			}
-		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue());
+		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue(),(int)(p.getCurrPortfolioValue()/p.getPrevPortfolioValue())-100);
 		  		    response.setContentType("application/json");
 		  		    response.setCharacterEncoding("UTF-8");
 		  		    
