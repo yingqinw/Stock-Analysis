@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,29 +19,16 @@ import csci310.InitializeUserTable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Step definitions for Cucumber tests.
 */
-public class HomepageMobileStepDefinitions {
+public class HomepageStepDefinitions {
 	private static final String ROOT_URL = "https://localhost:3000/";
 
-	public WebDriver driver;
+	private final WebDriver driver = new ChromeDriver();
 	
 	@Before()
 	public void before() {
-		Map<String, Object> deviceMetrics = new HashMap<>();
-		deviceMetrics.put("width", 414);
-		deviceMetrics.put("height", 896);
-		deviceMetrics.put("pixelRatio", 3.0);
-		Map<String, Object> mobileEmulation = new HashMap<>();
-		mobileEmulation.put("deviceMetrics", deviceMetrics);
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-		driver = new ChromeDriver(chromeOptions);
-	
 		new DropUserTable();
 	}
 	
@@ -62,6 +48,12 @@ public class HomepageMobileStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
 	
+	@When("I refresh the site hpm")
+	public void i_refresh_the_site_hpm() {
+		driver.get(ROOT_URL);
+		driver.navigate().refresh();
+	}
+
 	@Then("I should see the title called USC CS310 Stock Portfolio Management hpm")
 	public void i_should_see_the_title_called_USC_CS310_Stock_Portfolio_Management_hpm() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/nav/a")).getText(), "USC CS310 STOCK PORTFOLIO MANAGEMENT");
@@ -211,13 +203,13 @@ public class HomepageMobileStepDefinitions {
 	@Then("I should be able to click the clickable add stock button hpm")
 	public void i_should_be_able_to_click_the_clickable_add_stock_button_hpm() {
 		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
-		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")));
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")));
 		element.click();
 	}
 
 	@When("I click the add stock button hpm")
 	public void i_click_the_add_stock_button_hpm() {
-		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	}
 
 	@Then("I should be able to click the clickable add stock button in add stock hpm")
@@ -236,12 +228,17 @@ public class HomepageMobileStepDefinitions {
 
 	@Then("I should be able to click the clickable logout button hpm")
 	public void i_should_be_able_to_click_the_clickable_logout_button_hpm() {
-		WebDriverWait wait = new WebDriverWait(driver, 10); 
-		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"root\"]/div/div/div/nav/button/span")));
-		element.click();
 		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
-		WebElement element2 = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")));
-		element2.click();
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")));
+		element.click();
+	}
+	
+	@Then("I should be able to see the S&P {int} on the graph hpm")
+	public void i_should_be_able_to_see_the_S_P_on_the_graph_hpm(Integer int1) {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g > g > g.highcharts-legend-item.highcharts-line-series.highcharts-color-1.highcharts-series-1 > text > tspan");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "S&P 500");
 	}
 	
 	@After()
