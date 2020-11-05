@@ -138,10 +138,14 @@ public class GraphAddStockStepDefinitions {
 	
 	@Then("I should see the stock on the graph")
 	public void i_should_see_the_stock_on_the_graph() {
-		driver.get(ROOT_URL);
-		driver.navigate().refresh();
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g");
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g > g > g.highcharts-legend-item.highcharts-line-series.highcharts-color-2.highcharts-series-2 > text > tspan");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "AAPL");
 	}
