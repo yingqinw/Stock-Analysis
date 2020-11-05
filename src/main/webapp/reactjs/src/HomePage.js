@@ -374,11 +374,12 @@ export default function(props) {
           else {
             let tickerArray = [];
             let priceArray = [];
+            console.log(data);
             const tickerValues = data.prices.map;
             for (let tickerName in tickerValues) {
               if (tickerValues.hasOwnProperty(tickerName)) {
                 var pricesJson = tickerValues[tickerName];
-                tickerArray.push(tickerName);
+                tickerArray.push(tickerName === 'SPY'? 'S&P 500': tickerName);
                 priceArray.push(pricesJson.myArrayList);
               }
             }
@@ -386,6 +387,7 @@ export default function(props) {
             setGraphTickers(tickerArray);
             setGraphPrices(priceArray);
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
+            setCurrentPortfolioValue(data.currentPortfolioValue);
             setShowSelectDatesForm(false);
           }
         }
