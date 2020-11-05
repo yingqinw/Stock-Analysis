@@ -95,40 +95,6 @@ public class PortfolioTest {
 	}
 	
 	@Test
-	public void testPopulatePortfolioValue5() throws ParseException, IOException {
-		Portfolio p6 = new Portfolio("ken", "10/04/2020", "10/09/2020");
-		p6.populatePortfolioValue();
-		//p6.printPortfolio();
-		
-		p6.addStock("IBM", 1, "9/01/2020", "9/30/2020");
-		p6.populatePortfolioValue();
-		//p6.printPortfolio();
-		
-		boolean check = false;
-		int count = 0;
-		for(int i=0; i<p6.tradingDate.length; i++) {
-			if(p6.portfolioValue[i] == 0) count++;
-		}
-		if(count == 5) check = true;
-		assertTrue(check);
-	}
-	
-	@Test
-	public void testPopulatePortfolioValue6() throws ParseException, IOException {
-		Portfolio p6 = new Portfolio("ken", "10/04/2020", "10/09/2020");
-		p6.populatePortfolioValue();
-		//p6.printPortfolio();
-		
-		p6.addStock("IBM", 1, "9/01/2020", "10/30/2020");
-		p6.populatePortfolioValue();
-		p6.printPortfolio();
-		boolean check = false;
-		if (p6.currentPortfolio == 127.79000091553) check = true;
-		
-		assertTrue(check);
-	}
-	
-	@Test
 	public void testGetCurrStockPrice() throws ParseException, IOException {
 		Portfolio p7 = new Portfolio("ken", "10/04/2020", "10/09/2020");
 		p7.getCurrStockPrice("AAPL");

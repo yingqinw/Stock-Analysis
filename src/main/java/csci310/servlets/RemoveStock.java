@@ -53,7 +53,7 @@ public class RemoveStock extends HttpServlet  {
 		String username = request.getParameter("username");
 		String startDate = request.getParameter("startdate_graph");
         String endDate = request.getParameter("enddate_graph");
-		String APIKey = "btjeu1f48v6tfmo5erv0";
+		String APIKey = "buh2tjf48v6s9c138o00";
 		response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
         response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
