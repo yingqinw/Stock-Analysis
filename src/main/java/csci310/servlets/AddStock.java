@@ -86,8 +86,26 @@ public class AddStock extends HttpServlet {
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
   		//System.out.println(result);
+  		String website2 = "https://finnhub.io/api/v1/profile2?symbol="+ ticker 
+        		+"&token=" + APIKey;
+        URL url2 = new URL(website2);
+  		HttpURLConnection con2 = (HttpURLConnection) url2.openConnection();
+  		con2.setRequestMethod("GET");
+  		con2.connect(); 
+		//read json
+  		Scanner sc2 = new Scanner(url2.openStream());
+  		String result2 = "";
+  		while(sc2.hasNext()) result2 += sc2.nextLine();
+  		sc2.close();
   		if(result.contains(":0}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
+  	        response.setContentType("application/json");
+  	        response.setCharacterEncoding("UTF-8");
+  	        out.print(this.gson.toJson(ase));
+  	        out.flush(); 
+  		}
+  		else if(!result2.contains("NASDAQ")&&!result2.contains("NYSE")) {
+  			AddStockError ase = new AddStockError("Ticker not listed in NASDAQ or NYSE!");
   	        response.setContentType("application/json");
   	        response.setCharacterEncoding("UTF-8");
   	        out.print(this.gson.toJson(ase));

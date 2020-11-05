@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+import csci310.servlets.AddStock.AddStockError;
+
 @WebServlet("/AddStockGraph")
 public class AddStockGraph extends HttpServlet {
 	
@@ -82,8 +84,29 @@ public class AddStockGraph extends HttpServlet {
   		while(sc.hasNext()) result += sc.nextLine();
   		sc.close();
   		
+  		String website2 = "https://finnhub.io/api/v1/profile2?symbol="+ ticker 
+        		+"&token=" + APIKey;
+        URL url2 = new URL(website2);
+  		HttpURLConnection con2 = (HttpURLConnection) url2.openConnection();
+  		con2.setRequestMethod("GET");
+  		con2.connect(); 
+		//read json
+  		Scanner sc2 = new Scanner(url2.openStream());
+  		String result2 = "";
+  		while(sc2.hasNext()) result2 += sc2.nextLine();
+  		sc2.close();
+  		
   		if(result.contains("{\"s\":\"no_data\"}")) {
   			AddStockError ase = new AddStockError("Invalid ticker!");
+  	        response.setContentType("application/json");
+  	        response.setCharacterEncoding("UTF-8");
+  	        out.print(this.gson.toJson(ase));
+  	        out.flush(); 
+  	        return;
+  		}
+  		
+  		if(!result2.contains("NASDAQ")&&!result2.contains("NYSE")) {
+  			AddStockError ase = new AddStockError("Ticker not listed in NASDAQ or NYSE!");
   	        response.setContentType("application/json");
   	        response.setCharacterEncoding("UTF-8");
   	        out.print(this.gson.toJson(ase));
