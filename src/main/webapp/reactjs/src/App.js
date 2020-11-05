@@ -87,8 +87,10 @@ export default function() {
   const [unSelectedTickers, setUnSelectedTickers] = useLocalStorage([], "unSelectedTickers");
   const [portfolioDates, setPortfolioDates] = useState([]);
   const [portfolioPrices, setPortfolioPrices] = useState([]);
+  const [spyPrices, setSpyPrices] = useState([]);
   const [loginLock, setLoginLock] = useState(false);
   const [loginLockTimer, setLoginLockTimer] = useState(0);
+  const [portfolioValue, setPortfolioValue] = useState(0);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
@@ -100,9 +102,14 @@ export default function() {
       .then(response =>  response.json().then(data => {
         let dates = data.date.myArrayList;
         let prices = data.price.myArrayList;
+        let spyPrices = data.SPV.myArrayList;
+        console.log(prices)
+        console.log(spyPrices)
+        setSpyPrices(spyPrices);
         setPortfolioDates(dates);
         setPortfolioPrices(prices);
         setStocks(jsonToArray(data.update.map));
+        setPortfolioValue(parseFloat(data.currentPortfolioValue));
       }))
     }
   }
@@ -123,6 +130,7 @@ export default function() {
       setLoggedIn(false)
       clearInterval(logoutinterval)
       setTimer(300)
+      window.localStorage.clear();
     }
 	//console.log(timer);
   }, [timer, setLoggedIn]);
@@ -206,8 +214,10 @@ export default function() {
               username={username}
               setLoggedIn={setLoggedIn}
               resetLogoutTimer={resetLogoutTimer}
+              spyPrices={spyPrices}
               stocks={stocks}
               setStocks={setStocks}
+              portfolioValue={portfolioValue}
               unSelectedTickers={unSelectedTickers}
               setUnSelectedTickers={setUnSelectedTickers}
               portfolioDates={portfolioDates}
