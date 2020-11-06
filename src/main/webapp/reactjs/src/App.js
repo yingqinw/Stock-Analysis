@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import HomePage from './HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {jsonToArray} from './HomePage';
+import {jsonToArray, jsDateConverter} from './HomePage';
 
 const Wrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -23,18 +23,54 @@ const Wrapper = styled.div`
 `;
 
 var logoutinterval;
+var lockoutinterval;
 
-export const useLocalStorage = (defaultValue, key) => {
-  const [value, setValue] = React.useState(() => {
-    const stickyValue = window.localStorage.getItem(key);
-    return stickyValue !== null
-      ? JSON.parse(stickyValue)
-      : defaultValue;
+// export const useLocalStorage = (defaultValue, key) => {
+//   const [value, setValue] = React.useState(() => {
+//     const stickyValue = window.localStorage.getItem(key);
+//     return stickyValue !== null
+//       ? JSON.parse(stickyValue)
+//       : defaultValue;
+//   });
+//   React.useEffect(() => {
+//     window.localStorage.setItem(key, JSON.stringify(value));
+//   }, [key, value]);
+//   return [value, setValue];
+// }
+
+export function useLocalStorage(initialValue, key) {
+  // State to store our value
+  // Pass initial state function to useState so logic is only executed once
+  const [storedValue, setStoredValue] = useState(() => {
+      try {
+          // Get from local storage by key
+          const item = window.localStorage.getItem(key);
+          // Parse stored json or if none return initialValue
+          return item ? JSON.parse(item) : initialValue;
+      } catch (error) {
+          // If error also return initialValue
+          console.log(error);
+          return initialValue;
+      }
   });
-  React.useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
-  return [value, setValue];
+
+  // Return a wrapped version of useState's setter function that ...
+  // ... persists the new value to localStorage.
+  const setValue = (value) => {
+      try {
+          // Allow value to be a function so we have same API as useState
+          const valueToStore =
+              value instanceof Function ? value(storedValue) : value;
+          // Save state
+          setStoredValue(valueToStore);
+          // Save to local storage
+          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      } catch (error) {
+          console.log(error);
+      }
+  };
+
+  return [storedValue, setValue];
 }
 
 export default function() {
@@ -48,16 +84,32 @@ export default function() {
   const [validUserName, setValidUserName] = useState(false);
   const [timer, setTimer] = useState(0);
   const [stocks, setStocks] = useState([]);
+  const [unSelectedTickers, setUnSelectedTickers] = useLocalStorage([], "unSelectedTickers");
+  const [portfolioDates, setPortfolioDates] = useState([]);
+  const [portfolioPrices, setPortfolioPrices] = useState([]);
+  const [spyPrices, setSpyPrices] = useState([]);
+  const [loginLock, setLoginLock] = useState(false);
+  const [loginLockTimer, setLoginLockTimer] = useState(0);
+  const [portfolioValue, setPortfolioValue] = useState(0);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
-      fetch(`http://localhost:8080/UpdatePrices?username=${username}`, {
+      let threeMonthsAgo = new Date();
+      threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+      fetch(`http://localhost:8080/UpdatePrices?username=${username}&startdate_graph=${jsDateConverter(threeMonthsAgo)}&enddate_graph=${jsDateConverter(new Date())}`, {
         method: 'POST'
       })
       .then(response =>  response.json().then(data => {
-		//console.log(data);
-		//console.log(jsonToArray(data));
-        setStocks(jsonToArray(data));
+        let dates = data.date.myArrayList;
+        let prices = data.price.myArrayList;
+        let spyPrices = data.SPV.myArrayList;
+        console.log(prices)
+        console.log(spyPrices)
+        setSpyPrices(spyPrices);
+        setPortfolioDates(dates);
+        setPortfolioPrices(prices);
+        setStocks(jsonToArray(data.update.map));
+        setPortfolioValue(parseFloat(data.currentPortfolioValue));
       }))
     }
   }
@@ -78,20 +130,40 @@ export default function() {
       setLoggedIn(false)
       clearInterval(logoutinterval)
       setTimer(300)
+      window.localStorage.clear();
     }
+	//console.log(timer);
   }, [timer, setLoggedIn]);
+
+  useEffect(() => {
+    if(loginLockTimer<0){
+      setLoginLock(false);
+	  clearInterval(lockoutinterval);
+      setLoginLockTimer(300);
+    }
+	console.log(loginLockTimer);
+  }, [loginLockTimer, setLoginLock]);
+
+
 
   const timerProgress = () => {
 	  setTimer(prevTimer => prevTimer - 1);
   }
+
+  const lockTimerProgress = () =>{
+	setLoginLockTimer(prevLoginLockTimer => prevLoginLockTimer - 1);
+  }
   
   const resetLogoutTimer = () =>{
-    setTimer(300);
+    setTimer(120);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const alertMessage = [];
+	if(loginLock){
+	  alertMessage.push("You are locked out due to 3 failed attempts, please wait " + loginLockTimer + " more seconds");
+	}
     if(!validUserName) {
       alertMessage.push("Username can only contain alphanumeric characters and longer than 5 characters. ");
     }
@@ -113,11 +185,18 @@ export default function() {
           setAlertText("");
           setAlertText(error);
           setLoggedIn(false);
+		  if(error.includes("locked")){
+			setLoginLock(true);
+			setLoginLockTimer(180);
+			clearInterval(lockoutinterval);
+            lockoutinterval = setInterval(lockTimerProgress,1000);
+		  }
         }
         else {
           setLoggedIn(true);
-          setTimer(300);
-		      clearInterval(logoutinterval);
+		  resetLogoutTimer();
+          //setTimer(300);
+		  clearInterval(logoutinterval);
           logoutinterval = setInterval(timerProgress,1000);
           fetchStockData(true);
         }
@@ -135,8 +214,14 @@ export default function() {
               username={username}
               setLoggedIn={setLoggedIn}
               resetLogoutTimer={resetLogoutTimer}
+              spyPrices={spyPrices}
               stocks={stocks}
               setStocks={setStocks}
+              portfolioValue={portfolioValue}
+              unSelectedTickers={unSelectedTickers}
+              setUnSelectedTickers={setUnSelectedTickers}
+              portfolioDates={portfolioDates}
+              portfolioPrices={portfolioPrices}
             /> :
             <Wrapper>
               {selectLogin ? 

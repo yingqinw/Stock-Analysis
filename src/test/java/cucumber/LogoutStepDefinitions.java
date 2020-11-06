@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  * Step definitions for Cucumber tests.
 */
 public class LogoutStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
 	
@@ -50,14 +50,25 @@ public class LogoutStepDefinitions {
 	
 	@Then("I should see the logout button")
 	public void i_should_see_the_logout_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).getText(), "LOG OUT");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button[2]")).getText(), "LOG OUT");
 	}
 	
 	@When("I click the logout button")
 	public void i_click_the_logout_button() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button")).click();
+		driver.findElement(By.xpath("//*[@id=\"responsive-navbar-nav\"]/span/button[2]")).click();
 	}
+	
+	@When("I am waiting for more than {int} min")
+	public void i_am_waiting_for_more_than_min(Integer int1) {
+		 try {
+			Thread.sleep(125*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Then("I should see the login page")
 	public void i_should_see_the_login_page() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);

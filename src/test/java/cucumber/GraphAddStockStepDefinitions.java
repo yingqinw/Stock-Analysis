@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  * Step definitions for Cucumber tests.
 */
 public class GraphAddStockStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
 	
@@ -48,14 +48,14 @@ public class GraphAddStockStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
 	}
 	
-	@When("I click add stock to graph button ga")
-	public void i_click_add_stock_to_graph_button_ga() {
+	@When("I click the view stock button ga")
+	public void i_click_the_view_stock_button_ga() {
 		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).click();
 	}
 
 	@Then("I get the pop up window to add stock ga")
 	public void i_get_the_pop_up_window_to_add_stock_ga() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[1]/div")).getText(), "ADD STOCK");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[1]/div")).getText(), "VIEW STOCK");
 	}
 
 	@Then("I should see the ticker block ga")
@@ -63,14 +63,19 @@ public class GraphAddStockStepDefinitions {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).getAttribute("placeholder"), "Ticker");
 	}
 
-	@Then("I should see the add stock button to graph ga")
-	public void i_should_see_the_add_stock_button_to_graph_ga() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button")).getText(), "ADD STOCK TO GRAPH");
+	@Then("I should see the view stock button ga")
+	public void i_should_see_the_view_stock_button_ga() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "VIEW STOCK");
 	}
 
-	@Then("I should see the add stock to graph button ga")
-	public void i_should_see_the_add_stock_to_graph_button_ga() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[2]/button[1]")).getText(), "ADD STOCK TO GRAPH");
+	@Then("I should see the view stock button in view stock ga")
+	public void i_should_see_the_view_stock_button_in_view_stock_ga() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[1]")).getText(), "VIEW STOCK");
+	}
+	
+	@Then("I should see the cancel button in view stock ga")
+	public void i_should_see_the_cancel_button_in_view_stock_ga() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[2]")).getText(), "CANCEL");
 	}
 	
 	@Given("in Homepage and in add stock to graph pop up window")
@@ -111,6 +116,40 @@ public class GraphAddStockStepDefinitions {
 		assertEquals(driver.findElement(title).getText(), "Invalid ticker!");
 	}
 	
+	@When("I write the valid stock and click the cancel button")
+	public void i_write_the_valid_stock_and_click_the_cancel_button() {
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).sendKeys("AAPL");
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[2]")).click();
+	}
+
+	@Then("I should not see the stock on the graph")
+	public void i_should_not_see_the_stock_on_the_graph() {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > text.highcharts-title > tspan");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "USC CS310 Stock Management Chart");
+	}
+	
+	@When("I write the valid stock and click view stock button")
+	public void i_write_the_valid_stock_and_click_view_stock_button() {
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/div/input")).sendKeys("AAPL");
+		driver.findElement(By.xpath("//*[@id=\"addStockToGraph-form\"]/div[2]/button[1]")).click();
+	}
+	
+	@Then("I should see the stock on the graph")
+	public void i_should_see_the_stock_on_the_graph() {
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.cssSelector("[id^='highcharts-'] > svg > g.highcharts-legend > g > g > g.highcharts-legend-item.highcharts-line-series.highcharts-color-2.highcharts-series-2 > text > tspan");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		assertEquals(driver.findElement(title).getText(), "AAPL");
+	}
+	
 	@After()
 	public void after() {
 		try {
@@ -120,4 +159,6 @@ public class GraphAddStockStepDefinitions {
 		}
 		driver.quit();
 	}
+	
+	
 }

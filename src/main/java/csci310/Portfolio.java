@@ -5,12 +5,15 @@ package csci310;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.Date;
 
 import csci310.PriceArray;
 
@@ -19,12 +22,12 @@ public class Portfolio {
 	Vector<PriceArray> stocks;
 	String PFstartDate;
 	String PFendDate;
-	
+	Double currentPortfolio;
 	long PFstartDateEpoch;
 	long PFendDateEpoch;
 	public Double[] portfolioValue;
 	public String[] tradingDate;
-	private String APIKey = "btjeu1f48v6tfmo5erv0";
+	private String APIKey = "bttlc6v48v6ojt2hdogg";
 	boolean isEmpty;
 	public Portfolio(String username, String startDate, String endDate) {
 		this.username = username;
@@ -136,5 +139,76 @@ public class Portfolio {
 			}
 			portfolioValue[i] = dayPFvalue;
 		}
+		currentPortfolio = portfolioValue[portfolioValue.length-1];
+	}
+	public double getCurrPortfolioValue() throws IOException, ParseException {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    Date date = new Date();
+	    long currentEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(dateFormat.format(date)).getTime() / 1000;
+		currentPortfolio = 0.0;
+		for(int i=0; i<stocks.size(); i++) {
+			if(stocks.get(i).endDateEpoch > currentEpoch) currentPortfolio += getCurrStockPrice(stocks.get(i).ticker);
+		}
+		return currentPortfolio;
+	}
+	public double getPrevPortfolioValue() throws IOException, ParseException {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    Date date = new Date();
+	    long currentEpoch = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse(dateFormat.format(date)).getTime() / 1000;
+	    currentEpoch -= 86400;
+		double prevPortfolio = 0.0;
+		for(int i=0; i<stocks.size(); i++) {
+			if(stocks.get(i).endDateEpoch > currentEpoch) prevPortfolio += getPrevStockPrice(stocks.get(i).ticker);
+		}
+		return prevPortfolio;
+	}
+	
+	public double getCurrStockPrice(String ticker) throws IOException {
+		Double stockPrice = -1.0;
+		String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker +
+        		"&token=" + APIKey;
+        URL url = new URL(website);
+  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+  		con.setRequestMethod("GET");
+  		con.connect();
+		
+		//read json
+  		Scanner sc = new Scanner(url.openStream());
+  		String result = "";
+  		while(sc.hasNext()) {
+  			result += sc.nextLine();
+  		}
+  		sc.close();
+  		System.out.println(result);
+  		
+		//parse json 
+		JSONObject obj = new JSONObject(result);
+		stockPrice= (Double) obj.get("c");
+		return stockPrice;
+	}
+	public double getPrevStockPrice(String ticker) throws IOException {
+		Double stockPrice = -1.0;
+		String website = "https://finnhub.io/api/v1/quote?symbol="+ ticker +
+        		"&token=" + APIKey;
+        URL url = new URL(website);
+  		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+  		con.setRequestMethod("GET");
+  		con.connect();
+		
+		//read json
+  		Scanner sc = new Scanner(url.openStream());
+  		String result = "";
+  		while(sc.hasNext()) {
+  			result += sc.nextLine();
+  		}
+  		sc.close();
+  		System.out.println(result);
+  		
+		//parse json 
+		JSONObject obj = new JSONObject(result);
+		stockPrice= (Double) obj.get("pc");
+		return stockPrice;
 	}
 }

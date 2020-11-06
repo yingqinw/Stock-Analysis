@@ -32,6 +32,8 @@ public class Login extends HttpServlet {
 		}
 	}
 	
+	private int count = 0;
+	
 	private Gson gson = new Gson();
 	
 	@Override
@@ -58,9 +60,22 @@ public class Login extends HttpServlet {
 	        response.setCharacterEncoding("UTF-8");
 	        out.print(this.gson.toJson(success));
 	        out.flush();   
+	        count = 0;
 		}
 		
 		else {
+			count++;
+			//System.out.println("Login attempt: "+ count);
+			if(count == 3) {
+				LoginError le = new LoginError("Incorrect username or password entered 3 times, user locked.");
+				PrintWriter out = response.getWriter();
+		        response.setContentType("application/json");
+		        response.setCharacterEncoding("UTF-8");
+		        out.print(this.gson.toJson(le));
+		        out.flush(); 
+		        count = 0;
+		        return;
+			}
 			LoginError le = new LoginError("Incorrect username or password. Please try again! :)");
 			PrintWriter out = response.getWriter();
 	        response.setContentType("application/json");
@@ -68,8 +83,7 @@ public class Login extends HttpServlet {
 	        out.print(this.gson.toJson(le));
 	        out.flush();   
 		}
-		
-		
+
 	}
 
 }

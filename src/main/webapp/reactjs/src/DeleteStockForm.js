@@ -3,36 +3,9 @@ import './App.css';
 import {FormTitle, FormWrapper, Button, Arrow} from './Modals';
 
 export default function(props) {
-  
-  const deleteStock = (e) => {
-    e.preventDefault();
-    let removeIndex = -1;
-    props.graphTickers.forEach((tickerName, i) => {
-      if(tickerName === props.ticker) {
-        removeIndex = i;
-      }
-    })
-    // not found in existing tickers
-    if(removeIndex === -1) {
-      props.setAlertText("");
-      props.setAlertText("Ticker does not exist in the graph");
-      return;
-    }
-    props.graphTickers.splice(removeIndex, 1);
-    props.graphPrices.splice(removeIndex, 1);
-    props.setGraphTickers(props.graphTickers);
-    props.setGraphPrices(props.graphPrices);
-    window.localStorage.setItem("graphTickers", JSON.stringify(props.graphTickers));
-    window.localStorage.setItem("graphPrices", JSON.stringify(props.graphPrices));
-    if(props.graphTickers.length === 0) {
-      window.localStorage.setItem("graphLabels", JSON.stringify([]));
-      props.setGraphLabels([]);
-    }
-    props.setShowDeleteStockForm(false)
-  }
 
   return (
-    <form id="addStock-form" onSubmit={deleteStock}>
+    <form id="addStock-form" /*onSubmit={deleteStock}*/>
       <div className="selectWrapper2">
         <FormTitle width={100}>Remove stock</FormTitle>
         <i className="fa fa-times closeIcon" onClick={()=>{
@@ -48,7 +21,9 @@ export default function(props) {
             style={{borderColor: props.validTicker ? 'green':'red'}}  
           />
         </div>
-        <Button onClick={()=>{props.resetLogoutTimer()}}>
+        <Button onClick={()=>{props.resetLogoutTimer()
+		  props.setShowRemoveConfirmForm(true)
+		  props.setShowDeleteStockForm(false)}}>
           remove stock
           <Arrow className="arrow"></Arrow>
         </Button>

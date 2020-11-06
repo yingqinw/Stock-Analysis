@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,16 +27,21 @@ import com.google.gson.Gson;
 import csci310.Portfolio;
 import csci310.SQL;
 
+@WebServlet("/RemoveStock")
 public class RemoveStock extends HttpServlet  {
 	
 	public class AddStockData{
 		private JSONArray date = new JSONArray();
 		private JSONArray price = new JSONArray();
 		private JSONObject update = new JSONObject();
-		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates) {
+		private double currentPortfolioValue;
+		private int prevPortfolioValue;
+		public AddStockData(JSONArray labels, JSONArray prices, JSONObject updates, double value, int value2) {
 			date = labels;
 			price = prices;
 			update = updates;
+			currentPortfolioValue = value;
+			prevPortfolioValue = value2;
 		}
 	}
 	
@@ -47,7 +53,7 @@ public class RemoveStock extends HttpServlet  {
 		String username = request.getParameter("username");
 		String startDate = request.getParameter("startdate_graph");
         String endDate = request.getParameter("enddate_graph");
-		String APIKey = "btjeu1f48v6tfmo5erv0";
+		String APIKey = "buh2tjf48v6s9c138o00";
 		response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
         response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
@@ -134,7 +140,7 @@ public class RemoveStock extends HttpServlet  {
   				price.put(p.portfolioValue[j]);
   				date.put(p.tradingDate[j]);
   			}
-  			AddStockData asd = new AddStockData(date,price,updatedPrices);
+  			AddStockData asd = new AddStockData(date,price,updatedPrices, p.getCurrPortfolioValue(), (int)(p.getCurrPortfolioValue()/p.getPrevPortfolioValue())-100);
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    

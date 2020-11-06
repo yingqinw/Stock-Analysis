@@ -26,7 +26,7 @@ import static org.junit.Assert.fail;
  * Step definitions for Cucumber tests.
 */
 public class RemovestockStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
 	
@@ -49,7 +49,7 @@ public class RemovestockStepDefinitions {
 	@When("I add a stock")
 	public void i_add_a_stock() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button");
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		driver.findElement(title).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AMZN");
@@ -69,6 +69,15 @@ public class RemovestockStepDefinitions {
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 	
+	@Then("I should be able to click the clickable delete button")
+	public void I_should_be_able_to_click_the_clickable_delete_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div")));
+		element.click();
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+	    
+	}
+	
 	@Given("in mainpage, logged in, and add a stock")
 	public void in_mainpage_logged_in_and_add_a_stock() {
 		new DropUserTable();
@@ -78,7 +87,7 @@ public class RemovestockStepDefinitions {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[1]")).sendKeys("trojan");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/div/input[2]")).sendKeys("12345Qa");
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
-	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div/div[1]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
 	    driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[1]")).sendKeys("AMZN");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[2]")).sendKeys("11");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[2]/div/input[3]")).sendKeys("12102019");
@@ -100,15 +109,34 @@ public class RemovestockStepDefinitions {
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 	
-	@Then("I should the yes button")
-	public void i_should_the_yes_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).getText(), "YES");
+	@Then("I should the delete stock button")
+	public void i_should_the_delete_stock_button() {
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).getText(), "DELETE STOCK");
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 
-	@Then("I should the no button")
+	@Then("I should the cancel button")
 	public void i_should_the_no_button() {
-		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[2]")).getText(), "NO");
+		assertEquals(driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[2]")).getText(), "CANCEL");
+		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
+	}
+	
+	@Then("I should be able to click the clickable delete stock button")
+	public void i_should_be_able_to_click_the_clickable_delete_stock_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")));
+		element.click();
+	}
+	
+	@Then("I should be able to click the clickable cancel button")
+	public void i_should_be_able_to_click_the_clickable_cancel_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[2]")));
+		element.click();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr/td[3]/div");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		driver.findElement(title).click();
 		driver.findElement(By.xpath("//*[@id=\"addStock-form\"]/div[1]/button[1]")).click();
 	}
 	

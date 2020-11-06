@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  * Step definitions for Cucumber tests.
  */
 public class RegisterStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 	
 	private final WebDriver driver = new ChromeDriver();
 	private final WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -108,6 +108,20 @@ public class RegisterStepDefinitions {
 	@Then("I should see the create user button")
 	public void i_should_see_the_create_user_button() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"signup-form\"]/div[2]/button")).getText(), "CREATE USER");
+	}
+	
+	@Then("I should click the clickable Signup letter button")
+	public void i_should_click_the_clickable_Signup_letter_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"signup-form\"]/div[1]/div[2]")));
+		element.click();
+	}
+
+	@Then("I should click the clickable create user button")
+	public void i_should_click_the_clickable_create_user_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"signup-form\"]/div[2]/button")));
+		element.click();
 	}
 
 	@When("I typed in {string} in the Username field in registration form")

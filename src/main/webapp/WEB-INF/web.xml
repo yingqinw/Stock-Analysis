@@ -40,6 +40,14 @@
   	<servlet-name>AddPortfolioGraph</servlet-name>
   	<servlet-class>csci310.servlets.AddPortfolioGraph</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>GetForm</servlet-name>
+  	<servlet-class>csci310.servlets.GetForm</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>UpdatePortfolio</servlet-name>
+  	<servlet-class>csci310.servlets.UpdatePortfolio</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>RemoveStock</servlet-name>
   	<url-pattern>/RemoveStock</url-pattern>
@@ -75,5 +83,13 @@
   	<servlet-mapping>
   	<servlet-name>AddPortfolioGraph</servlet-name>
   	<url-pattern>/AddPortfolioGraph</url-pattern>
+  	</servlet-mapping>
+  	<servlet-mapping>
+  	<servlet-name>GetForm</servlet-name>
+  	<url-pattern>/GetForm</url-pattern>
+    </servlet-mapping>
+  	<servlet-mapping>
+  	<servlet-name>UpdatePortfolio</servlet-name>
+  	<url-pattern>/UpdatePortfolio</url-pattern>
   	</servlet-mapping>
 </web-app>

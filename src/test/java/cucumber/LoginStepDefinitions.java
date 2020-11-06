@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  * Step definitions for Cucumber tests.
 */
 public class LoginStepDefinitions {
-	private static final String ROOT_URL = "http://localhost:3000/";
+	private static final String ROOT_URL = "https://localhost:3000/";
 
 	private final WebDriver driver = new ChromeDriver();
 	
@@ -94,6 +94,20 @@ public class LoginStepDefinitions {
 	public void i_should_see_the_login_button() {
 		assertEquals(driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).getText(), "LOGIN");
 	}
+	
+	@Then("I should be able to click the clickable login letter button")
+	public void i_should_be_able_to_click_the_clickable_login_letter_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"login-form\"]/div[1]/div[1]")));
+		element.click();
+	}
+
+	@Then("I should be able to click the clickable login button")
+	public void i_should_be_able_to_click_the_clickable_login_button() {
+		WebDriverWait wait2 = new WebDriverWait(driver, 10); 
+		WebElement element = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"login-form\"]/div[2]/button")));
+		element.click();
+	}
 
 	@When("I typed in {string} in the Username field")
 	public void i_typed_in_in_the_Username_field(String string) {
@@ -103,6 +117,24 @@ public class LoginStepDefinitions {
 	@When("I click the login button")
 	public void i_click_the_login_button() {
 	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	}
+	
+	@When("I click the login button 3 times")
+	public void i_click_the_login_button_3_times() {
+	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	    driver.findElement(By.xpath("//*[@id=\"login-form\"]/div[2]/button")).click();
+	}
+	@When("I should be able to access after {int} mins")
+	public void i_should_be_able_to_access_after_mins(Integer int1) {
+		 try {
+				Thread.sleep(185*1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 driver.get(ROOT_URL);
+		 driver.navigate().refresh();
 	}
 
 	@Then("I should see the border color of Username is red")
@@ -135,6 +167,8 @@ public class LoginStepDefinitions {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
 		assertEquals(driver.findElement(title).getText(), "USC CS310 STOCK PORTFOLIO MANAGEMENT");
 	}
+	
+	
 	@After()
 	public void after() {
 		try {

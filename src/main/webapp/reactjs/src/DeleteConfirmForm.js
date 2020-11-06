@@ -15,12 +15,12 @@ export default function(props) {
           props.removeStocks(props.ticker);
           props.fetchStockData('RemoveStock', props.ticker,props.startDate,props.endDate);
         }}>
-          Yes
+          DELETE STOCK
         </Button>
         <Button style={{margin:20 }} onClick={()=>{
           props.setShowDeleteConfirmForm(false);
           props.resetLogoutTimer()}}>
-          No
+          CANCEL
         </Button>
       </FormWrapper>
       <div className="alertWrapper">
