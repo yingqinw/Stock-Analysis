@@ -95,7 +95,7 @@ public class Portfolio {
 			tradingDate[i] = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (timeEpoch*1000));
 		}
 	}
-	/*
+	
 	public void printPortfolio() {
 		System.out.println(">>>>Printing portfolio<<<<");
 		if(isEmpty) {
@@ -106,7 +106,7 @@ public class Portfolio {
 			System.out.println("Date: "+ tradingDate[z] + " dayPFvalue: " + portfolioValue[z]);
 		}
 	}
-	*/
+	
 	public void populatePortfolioValue() throws IOException, ParseException {
 		getPFTradingDate();
 		//populate stock prices
