@@ -1,0 +1,11 @@
+Best Practice TDD Report
+Owner: TeamW
+Grade: 5.0/10
+Comments: 
+	Test method was not created before method : login.dopost
+		Method commit: https://github.com/CSCI310/project-20203-group33-20203/commit/7fec96bb41cf54d5f7600ddf395fea5c64add204
+	Test method was not created before method : updateprices.dopost
+		Method commit: https://github.com/CSCI310/project-20203-group33-20203/commit/9b9f8ad5943d8e5bc1854b51e9d62802ddc7adbc
+Correct TDD methods: 2
+Incorrect TDD methods: 2
+Total methods evaluated for TDD: 4
