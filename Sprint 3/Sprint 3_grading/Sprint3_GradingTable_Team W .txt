@@ -1,21 +1,21 @@
-			Grading Table - Team W 
+			Grading Table - Team TeamW
 
-| Section                  | Grade               | Note                        |
-|--------------------------|---------------------|-----------------------------|
-| Sprint Planning          | 9.0/9               | Good work                   |
-| Scrums                   | 25.0/25             | Scrum 1:Good job!           |
-|                          |                     | Scrum 2:Good job !!         |
-|                          |                     | Scrum 3:Amazing charts      |
-|                          |                     | Scrum 4:Good work!          |
-|                          |                     | Scrum 5:Overall great work! |
-| Retrospective            | TBD                 |                             |
-| TDD                      | 6.4/10              |                             |
-| Sustainable Pace         | 10/10               |                             |
-| GitFlow                  | 10/10               |                             |
-| Continuous Integration   | 9/10                |                             |
-| Refactor                 | 10/10               |                             |
-| Coverage                 | 7.5/10              |                             |
-| ------------------------ | ------------------- |                             |
-| Total                    | 86.9                |                             |
-| ------------------------ | ------------------- |                             |
-| Implementation Score     | 82/250              |                             |
+| Section                  | Grade               | Note                                                                                                                                                                                                                                                 |
+|--------------------------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sprint Planning          | 9.0/9               | Good work                                                                                                                                                                                                                                            |
+| Scrums                   | 25.0/25             | Scrum 1:Good job!                                                                                                                                                                                                                                    |
+|                          |                     | Scrum 2:Good job !!                                                                                                                                                                                                                                  |
+|                          |                     | Scrum 3:Amazing charts                                                                                                                                                                                                                               |
+|                          |                     | Scrum 4:Good work!                                                                                                                                                                                                                                   |
+|                          |                     | Scrum 5:Overall great work!                                                                                                                                                                                                                          |
+| Retrospective            | 5.0/6               | The analysis was good except that it did not directly address the two weaknesses of the team, TDD and Coverage.  TDD was simply "Remember to do this..." but no discussion of why this change was needed.  There was no discussion of coverage. (-1) |
+| TDD                      | 6.4/10              |                                                                                                                                                                                                                                                      |
+| Sustainable Pace         | 10/10               |                                                                                                                                                                                                                                                      |
+| GitFlow                  | 10/10               |                                                                                                                                                                                                                                                      |
+| Continuous Integration   | 9/10                |                                                                                                                                                                                                                                                      |
+| Refactor                 | 10/10               |                                                                                                                                                                                                                                                      |
+| Coverage                 | 7.5/10              |                                                                                                                                                                                                                                                      |
+| ------------------------ | ------------------- |                                                                                                                                                                                                                                                      |
+| Total                    | 91.9                |                                                                                                                                                                                                                                                      |
+| ------------------------ | ------------------- |                                                                                                                                                                                                                                                      |
+| Implementation Score     | 82/250              |                                                                                                                                                                                                                                                      |
