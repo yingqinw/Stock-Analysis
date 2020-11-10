@@ -1,0 +1,23 @@
+Participants: Hyunjae Cho, Han Gu, Yingqin Wang, Zongye Cen, Tongyu Zhu
+
+Questions
+1.What process aspects will be changed? Why? 
+	a. Keep following up with grader and professor to debug how the coverage tests cause inconsistent exceptions and errors on remote grading
+	b. Check if the Travis passed for local branches for continuous integration
+	c. Focus more on all line/branch coverage and run multiple times to see potential errors/exceptions
+	d. For TDD, remember to address new added functionality in the test method before commit to the develop branch to ensure the new functionality is working properly
+	e. Remind each teammate to do refactor issues early, otherwise waiting till the deadline Travis might be stuck for too long
+
+2. What tasks will be added to the product backlog as a result of review feedback? 
+	a.Zoom functionality in the graph
+	b. Update for percentage change in portfolio value
+	c. Final optimization & debugging 
+
+Sprint #4 feedbacks
+1.Add zoom in/out buttons for the graph (plus/minus sign)
+2.Show percentage change in current date portfolio value
+	a.Show green if increase (>=0), show red decrease
+
+
+
+
