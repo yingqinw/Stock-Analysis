@@ -1,0 +1,11 @@
+Sprint Backlog
+For the frontend and backend, Spring 5 will be implementing zoom in/out and percentage functionality, with the corresponding acceptance tests.
+
+Reason: We finished most of implementation except zoom in/out functionality in the graph and percentage in portfolio value. The goal for this last sprint is to make sure to implement the rest of features and do the final check if all other functionalities are working properly. 
+
+Participants
+Yingqin Wang
+Han Gu
+Tongyu Zhu
+Hyunjea Cho
+Zongye Cen

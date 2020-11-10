@@ -1,0 +1,8 @@
+Product Backlog
+1. Zoom functionality in the graph
+2. Zoom in with plus sign, zoom out with minus sign
+3. Update for percentage change in portfolio value
+4. Show percentage change in current date portfolio value
+5. Show green if increase (>=0), show red decrease
+6. Final optimization & debugging 
+7. Acceptance test to reflect new features
