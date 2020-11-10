@@ -185,7 +185,7 @@ public class Portfolio {
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
-		stockPrice= (Double) obj.get("c");
+		stockPrice= (Double) obj.getDouble("c");
 		return stockPrice;
 	}
 	public double getPrevStockPrice(String ticker) throws IOException {
@@ -208,7 +208,7 @@ public class Portfolio {
   		
 		//parse json 
 		JSONObject obj = new JSONObject(result);
-		stockPrice= (Double) obj.get("pc");
+		stockPrice= (Double) obj.getDouble("pc");
 		return stockPrice;
 	}
 }
