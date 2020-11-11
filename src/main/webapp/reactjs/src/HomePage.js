@@ -136,12 +136,13 @@ export default function(props) {
           let extreme = chart.xAxis[0].getExtremes();
           xMin = extreme.min;
           xMax = extreme.max;
-
+          console.log(xMax);
           zoomIn.on('click', function() {
-            // zoom in today and previous day data
-            let yesterday = new Date();
-            yesterday.setDate(new Date().getDate() - 1);
-            chart.xAxis[0].setExtremes(dateToTimeConverter(jsDateConverter(yesterday)), dateToTimeConverter())
+            // zoom in half range
+            let currDate = new Date(xMax);
+            let prevDate = new Date();
+            prevDate.setDate(currDate.getDate() - 3);
+            chart.xAxis[0].setExtremes(dateToTimeConverter(jsDateConverter(prevDate)), xMax)
           });
 
           resetZoom.on('click', function() {
