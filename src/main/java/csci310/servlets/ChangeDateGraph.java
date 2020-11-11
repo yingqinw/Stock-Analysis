@@ -153,8 +153,9 @@ public class ChangeDateGraph extends HttpServlet{
 				}
 				setdate = true;
 			}
-			
+			if(p.getCurrPortfolioValue()!=0)
 			AddStockData asd = new AddStockData(date,prices,p.getCurrPortfolioValue(),(int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
+			else AddStockData asd = new AddStockData(date,price,0,0);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    out.print(this.gson.toJson(asd));
