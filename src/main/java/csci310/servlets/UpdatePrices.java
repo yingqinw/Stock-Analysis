@@ -178,7 +178,7 @@ public class UpdatePrices extends HttpServlet{
 			}
 			AddStockData asd = new AddStockData(date,price,updatedPrices,price1,0,0);
 			if(p.getCurrPortfolioValue()!=0)
-  			asd = new AddStockData(date,price,updatedPrices,price1, p.getCurrPortfolioValue(), (int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
+  			asd = new AddStockData(date,price,updatedPrices,price1, p.getCurrPortfolioValue(), (p.getCurrPortfolioValue()==0)?0:(int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
   		    response.setContentType("application/json");
   		    response.setCharacterEncoding("UTF-8");
   		    
