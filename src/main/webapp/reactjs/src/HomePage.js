@@ -14,6 +14,7 @@ import styled from 'styled-components';
 //import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
 import UploadFileForm from './UploadFileForm';
+import { Pointer } from 'highcharts';
 
 export const jsonToArray = (data) => {
   let result = []
@@ -122,8 +123,15 @@ export default function(props) {
         load: function() {
           let xMin, xMax;
           var chart = this,
-            zoomIn = chart.renderer.image('https://www.wikihow.com/images/thumb/e/ea/Macspotlight.png/30px-Macspotlight.png', 50, 10, 30, 30).add(),
-            resetZoom = chart.renderer.button('Reset zoom', 50 + 30 + 10, 10, function() {
+            zoomIn = chart.renderer.label('<i class="fa fa-plus-square" aria-hidden="true"></i>',0, 0, null, null, null, true).css({
+              color: '#4572A7',
+              fontSize: '30px',
+              cursor: 'pointer',
+            }).add(),
+            resetZoom = chart.renderer.label('<i class="fa fa-minus-square" aria-hidden="true"></i>',30, 0, null, null, null, true).css({
+              color: '#4572A7',
+              fontSize: '30px',
+              cursor: 'pointer',
             }).add();
   
           let extreme = chart.xAxis[0].getExtremes();
