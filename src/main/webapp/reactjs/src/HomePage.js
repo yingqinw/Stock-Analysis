@@ -14,7 +14,6 @@ import styled from 'styled-components';
 //import createActivityDetector from 'activity-detector';
 import {useLocalStorage} from './App';
 import UploadFileForm from './UploadFileForm';
-import { Pointer } from 'highcharts';
 
 export const jsonToArray = (data) => {
   let result = []
