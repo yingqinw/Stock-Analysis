@@ -68,6 +68,13 @@ const numberFormatter = (number) => {
   return formatter.format(parseFloat(number));
 }
 
+function convertUnicode(input) {
+  return input.replace(/\\u(\w\w\w\w)/g,function(a,b) {
+    var charcode = parseInt(b,16);
+    return String.fromCharCode(charcode);
+  });
+}
+
 const Number = styled.div`
   font-size: 35px;
   display: inline-block;
@@ -632,8 +639,13 @@ export default function(props) {
                 <Number>
                   { numberFormatter(currentPortfolioValue) }
                   <Number>
-                    <SideNumber>Increase</SideNumber>
-                    <SideNumber>&#9650; 0.0%</SideNumber>
+                    <SideNumber>
+                      {prevPortfolioPercentage >= 0.0? 'Increase': 'Decrease'}
+                    </SideNumber>
+                    <SideNumber>
+                      {prevPortfolioPercentage >= 0.0? '\u25b2': '\u25bc'} 
+                      {prevPortfolioPercentage}%
+                    </SideNumber>
                   </Number>
                 </Number>
               </div>
