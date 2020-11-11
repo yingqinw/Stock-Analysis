@@ -9,11 +9,6 @@ Feature: User add stocks
 	When I login and am on the Hompage a pn
 	Then I should see the Increase letter 
 	
-  Scenario: Percentage number
-    Given I am on index page a pn
-	When I login and am on the Hompage a pn
-	Then I should see the 0.0% 
-	
   Scenario: Add a stock that update the portfolio number
     Given in mainpage and logged in a pn
 	When I click add stock botton pn
@@ -25,9 +20,16 @@ Feature: User add stocks
 	Then I should see the new portflio value number changed for the stocks
 	
   Scenario: Click the toggle for the first stock
-     Given in mainpage and logged in a pn
+    Given in mainpage and logged in a pn
 	When I click the toggle for the first stock pn
 	Then I should see the updated porfolio value for the second stock
+
+  Scenario: Color will be green or red if the new portfolio value increase or decrease
+    Given I am on index page a pn
+	When I login and am on the Hompage a pn
+	Then I should see either red or green color depending on the portfolio value
+
+
 	
 
  
