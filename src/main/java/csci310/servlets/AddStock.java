@@ -203,7 +203,9 @@ public class AddStock extends HttpServlet {
 		  				price.put(p.portfolioValue[j]);
 		  				date.put(p.tradingDate[j]);
 		  			}
+					if(p.getCurrPortfolioValue()!=0)
 		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue(),(int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
+					else AddStockData asd = new AddStockData(date,price,updatedPrices,0,0);
 		  		    response.setContentType("application/json");
 		  		    response.setCharacterEncoding("UTF-8");
 		  		    
