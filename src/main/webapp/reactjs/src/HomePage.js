@@ -343,7 +343,9 @@ export default function(props) {
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           setGraphLabels(data.date.myArrayList);
+          console.log("here",data)
           setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
+          setPrevPortfolioPercentage(parseFloat(data.prevPortfolioValue));
 			
 			//console.log(data);
 			//console.log(graphPrices);
@@ -403,6 +405,7 @@ export default function(props) {
             setGraphPrices(priceArray);
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             setCurrentPortfolioValue(data.currentPortfolioValue);
+            setPrevPortfolioPercentage(data.prevPortfolioValue);
             setShowSelectDatesForm(false);
           }
         }
@@ -533,6 +536,7 @@ export default function(props) {
       })
       setGraphPrices(newGraphPrices);
       setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
+      setPrevPortfolioPercentage(parseFloat(data.prevPortfolioValue));
       // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
     .catch((error) => {
@@ -849,6 +853,8 @@ export default function(props) {
               setGraphTickers={setGraphTickers}
               setGraphPrices={setGraphPrices}
               setGraphLabels={setGraphLabels}
+              setCurrentPortfolioValue={setCurrentPortfolioValue}
+              setPrevPortfolioPercentage={setPrevPortfolioPercentage}
             />
           </div>
         </div> : <></>
