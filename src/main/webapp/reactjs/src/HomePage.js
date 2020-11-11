@@ -116,6 +116,35 @@ export default function(props) {
   }
 
   let options = {
+    chart: {
+      events: {
+        zoomType: 'x',
+        load: function() {
+          let xMin, xMax;
+          var chart = this,
+            zoomIn = chart.renderer.image('https://www.wikihow.com/images/thumb/e/ea/Macspotlight.png/30px-Macspotlight.png', 50, 10, 30, 30).add(),
+            resetZoom = chart.renderer.button('Reset zoom', 50 + 30 + 10, 10, function() {
+            }).add();
+  
+          let extreme = chart.xAxis[0].getExtremes();
+          xMin = extreme.min;
+          xMax = extreme.max;
+
+          zoomIn.on('click', function() {
+            // zoom in today and previous day data
+            let yesterday = new Date();
+            yesterday.setDate(new Date().getDate() - 1);
+            chart.xAxis[0].setExtremes(dateToTimeConverter(jsDateConverter(yesterday)), dateToTimeConverter())
+          });
+
+          resetZoom.on('click', function() {
+            chart.xAxis[0].setExtremes(xMin, xMax);
+          })
+  
+        }
+      }
+    },
+
     title: {
       text: 'USC CS310 Stock Management Chart'
     },
