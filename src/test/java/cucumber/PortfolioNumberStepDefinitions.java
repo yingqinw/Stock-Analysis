@@ -156,6 +156,12 @@ public class PortfolioNumberStepDefinitions {
 
 	@When("I click the toggle for the first stock pn")
 	public void i_click_the_toggle_for_the_first_stock_pn() {
+		try {
+			Thread.sleep(7*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr[1]/td[4]/div");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
