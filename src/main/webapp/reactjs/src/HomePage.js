@@ -68,16 +68,10 @@ const numberFormatter = (number) => {
   return formatter.format(parseFloat(number));
 }
 
-function convertUnicode(input) {
-  return input.replace(/\\u(\w\w\w\w)/g,function(a,b) {
-    var charcode = parseInt(b,16);
-    return String.fromCharCode(charcode);
-  });
-}
-
 const Number = styled.div`
   font-size: 35px;
   display: inline-block;
+  color: ${props => props.increase? `green`: `red` };
 `
 const SideNumber = styled(Number)`
   display: block;
@@ -636,7 +630,7 @@ export default function(props) {
           <div className="col-md-3">
             <div className="market-pairs">
               <div className="header-wrap">
-                <Number>
+                <Number increase={prevPortfolioPercentage >= 0.0}>
                   { numberFormatter(currentPortfolioValue) }
                   <Number>
                     <SideNumber>
