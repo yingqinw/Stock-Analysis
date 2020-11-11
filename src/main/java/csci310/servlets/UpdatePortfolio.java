@@ -94,7 +94,7 @@ public class UpdatePortfolio extends HttpServlet{
 			}
 			AddStockData asd = new AddStockData(price,0,0);
 			if(p.getCurrPortfolioValue()!=0)
-			asd = new AddStockData(price,p.getCurrPortfolioValue(), (int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
+			asd = new AddStockData(price,p.getCurrPortfolioValue(),(p.getCurrPortfolioValue()==0)?0: (int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    out.print(this.gson.toJson(asd));
