@@ -25,19 +25,6 @@ const Wrapper = styled.div`
 var logoutinterval;
 var lockoutinterval;
 
-// export const useLocalStorage = (defaultValue, key) => {
-//   const [value, setValue] = React.useState(() => {
-//     const stickyValue = window.localStorage.getItem(key);
-//     return stickyValue !== null
-//       ? JSON.parse(stickyValue)
-//       : defaultValue;
-//   });
-//   React.useEffect(() => {
-//     window.localStorage.setItem(key, JSON.stringify(value));
-//   }, [key, value]);
-//   return [value, setValue];
-// }
-
 export function useLocalStorage(initialValue, key) {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
@@ -104,9 +91,6 @@ export default function() {
         let dates = data.date.myArrayList;
         let prices = data.price.myArrayList;
         let spyPrices = data.SPV.myArrayList;
-        console.log(data)
-        console.log(prices)
-        console.log(spyPrices)
         setSpyPrices(spyPrices);
         setPortfolioDates(dates);
         setPortfolioPrices(prices);

@@ -346,10 +346,6 @@ export default function(props) {
           console.log("here",data)
           setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
           setPrevPortfolioPercentage(parseFloat(data.prevPortfolioValue));
-			
-			//console.log(data);
-			//console.log(graphPrices);
-          
         }
       }))
     }
