@@ -336,7 +336,7 @@ public class GetForm extends HttpServlet {
         		  				price.put(p.portfolioValue[j]);
         		  				date.put(p.tradingDate[j]);
         		  			}
-        		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue(),(int)(p.getCurrPortfolioValue()/p.getPrevPortfolioValue())-100);
+        		  			AddStockData asd = new AddStockData(date,price,updatedPrices,p.getCurrPortfolioValue(),(int)(p.getCurrPortfolioValue()*100/p.getPrevPortfolioValue())-100);
         		  		    response.setContentType("application/json");
         		  		    response.setCharacterEncoding("UTF-8");
         		  		    out.print(this.gson.toJson(asd));
