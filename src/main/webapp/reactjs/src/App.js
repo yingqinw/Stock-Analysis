@@ -91,6 +91,7 @@ export default function() {
   const [loginLock, setLoginLock] = useState(false);
   const [loginLockTimer, setLoginLockTimer] = useState(0);
   const [portfolioValue, setPortfolioValue] = useState(0);
+  const [prevPortfolioValue, setPrevPortfolioValue] = useState(0);
   
   const fetchStockData = (execute = false) => {
     if(loggedIn || execute) {
@@ -103,6 +104,7 @@ export default function() {
         let dates = data.date.myArrayList;
         let prices = data.price.myArrayList;
         let spyPrices = data.SPV.myArrayList;
+        console.log(data)
         console.log(prices)
         console.log(spyPrices)
         setSpyPrices(spyPrices);
@@ -110,6 +112,7 @@ export default function() {
         setPortfolioPrices(prices);
         setStocks(jsonToArray(data.update.map));
         setPortfolioValue(parseFloat(data.currentPortfolioValue));
+        setPrevPortfolioValue(parseFloat(data.prevPortfolioValue));
       }))
     }
   }
@@ -222,6 +225,7 @@ export default function() {
               setUnSelectedTickers={setUnSelectedTickers}
               portfolioDates={portfolioDates}
               portfolioPrices={portfolioPrices}
+              prevPortfolioValue={prevPortfolioValue}
             /> :
             <Wrapper>
               {selectLogin ? 

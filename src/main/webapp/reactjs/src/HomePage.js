@@ -103,6 +103,7 @@ export default function(props) {
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
   const [currentPortfolioValue, setCurrentPortfolioValue] = useLocalStorage(props.portfolioValue, "currentPortfolioValue");
+  const [prevPortfolioPercentage, setPrevPortfolioPercentage] = useLocalStorage(props.prevPortfolioValue, "prevPortfolioPercentage");
 
   const dateToTimeConverter = (date) => {
     if(date === undefined) {
@@ -217,6 +218,11 @@ export default function(props) {
   useEffect(() => {
     setCurrentPortfolioValue(props.portfolioValue);
   }, [props.portfolioValue])
+
+  useEffect(() => {
+    setPrevPortfolioPercentage(props.prevPortfolioValue);
+    console.log(prevPortfolioPercentage)
+  }, [props.prevPortfolioValue])
 
   useEffect(() => {
     if(props.portfolioDates.length === 0 || props.portfolioPrices.length === 0) {
