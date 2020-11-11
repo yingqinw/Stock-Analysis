@@ -77,6 +77,7 @@ const SideNumber = styled(Number)`
   display: block;
   font-size: 12px;
   margin-left: 2px;
+  color: ${props => props.increase? `green`: `red` };
 `
 
 export default function(props) {
@@ -670,10 +671,10 @@ export default function(props) {
                 <Number increase={prevPortfolioPercentage >= 0.0}>
                   { numberFormatter(currentPortfolioValue) }
                   <Number>
-                    <SideNumber>
+                    <SideNumber increase={prevPortfolioPercentage >= 0.0}>
                       {prevPortfolioPercentage >= 0.0? 'Increase': 'Decrease'}
                     </SideNumber>
-                    <SideNumber>
+                    <SideNumber increase={prevPortfolioPercentage >= 0.0}>
                       {prevPortfolioPercentage >= 0.0? '\u25b2': '\u25bc'} 
                       {prevPortfolioPercentage}%
                     </SideNumber>
