@@ -116,6 +116,42 @@ export default function(props) {
   }
 
   let options = {
+    chart: {
+      events: {
+        zoomType: 'x',
+        load: function() {
+          let xMin, xMax;
+          var chart = this,
+            zoomIn = chart.renderer.label('<i class="fa fa-plus-square" aria-hidden="true"></i>',0, 0, null, null, null, true).css({
+              color: '#4572A7',
+              fontSize: '30px',
+              cursor: 'pointer',
+            }).add(),
+            resetZoom = chart.renderer.label('<i class="fa fa-minus-square" aria-hidden="true"></i>',30, 0, null, null, null, true).css({
+              color: '#4572A7',
+              fontSize: '30px',
+              cursor: 'pointer',
+            }).add();
+  
+          let extreme = chart.xAxis[0].getExtremes();
+          xMin = extreme.min;
+          xMax = extreme.max;
+
+          zoomIn.on('click', function() {
+            // zoom in today and previous day data
+            let yesterday = new Date();
+            yesterday.setDate(new Date().getDate() - 1);
+            chart.xAxis[0].setExtremes(dateToTimeConverter(jsDateConverter(yesterday)), dateToTimeConverter())
+          });
+
+          resetZoom.on('click', function() {
+            chart.xAxis[0].setExtremes(xMin, xMax);
+          })
+  
+        }
+      }
+    },
+
     title: {
       text: 'USC CS310 Stock Management Chart'
     },
