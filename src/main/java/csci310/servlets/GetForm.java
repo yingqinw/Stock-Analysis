@@ -85,18 +85,6 @@ public class GetForm extends HttpServlet {
         String endDate = "e";
         
         
-        String bypass = "false";
-////        if(request.getParameter("bypassTest")!=null) {
-////        	bypass=request.getParameter("bypassTest");
-////        }
-//        		
-//        if(bypass.equals("true")) {
-//        	System.out.println("getForm called");
-//        	return;
-//        }
-        //System.out.println("starting read input");
-        //comment this out to run
-        
   try {
          List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
          System.out.println(items.size());
@@ -197,9 +185,7 @@ public class GetForm extends HttpServlet {
                      
                      
                      for(int i=0;i<lines.size();i++) {
-                     //while ((line = br.readLine()) != null) {
-                         
-                         //System.out.println(line);
+                        
                     	String[] values = lines.get(i).split(",");
 
                          
@@ -221,13 +207,7 @@ public class GetForm extends HttpServlet {
                   		String result = "";
                   		while(sc.hasNext()) result += sc.nextLine();
                   		sc.close();
-                  		//System.out.println(result);
                   		if(result.contains(":0}")) {
-                  			//AddStockError ase = new AddStockError("Invalid ticker!");
-                  	        //response.setContentType("application/json");
-                  	        //response.setCharacterEncoding("UTF-8");
-                  	        //out.print(this.gson.toJson(ase));
-                  	        //out.flush(); 
                   			errorExists = true;
                   		}
                   		else {
