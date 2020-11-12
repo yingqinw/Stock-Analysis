@@ -104,11 +104,10 @@ public class GraphZoomStepDefinitions {
 		String a2 = driver.findElement(title2).getText();
 		
 		String d1 = a.substring(4,5);
-		String d2 = a2.substring(4,5);
+		String d2 = a2.substring(4,6);
 		int u = Integer.parseInt(d1);
 		int k = Integer.parseInt(d2);
-		assertEquals(u-k, 5);
-		
+		assertEquals(k-u, 5);
 	}
 
 	@When("I click the Zoom out button")
