@@ -91,14 +91,6 @@ public class PortfolioNumberStepDefinitions {
 		assertEquals(driver.findElement(title).getText(), "Increase");
 	}
 
-	@Then("I should see the {double}%")
-	public void i_should_see_the(Double double1) {
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[1]/div/div/div[2]");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-		assertEquals(driver.findElement(title).getText(), "▲ 0.0%");
-	}
-
 	@When("I click add stock botton pn")
 	public void i_click_add_stock_botton_pn() {
 		driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[2]/button")).click();
@@ -164,6 +156,12 @@ public class PortfolioNumberStepDefinitions {
 
 	@When("I click the toggle for the first stock pn")
 	public void i_click_the_toggle_for_the_first_stock_pn() {
+		try {
+			Thread.sleep(7*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		By title = By.xpath("//*[@id=\"BTC\"]/table/tbody/tr[1]/td[4]/div");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
@@ -188,6 +186,33 @@ public class PortfolioNumberStepDefinitions {
 		round(value, 2);
 		NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
 		assertTrue(driver.findElement(title2).getText().contains(defaultFormat.format(value)));
+	}
+	
+	@Then("I should see either red or green color depending on the portfolio value")
+	public void i_should_see_either_red_or_green_color_depending_on_the_portfolio_value() {
+		try {
+			Thread.sleep(7*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		By title = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[1]/div/div/div[1]");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(title));
+		if(driver.findElement(title).getText() == "Decrease") {
+			WebDriverWait wait2 = new WebDriverWait(driver, 20);
+			By title2 = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[1]/div/text()");
+			wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+			WebElement username = driver.findElement(title2);
+			assertTrue(username.getCssValue("border-color").toString() != "rgb(255, 0, 0)");
+		}
+		else if(driver.findElement(title).getText() == "Increase") {
+			WebDriverWait wait2 = new WebDriverWait(driver, 20);
+			By title2 = By.xpath("//*[@id=\"root\"]/div/div/div/div/div/div[1]/div[1]/div[1]/div/text()");
+			wait2.until(ExpectedConditions.visibilityOfElementLocated(title2));
+			WebElement username = driver.findElement(title2);
+			assertTrue(username.getCssValue("border-color").toString() != "rgb(0, 128, 0)");
+		}
 	}
 
 	

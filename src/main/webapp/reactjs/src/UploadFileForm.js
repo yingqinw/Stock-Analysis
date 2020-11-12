@@ -123,7 +123,8 @@ export default function(props) {
        			props.setGraphPrices(newGraphPrices);
      		}
      		props.setGraphLabels(data.date.myArrayList);
-			
+        props.setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
+        props.setPrevPortfolioPercentage(parseFloat(data.prevPortfolioValue));
 		}
 		
 		

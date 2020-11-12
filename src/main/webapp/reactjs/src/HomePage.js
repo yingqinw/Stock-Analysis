@@ -71,11 +71,13 @@ const numberFormatter = (number) => {
 const Number = styled.div`
   font-size: 35px;
   display: inline-block;
+  color: ${props => props.increase? `green`: `red` };
 `
 const SideNumber = styled(Number)`
   display: block;
   font-size: 12px;
   margin-left: 2px;
+  color: ${props => props.increase? `green`: `red` };
 `
 
 export default function(props) {
@@ -103,6 +105,7 @@ export default function(props) {
   const [buyDate, setBuyDate] = useState("");
   const [sellDate, setSellDate] = useState("");
   const [currentPortfolioValue, setCurrentPortfolioValue] = useLocalStorage(props.portfolioValue, "currentPortfolioValue");
+  const [prevPortfolioPercentage, setPrevPortfolioPercentage] = useLocalStorage(props.prevPortfolioValue, "prevPortfolioPercentage");
 
   const dateToTimeConverter = (date) => {
     if(date === undefined) {
@@ -114,6 +117,43 @@ export default function(props) {
   }
 
   let options = {
+    chart: {
+      events: {
+        zoomType: 'x',
+        load: function() {
+          let xMin, xMax;
+          var chart = this,
+            zoomIn = chart.renderer.label('<i class="fa fa-plus-square" aria-hidden="true"></i>',0, 0, null, null, null, true).css({
+              color: '#4572A7',
+              fontSize: '30px',
+              cursor: 'pointer',
+            }).add(),
+            resetZoom = chart.renderer.label('<i class="fa fa-minus-square" aria-hidden="true"></i>',30, 0, null, null, null, true).css({
+              color: '#4572A7',
+              fontSize: '30px',
+              cursor: 'pointer',
+            }).add();
+  
+          let extreme = chart.xAxis[0].getExtremes();
+          xMin = extreme.min;
+          xMax = extreme.max;
+          console.log(xMax);
+          zoomIn.on('click', function() {
+            // zoom in half range
+            let currDate = new Date(xMax);
+            let prevDate = new Date();
+            prevDate.setDate(currDate.getDate() - 3);
+            chart.xAxis[0].setExtremes(dateToTimeConverter(jsDateConverter(prevDate)), xMax)
+          });
+
+          resetZoom.on('click', function() {
+            chart.xAxis[0].setExtremes(xMin, xMax);
+          })
+  
+        }
+      }
+    },
+
     title: {
       text: 'USC CS310 Stock Management Chart'
     },
@@ -217,6 +257,11 @@ export default function(props) {
   useEffect(() => {
     setCurrentPortfolioValue(props.portfolioValue);
   }, [props.portfolioValue])
+
+  useEffect(() => {
+    setPrevPortfolioPercentage(props.prevPortfolioValue);
+    console.log(prevPortfolioPercentage)
+  }, [props.prevPortfolioValue])
 
   useEffect(() => {
     if(props.portfolioDates.length === 0 || props.portfolioPrices.length === 0) {
@@ -336,11 +381,9 @@ export default function(props) {
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
           }
           setGraphLabels(data.date.myArrayList);
+          console.log("here",data)
           setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
-			
-			//console.log(data);
-			//console.log(graphPrices);
-          
+          setPrevPortfolioPercentage(parseFloat(data.prevPortfolioValue));
         }
       }))
     }
@@ -396,6 +439,7 @@ export default function(props) {
             setGraphPrices(priceArray);
             window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
             setCurrentPortfolioValue(data.currentPortfolioValue);
+            setPrevPortfolioPercentage(data.prevPortfolioValue);
             setShowSelectDatesForm(false);
           }
         }
@@ -526,6 +570,7 @@ export default function(props) {
       })
       setGraphPrices(newGraphPrices);
       setCurrentPortfolioValue(parseFloat(data.currentPortfolioValue));
+      setPrevPortfolioPercentage(parseFloat(data.prevPortfolioValue));
       // window.localStorage.setItem("graphPrices", JSON.stringify(graphPrices));
     })
     .catch((error) => {
@@ -623,11 +668,16 @@ export default function(props) {
           <div className="col-md-3">
             <div className="market-pairs">
               <div className="header-wrap">
-                <Number>
+                <Number increase={prevPortfolioPercentage >= 0.0}>
                   { numberFormatter(currentPortfolioValue) }
                   <Number>
-                    <SideNumber>Increase</SideNumber>
-                    <SideNumber>&#9650; 0.0%</SideNumber>
+                    <SideNumber increase={prevPortfolioPercentage >= 0.0}>
+                      {prevPortfolioPercentage >= 0.0? 'Increase': 'Decrease'}
+                    </SideNumber>
+                    <SideNumber increase={prevPortfolioPercentage >= 0.0}>
+                      {prevPortfolioPercentage >= 0.0? '\u25b2': '\u25bc'} 
+                      {prevPortfolioPercentage}%
+                    </SideNumber>
                   </Number>
                 </Number>
               </div>
@@ -837,6 +887,8 @@ export default function(props) {
               setGraphTickers={setGraphTickers}
               setGraphPrices={setGraphPrices}
               setGraphLabels={setGraphLabels}
+              setCurrentPortfolioValue={setCurrentPortfolioValue}
+              setPrevPortfolioPercentage={setPrevPortfolioPercentage}
             />
           </div>
         </div> : <></>
