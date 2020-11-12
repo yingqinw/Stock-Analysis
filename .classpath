@@ -29,8 +29,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="gson-2.8.0.jar"/>
-	<classpathentry kind="lib" path="sqlite-jdbc-3.32.3.2.jar"/>
-	<classpathentry kind="lib" path="json-20200518.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
