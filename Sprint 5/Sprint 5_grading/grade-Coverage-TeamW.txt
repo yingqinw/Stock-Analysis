@@ -1,0 +1,8 @@
+Best Practice Coverage Report
+Owner: TeamW
+Grade: 7.3/10
+Comments: 
+Using commit: https://github.com/CSCI310/project-20203-group33-20203/commit/242a2e7b35b601a1ad13668bfb9ad5e647b204f9
+Reported statement coverage: 80.0
+Reported branch coverage: 67.0
+Average coverage: 73.5
