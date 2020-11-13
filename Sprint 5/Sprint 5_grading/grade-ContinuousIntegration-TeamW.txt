@@ -1,0 +1,6 @@
+Best Practice ContinuousIntegration Report
+Owner: TeamW
+Grade: 10/10
+Comments: 
+Total successful commits: 15
+Total failing commits: 0
