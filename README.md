@@ -38,7 +38,6 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 3. Right-click "cucumber.launch" -> Run As -> "cucumber".
 
 ![wechatimg173_orig](https://user-images.githubusercontent.com/35575612/149762656-a10f30e6-21cf-420d-8c3e-3dff7b251894.png)
-![wechatimg174_orig](https://user-images.githubusercontent.com/35575612/149762673-172cdd6f-f9e9-4ee8-834c-3a57e6945064.png)
 ![wechatimg176_orig](https://user-images.githubusercontent.com/35575612/149762693-717a531e-78eb-4bc9-a2f5-3bae49d0c690.png)
 
 
