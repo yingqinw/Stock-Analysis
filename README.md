@@ -3,12 +3,12 @@
 
 **Basic functionalities of the web app**
 
-1. Prediction of future values of the portfolio
-2. Ability to add or remove stocks from the portfolio
-3. Track and visualize changes in value over time of user’s portfolio
-4. View and compare the historical performance of a stock
-5. Works on the Chrome web browser and mobile devices
-6. Secure and protect confidentiality of users’ data.
+*  Prediction of future values of the portfolio
+*  Ability to add or remove stocks from the portfolio
+*  Track and visualize changes in value over time of user’s portfolio
+*  View and compare the historical performance of a stock
+*  Works on the Chrome web browser and mobile devices
+*  Secure and protect confidentiality of users’ data.
 
 **Environment Information**
 
