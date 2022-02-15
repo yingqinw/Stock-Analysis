@@ -1,7 +1,7 @@
 
 # Stock Analysis Web Application
 
-**Basic functionalities**
+**1. Basic functionalities**
 
 *  Prediction of future values of the portfolio
 *  Ability to add or remove stocks from the portfolio
@@ -10,7 +10,7 @@
 *  Works on the Chrome web browser and mobile devices
 *  Secure and protect confidentiality of users’ data.
 
-**Environment Information**
+**2. Environment Information**
 
 Import this repository into Eclipse. This project provides everything needed to:
 
@@ -18,25 +18,25 @@ Import this repository into Eclipse. This project provides everything needed to:
 * Run unit tests with coverage
 * Run acceptance tests
 
-**To run JUnit tests:**
+**3. To run JUnit tests:**
 
 Right-click project -> Run As -> "Maven test"
 
-**To generate coverage report for JUnit tests:**
+**4. To generate coverage report for JUnit tests:**
 
 Right-click "cobertura.launch" -> Run As -> "cobertura".
 
-**To host your web application:**
+**5. To host your web application:**
 
 Right-click "run.launch" -> Run As -> "run". It will be hosted on https://localhost:8080.
 
-**To run Cucumber tests:**
+**6. To run Cucumber tests:**
 
 *  Make sure the web server is running when you run the Cucumber tests. 
 *  Make sure the React Web App is running when you run the Cucumber tests. Go to "/src/main/webapp/reactjs" and follow the README.md inside that repository. Ideally run `yarn install` and `yarn start` will start the website.
 *  Right-click "cucumber.launch" -> Run As -> "cucumber".
 
-**Snapshots**
+**7. Snapshots**
 
 ![wechatimg173_orig](https://user-images.githubusercontent.com/35575612/149762656-a10f30e6-21cf-420d-8c3e-3dff7b251894.png)
 ![wechatimg176_orig](https://user-images.githubusercontent.com/35575612/149762693-717a531e-78eb-4bc9-a2f5-3bae49d0c690.png)
